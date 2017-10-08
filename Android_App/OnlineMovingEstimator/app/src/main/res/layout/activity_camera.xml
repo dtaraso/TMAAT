@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -9,31 +10,36 @@
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="Suspicious0dp,UselessParent" >
-
-        <Button
-            android:text="@string/done"
-            android:layout_height="71dp"
-            android:id="@+id/done"
-            android:layout_width="122dp"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@android:drawable/ic_menu_gallery"
-            android:textSize="18sp"
-            android:textColor="@android:color/holo_orange_dark" />
+        tools:ignore="Suspicious0dp,UselessParent">
 
         <Button
             android:id="@+id/button_capture"
-            android:text="@string/capture"
-            android:layout_width="137dp"
-            android:layout_height="103dp"
+            android:layout_width="113dp"
+            android:layout_height="84dp"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="10dp"
             android:background="@android:drawable/ic_menu_camera"
-            android:textColorHighlight="@android:color/holo_orange_dark"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/capture"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="18sp" />
+            android:textColorHighlight="@android:color/holo_orange_dark"
+            android:textSize="12sp"
+            android:textStyle="bold|italic" />
+
+        <Button
+            android:id="@+id/Popup"
+            android:layout_width="64dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top|start"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:drawable/ic_menu_search"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/roomchoice"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="10sp"
+            android:textStyle="bold|italic"
+            tools:ignore="RtlHardcoded,SmallSp" />
     </FrameLayout>
 
 </LinearLayout>
