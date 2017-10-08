@@ -14,4 +14,9 @@
     <string name="retake">Retake</string>
     <string name="takeAnother">Take Another</string>
     <string name="Finish">Finish</string>
+    <string name="roomchoice">RoomChoice</string>
+    <string name="bathroom">Bathroom</string>
+    <string name="bedroom">Bedroom</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="livingroom">Livingroom</string>
 </resources>
