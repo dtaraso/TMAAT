@@ -1,7 +1,8 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,21 +18,18 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Choose extends Activity {
-
-    MyCustomAdapter dataAdapter = null;
+public class ImageConfirm extends AppCompatActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_choose);
+        setContentView(R.layout.activity_image_confirm);
 
-        //Generate list View from ArrayList
         displayListView();
-
         checkButtonClick();
-
     }
+
+    ImageConfirm.MyCustomAdapter dataAdapter = null;
 
     private void displayListView() {
 
@@ -45,7 +43,7 @@ public class Choose extends Activity {
         furnList.add(furn2);
 
         //create an ArrayAdaptar from the String Array
-        dataAdapter = new MyCustomAdapter(this,
+        dataAdapter = new ImageConfirm.MyCustomAdapter(this,
                 R.layout.activity_furn_catalog, furnList);
         ListView listView = (ListView) findViewById(R.id.listFurn);
         // Assign adapter to ListView
@@ -84,7 +82,7 @@ public class Choose extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder = null;
+            ImageConfirm.MyCustomAdapter.ViewHolder holder = null;
             Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
@@ -92,7 +90,7 @@ public class Choose extends Activity {
                         Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.activity_furn_catalog, null);
 
-                holder = new ViewHolder();
+                holder = new ImageConfirm.MyCustomAdapter.ViewHolder();
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 convertView.setTag(holder);
@@ -110,7 +108,7 @@ public class Choose extends Activity {
                 });
             }
             else {
-                holder = (ViewHolder) convertView.getTag();
+                holder = (ImageConfirm.MyCustomAdapter.ViewHolder) convertView.getTag();
             }
 
             Furniture furn = furnList.get(position);
@@ -121,12 +119,20 @@ public class Choose extends Activity {
             return convertView;
 
         }
+    }
 
+    public void onRetake(View view) {
+        Intent intent = new Intent(this, camera.class);
+        startActivity(intent);
+    }
+
+    public void onTakeAnother(View view) {
+        // TODO: Add furniture to estimate class
+        Intent intent = new Intent(this, camera.class);
+        startActivity(intent);
     }
 
     private void checkButtonClick() {
-
-
         Button myButton = (Button) findViewById(R.id.finish);
         myButton.setOnClickListener(new View.OnClickListener() {
 
@@ -143,12 +149,10 @@ public class Choose extends Activity {
                         responseText.append("\n" + furn.getName());
                     }
                 }
-
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
-
             }
         });
-
     }
+
 }

@@ -3,7 +3,8 @@
     package="com.tmaat.dtara.onlinemovingestimator">
 
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -28,6 +29,7 @@
         <activity android:name=".Choose" />
         <activity android:name=".Intro" />
         <activity android:name=".furn_catalog" />
+        <activity android:name=".ImageConfirm"></activity>
     </application>
 
 </manifest>

@@ -11,4 +11,7 @@
     <string name="catalog_fail">Failed to load</string>
     <string name="estimate_heading">Quick Estimate:</string>
     <string name="done">Done</string>
+    <string name="retake">Retake</string>
+    <string name="takeAnother">Take Another</string>
+    <string name="Finish">Finish</string>
 </resources>
