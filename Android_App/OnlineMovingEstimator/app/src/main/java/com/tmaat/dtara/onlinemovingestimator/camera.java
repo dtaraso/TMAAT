@@ -3,6 +3,7 @@ package com.tmaat.dtara.onlinemovingestimator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.hardware.Camera;
@@ -26,28 +27,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import static android.R.attr.bitmap;
 
 public class camera extends AppCompatActivity {
     private static final String APP_CLASS = "app";
@@ -61,16 +43,13 @@ public class camera extends AppCompatActivity {
 
     ProgressDialog progressDialog ;
     public  static final int RequestPermissionCode  = 1 ;
-    String ImageUploadPathOnSever ="" ;
 
     private android.hardware.Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
 
-        public static final String TAG = "TAG";
-
         @Override
         public void onPictureTaken(byte[] data, android.hardware.Camera camera) {
-
-            // TODO DOT
+            View view = findViewById(android.R.id.content);
+            imageUpload(data, view);
         }
     };
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
@@ -252,6 +231,40 @@ public class camera extends AppCompatActivity {
                 Log.d(TAG, "Error starting camera preview: " + e.getMessage());
             }
         }
+    }
 
+    public void imageUpload(byte[] data, View view) {
+        final byte[] data_final = data;
+        final View view_final = view;
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+
+                Cloud cloud = new Cloud();
+                final boolean ok = cloud.ImageUpload(data_final);
+                if(!ok) {
+                    /*
+                     * If we fail to save, display a toast
+                     */
+                    // Please fill this in...
+                    view_final.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(view_final.getContext(), "Not a Valid POST Request", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    updateUI(view_final);
+                }
+            }
+        }).start();
+    }
+
+    public void updateUI(View view) {
+        Intent intent = new Intent(this, ImageConfirm.class);
+        startActivity(intent);
     }
 }

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Estimate {
     String id = null;
-    ArrayList<Furniture> furnitureList;
+    ArrayList<Furniture> furnitureList = null;
+    ArrayList<Furniture> tempFurnList = null;
 
     public Estimate(String id) {
         super();
@@ -18,10 +19,14 @@ public class Estimate {
         this.id = id;
     }
 
-    public ArrayList<Furniture> getList() {
+    public ArrayList<Furniture> getTotalList() {
         return furnitureList;
     }
-    public void addToList(Furniture furn) {
-        furnitureList.add(furn);
+    public void addToTotalList() {
+        furnitureList.addAll(tempFurnList); tempFurnList.clear();
     }
+
+    public ArrayList<Furniture> getTempList() { return tempFurnList; }
+    public void addToTempList(Furniture furn) {tempFurnList.add(furn); }
+    public void resetTempList(Furniture furn) {tempFurnList.clear();}
 }

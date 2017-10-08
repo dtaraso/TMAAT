@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,7 +22,9 @@ public class Cloud {
     private static final String USER = "dittmank";
     private static final String PASSWORD = " rdelatable";
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~tarasov1/cse476/tmaat/get_estimateid.php";
+    private static final String WEB_API_URL = "http://35.9.22.105:8555/api/uploadImage";
     private static final String UTF8 = "UTF-8";
+    InputStream stream = null;
 
 
     public boolean checkEstimateID(final String estimateID) {
@@ -66,5 +69,43 @@ public class Cloud {
         } catch (IOException ex) {
             return false;
         }
+    }
+
+    public boolean ImageUpload(byte[] data) {
+        try{
+            URL url = new URL(WEB_API_URL);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn.setDoOutput(true);
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Length", Integer.toString(data.length));
+            conn.setUseCaches(false);
+
+            OutputStream out = conn.getOutputStream();
+            out.write(data);
+            out.close();
+
+            int responseCode = conn.getResponseCode();
+            if(responseCode != HttpURLConnection.HTTP_OK) {
+                return false;
+            }
+
+            stream = conn.getInputStream();
+            //logStream(stream);
+        } catch (MalformedURLException e) {
+            return false;
+        } catch (IOException ex) {
+            return false;
+        } finally {
+            if(stream != null) {
+                try {
+                    stream.close();
+                } catch(IOException ex) {
+                    // Fail silently
+                }
+            }
+        }
+        return true;
     }
 }

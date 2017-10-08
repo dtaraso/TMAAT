@@ -28,21 +28,13 @@ public class Choose extends Activity {
 
         //Generate list View from ArrayList
         displayListView();
-
         checkButtonClick();
-
     }
 
     private void displayListView() {
 
-        //Array list of countries
-        ArrayList<Furniture> furnList = new ArrayList<Furniture>();
-        Furniture furn = new Furniture("Table",false);
-        furnList.add(furn);
-        Furniture furn1 = new Furniture("Chair",false);
-        furnList.add(furn1);
-        Furniture furn2 = new Furniture("Bed",false);
-        furnList.add(furn2);
+        //Array list of furniture
+        ArrayList<Furniture> furnList = MainActivity.est.getTotalList();
 
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this,
@@ -119,13 +111,10 @@ public class Choose extends Activity {
             holder.name.setTag(furn);
 
             return convertView;
-
         }
-
     }
 
     private void checkButtonClick() {
-
 
         Button myButton = (Button) findViewById(R.id.finish);
         myButton.setOnClickListener(new View.OnClickListener() {
@@ -146,7 +135,6 @@ public class Choose extends Activity {
 
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
-
             }
         });
 
