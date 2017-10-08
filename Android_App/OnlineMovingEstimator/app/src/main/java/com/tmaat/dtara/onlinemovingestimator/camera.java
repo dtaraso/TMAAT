@@ -5,16 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.hardware.Camera;
 import android.media.MediaRecorder;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -22,11 +15,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
-
 
 import java.io.IOException;
 
@@ -114,6 +104,7 @@ public class camera extends AppCompatActivity {
         mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        mCamera.startPreview();
         Button captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnTouchListener(
                 new View.OnTouchListener() {
@@ -122,23 +113,24 @@ public class camera extends AppCompatActivity {
                         switch(event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 // PRESSED
-                                mCamera.startPreview();
+                                //mCamera.startPreview();
                                 mCamera.takePicture(null, null, mPicture);
                                 return true; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED
                                 //mCamera.stopPreview();
                                 Toast.makeText(camera.this,getString(R.string.takeImage),Toast.LENGTH_SHORT).show();
-                                SystemClock.sleep(1000);
-                                mCamera.startPreview();
-                                Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
+                                //SystemClock.sleep(1000);
+                                //mCamera.startPreview();
+                                //Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(camera.this,ImageConfirm.class));
                                 return true; // if you want to handle the touch event
                         }
                         return false;
                     }
                 }
         );
-        Button doneButton = (Button) findViewById(R.id.done);
+/*        Button doneButton = (Button) findViewById(R.id.done);
         doneButton.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
@@ -146,7 +138,14 @@ public class camera extends AppCompatActivity {
                         setContentView(R.layout.activity_choose);
                     }
                 }
-        );
+        );*/
+        Button PopButton = (Button) findViewById(R.id.Popup);
+        PopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(camera.this,Pop.class));
+            }
+        });
     }
     /** Check if this device has a camera */
     private boolean checkCameraHardware(Context context) {
