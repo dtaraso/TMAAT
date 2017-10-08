@@ -17,4 +17,6 @@ public class Intro extends AppCompatActivity {
         Intent intent = new Intent(this, camera.class);
         startActivity(intent);
     }
+
+
 }

@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 } else {
+                    Estimate est = new Estimate(newID.toString());
                     updateUI(view);
                 }
             }

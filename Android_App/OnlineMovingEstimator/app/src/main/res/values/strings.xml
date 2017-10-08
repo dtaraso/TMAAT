@@ -9,4 +9,6 @@
     <string name="loadTitle">Finalize List For Quick Estimate</string>
     <string name="capture">Capture Image</string>
     <string name="catalog_fail">Failed to load</string>
+    <string name="estimate_heading">Quick Estimate:</string>
+    <string name="done">Done</string>
 </resources>

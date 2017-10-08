@@ -26,7 +26,7 @@ public class Cloud {
     private static final String USER = "dittmank";
     private static final String PASSWORD = " rdelatable";
     private static final String LOGIN_URL = "http://webdev.cse.msu.edu/~tarasov1/cse476/project2/get_estimateid.php";
-    private static final String CREATE_URL = "http://webdev.cse.msu.edu/~tarasov1/cse476/project2/callAPI.php";
+    private static final String CALLAPI_URL = "http://webdev.cse.msu.edu/~tarasov1/cse476/project2/callAPI.php";
     private static final String GETLIST_URL = "http://webdev.cse.msu.edu/~tarasov1/cse476/project2/get_list.php";
     private static final String UTF8 = "UTF-8";
 
@@ -130,7 +130,7 @@ public class Cloud {
 
         InputStream stream = null;
         try {
-            URL url = new URL(CREATE_URL);
+            URL url = new URL(CALLAPI_URL);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
