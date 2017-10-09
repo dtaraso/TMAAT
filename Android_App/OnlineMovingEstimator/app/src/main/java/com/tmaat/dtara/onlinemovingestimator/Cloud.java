@@ -1,5 +1,6 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
+import android.util.Log;
 import android.util.Xml;
 import android.view.View;
 
@@ -99,6 +100,7 @@ public class Cloud {
             return false;
         } finally {
             if(stream != null) {
+                Log.e("476", stream.toString());
                 try {
                     stream.close();
                 } catch(IOException ex) {
