@@ -1,62 +1,47 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
-import android.app.Activity;
+import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
 
-/**
- * Created by yeliy on 2017/10/4.
- */
-public class Pop extends Activity{
+public class Pop extends AppCompatActivity {
+
+    private RadioGroup roomGroup;
+    private RadioButton radioButton;
+    private Button btnDisplay;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.room_choice);
+        setContentView(R.layout.activity_pop);
 
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
+        addListenerOnButton();
+    }
 
-        getWindow().setLayout((int) (width* .8),(int) (height* .6));
+    public void addListenerOnButton() {
 
-        Button button1 = (Button) findViewById(R.id.Bedroom);
-        button1.setOnClickListener(new View.OnClickListener() {
+        roomGroup = (RadioGroup) findViewById(R.id.roomRadioGroup);
+        btnDisplay = (Button) findViewById(R.id.DoneButton);
+
+        btnDisplay.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                //bedroom
-                SystemClock.sleep(1000);
+
+                // get selected radio button from radioGroup
+                int selectedId = roomGroup.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                radioButton = (RadioButton) findViewById(selectedId);
+
+                MainActivity.est.addCurrentRoom(radioButton.toString());
                 finish();
             }
-        });
-        Button button2 = (Button) findViewById(R.id.Kitchen);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //kitchen
-                SystemClock.sleep(1000);
-                finish();
-            }
-        });
-        Button button3 = (Button) findViewById(R.id.Livingroom);
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //livingroom
-                SystemClock.sleep(1000);
-                finish();
-            }
-        });
-        Button button4 = (Button) findViewById(R.id.Bathroom);
-        button4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Bathroom
-                SystemClock.sleep(1000);
-                finish();
-            }
+
         });
     }
 }

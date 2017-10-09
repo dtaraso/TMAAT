@@ -6,6 +6,7 @@ public class Estimate {
     String id = null;
     ArrayList<Furniture> furnitureList = null;
     ArrayList<Furniture> tempFurnList = null;
+    String room = null;
 
     public Estimate(String id) {
         super();
@@ -29,4 +30,6 @@ public class Estimate {
     public ArrayList<Furniture> getTempList() { return tempFurnList; }
     public void addToTempList(Furniture furn) {tempFurnList.add(furn); }
     public void resetTempList(Furniture furn) {tempFurnList.clear();}
+
+    public void addCurrentRoom(String r) {room = r;}
 }
