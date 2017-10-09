@@ -120,7 +120,7 @@ public class camera extends AppCompatActivity {
                                 // RELEASED
                                 //mCamera.stopPreview();
                                 Toast.makeText(camera.this,getString(R.string.takeImage),Toast.LENGTH_SHORT).show();
-                                //SystemClock.sleep(1000);
+                                SystemClock.sleep(2000);
                                 //mCamera.startPreview();
                                 //Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(camera.this,ImageConfirm.class));
