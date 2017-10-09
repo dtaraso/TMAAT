@@ -118,7 +118,7 @@ public class camera extends AppCompatActivity {
                                 return true; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED
-                                //mCamera.stopPreview();
+                                mCamera.stopPreview();
                                 Toast.makeText(camera.this,getString(R.string.takeImage),Toast.LENGTH_SHORT).show();
                                 SystemClock.sleep(2000);
                                 //mCamera.startPreview();
