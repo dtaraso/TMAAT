@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tmaat.dtara.onlinemovingestimator.Pop">
+
+
+    <TextView
+        android:id="@+id/roomTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_weight="1"
+        android:text="@string/roomchoice" />
+
+    <Button
+        android:id="@+id/DoneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="1"
+        android:text="@string/done" />
+
+    <RadioGroup
+        android:id="@+id/roomRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/roomTitle"
+        android:layout_centerHorizontal="true">
+
+        <RadioButton
+            android:id="@+id/bedroom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/livingRoom"
+            android:layout_below="@+id/roomTitle"
+            android:layout_marginTop="24dp"
+            android:text="@string/bedroom" />
+
+        <RadioButton
+            android:id="@+id/livingRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/bedroom"
+            android:layout_centerHorizontal="true"
+            android:text="@string/livingroom" />
+
+        <RadioButton
+            android:id="@+id/diningRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/livingRoom"
+            android:layout_below="@+id/livingRoom"
+            android:text="@string/diningroom" />
+
+        <RadioButton
+            android:id="@+id/kitchen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/diningRoom"
+            android:layout_below="@+id/diningRoom"
+            android:text="@string/kitchen" />
+
+        <RadioButton
+            android:id="@+id/office"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/kitchen"
+            android:layout_below="@+id/kitchen"
+            android:text="@string/office" />
+
+        <RadioButton
+            android:id="@+id/garage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/office"
+            android:layout_below="@+id/office"
+            android:text="@string/garage" />
+
+        <RadioButton
+            android:id="@+id/patio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/garage"
+            android:layout_below="@+id/garage"
+            android:text="@string/patio" />
+
+        <RadioButton
+            android:id="@+id/businessOffice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/patio"
+            android:layout_below="@+id/patio"
+            android:text="@string/businessoffice" />
+
+        <RadioButton
+            android:id="@+id/businessFileRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/businessOffice"
+            android:layout_below="@+id/businessOffice"
+            android:text="@string/businessfileroom" />
+
+        <RadioButton
+            android:id="@+id/businessCopyRoom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/businessFileRoom"
+            android:layout_below="@+id/businessFileRoom"
+            android:text="@string/businesscopyroom" />
+
+        <RadioButton
+            android:id="@+id/businessReceptionArea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/businessCopyRoom"
+            android:layout_below="@+id/businessCopyRoom"
+            android:text="@string/businessreceptionarea" />
+
+    </RadioGroup>
+
+</RelativeLayout>
