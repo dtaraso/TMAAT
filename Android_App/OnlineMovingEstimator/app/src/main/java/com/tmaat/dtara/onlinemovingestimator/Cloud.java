@@ -100,7 +100,7 @@ public class Cloud {
             return false;
         } finally {
             if(stream != null) {
-                Log.e("476", stream.toString());
+                Log.i("476", stream.toString());
                 try {
                     stream.close();
                 } catch(IOException ex) {

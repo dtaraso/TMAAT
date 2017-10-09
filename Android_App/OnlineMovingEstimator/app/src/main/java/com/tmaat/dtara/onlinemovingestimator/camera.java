@@ -115,14 +115,15 @@ public class camera extends AppCompatActivity {
                             case MotionEvent.ACTION_DOWN:
                                 // PRESSED
                                 //mCamera.startPreview();
+                                //Log.i("476","testing");
                                 mCamera.takePicture(null, null, mPicture);
                                 return true; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED
-                                mCamera.stopPreview();
+                                //mCamera.stopPreview();
                                 Toast.makeText(camera.this,getString(R.string.takeImage),Toast.LENGTH_SHORT).show();
                                 SystemClock.sleep(2000);
-                                //mCamera.startPreview();
+                                mCamera.startPreview();
                                 //Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(camera.this,ImageConfirm.class));
                                 return true; // if you want to handle the touch event
@@ -234,6 +235,7 @@ public class camera extends AppCompatActivity {
     }
 
     public void imageUpload(byte[] data, View view) {
+        Toast.makeText(view.getContext(),"test",Toast.LENGTH_LONG).show();
         final byte[] data_final = data;
         final View view_final = view;
 
@@ -257,6 +259,13 @@ public class camera extends AppCompatActivity {
                         }
                     });
                 } else {
+                    view_final.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(view_final.getContext(), "In else statement", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     updateUI(view_final);
                 }
             }
