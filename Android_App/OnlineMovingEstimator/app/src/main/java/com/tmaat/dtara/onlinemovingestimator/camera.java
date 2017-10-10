@@ -245,6 +245,7 @@ public class camera extends AppCompatActivity {
             public void run() {
 
                 Cloud cloud = new Cloud();
+                Log.e("476","IN Camera Function");
                 final boolean ok = cloud.ImageUpload(data_final);
                 if(!ok) {
                     /*
@@ -273,6 +274,7 @@ public class camera extends AppCompatActivity {
     }
 
     public void updateUI(View view) {
+        // TODO: Perform stop of activity that is not resumed
         Intent intent = new Intent(this, ImageConfirm.class);
         startActivity(intent);
     }
