@@ -5,10 +5,16 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.media.MediaRecorder;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -16,8 +22,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
+
 
 import java.io.IOException;
 
@@ -105,7 +114,6 @@ public class camera extends AppCompatActivity {
         mPreview = new CameraPreview(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
-        mCamera.startPreview();
         Button captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnTouchListener(
                 new View.OnTouchListener() {
@@ -114,25 +122,23 @@ public class camera extends AppCompatActivity {
                         switch(event.getAction()) {
                             case MotionEvent.ACTION_DOWN:
                                 // PRESSED
-                                //mCamera.startPreview();
-                                //Log.i("476","testing");
+                                mCamera.startPreview();
                                 mCamera.takePicture(null, null, mPicture);
                                 return true; // if you want to handle the touch event
                             case MotionEvent.ACTION_UP:
                                 // RELEASED
                                 //mCamera.stopPreview();
                                 Toast.makeText(camera.this,getString(R.string.takeImage),Toast.LENGTH_SHORT).show();
-                                SystemClock.sleep(2000);
+                                SystemClock.sleep(1000);
                                 mCamera.startPreview();
-                                //Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(camera.this,ImageConfirm.class));
+                                Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
                                 return true; // if you want to handle the touch event
                         }
                         return false;
                     }
                 }
         );
-/*        Button doneButton = (Button) findViewById(R.id.done);
+        Button doneButton = (Button) findViewById(R.id.done);
         doneButton.setOnClickListener(
                 new View.OnClickListener(){
                     @Override
@@ -140,14 +146,7 @@ public class camera extends AppCompatActivity {
                         setContentView(R.layout.activity_choose);
                     }
                 }
-        );*/
-        Button PopButton = (Button) findViewById(R.id.Popup);
-        PopButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(camera.this,Pop.class));
-            }
-        });
+        );
     }
     /** Check if this device has a camera */
     private boolean checkCameraHardware(Context context) {
@@ -235,7 +234,6 @@ public class camera extends AppCompatActivity {
     }
 
     public void imageUpload(byte[] data, View view) {
-        Toast.makeText(view.getContext(),"test",Toast.LENGTH_LONG).show();
         final byte[] data_final = data;
         final View view_final = view;
 
@@ -245,7 +243,6 @@ public class camera extends AppCompatActivity {
             public void run() {
 
                 Cloud cloud = new Cloud();
-                Log.e("476","IN Camera Function");
                 final boolean ok = cloud.ImageUpload(data_final);
                 if(!ok) {
                     /*
@@ -260,13 +257,6 @@ public class camera extends AppCompatActivity {
                         }
                     });
                 } else {
-                    view_final.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            Toast.makeText(view_final.getContext(), "In else statement", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                     updateUI(view_final);
                 }
             }
@@ -274,7 +264,6 @@ public class camera extends AppCompatActivity {
     }
 
     public void updateUI(View view) {
-        // TODO: Perform stop of activity that is not resumed
         Intent intent = new Intent(this, ImageConfirm.class);
         startActivity(intent);
     }

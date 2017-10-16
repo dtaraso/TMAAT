@@ -34,13 +34,7 @@ public class ImageConfirm extends AppCompatActivity {
     private void displayListView() {
 
         //Array list of countries
-        ArrayList<Furniture> furnList = new ArrayList<Furniture>();
-        Furniture furn = new Furniture("Table",false);
-        furnList.add(furn);
-        Furniture furn1 = new Furniture("Chair",false);
-        furnList.add(furn1);
-        Furniture furn2 = new Furniture("Bed",false);
-        furnList.add(furn2);
+        ArrayList<Furniture> furnList = MainActivity.est.getTempList();
 
         //create an ArrayAdaptar from the String Array
         dataAdapter = new ImageConfirm.MyCustomAdapter(this,

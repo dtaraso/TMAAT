@@ -14,16 +14,4 @@
     <string name="retake">Retake</string>
     <string name="takeAnother">Take Another</string>
     <string name="Finish">Finish</string>
-    <string name="roomchoice">Please Choose a Room Type:</string>
-    <string name="bedroom">Bedroom</string>
-    <string name="kitchen">Kitchen</string>
-    <string name="livingroom">Living Room</string>
-    <string name="diningroom">Dining Room</string>
-    <string name="office">Office</string>
-    <string name="garage">Garage</string>
-    <string name="patio">Patio</string>
-    <string name="businessoffice">Business Office</string>
-    <string name="businessfileroom">Business File Room</string>
-    <string name="businesscopyroom">Business Copy Room</string>
-    <string name="businessreceptionarea">Business Reception Area</string>
 </resources>
