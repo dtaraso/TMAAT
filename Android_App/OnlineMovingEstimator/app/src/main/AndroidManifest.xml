@@ -30,6 +30,7 @@
         <activity android:name=".Intro" />
         <activity android:name=".furn_catalog" />
         <activity android:name=".ImageConfirm"></activity>
+        <activity android:name=".Pop"></activity>
     </application>
 
 </manifest>

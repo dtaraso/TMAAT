@@ -12,16 +12,19 @@
         tools:ignore="Suspicious0dp,UselessParent" >
 
         <Button
-            android:text="@string/done"
-            android:layout_height="71dp"
-            android:id="@+id/done"
-            android:layout_width="122dp"
-            android:layout_gravity="bottom|end"
+            android:id="@+id/Popup"
+            android:layout_width="64dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top|start"
             android:layout_marginBottom="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@android:drawable/ic_menu_gallery"
-            android:textSize="18sp"
-            android:textColor="@android:color/holo_orange_dark" />
+            android:layout_marginLeft="20dp"
+            android:background="@android:drawable/ic_menu_search"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/roomchoice"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="10sp"
+            android:textStyle="bold|italic"
+            tools:ignore="RtlHardcoded,SmallSp" />
 
         <Button
             android:id="@+id/button_capture"

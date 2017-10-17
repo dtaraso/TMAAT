@@ -82,6 +82,56 @@ public class camera extends AppCompatActivity {
         camera.setDisplayOrientation(result);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (MainActivity.est.room != null) {
+            setContentView(R.layout.activity_camera);
+            if (this.mCamera == null) {
+                this.mCamera = getCameraInstance();
+            }
+
+            // Create our Preview view and set it as the content of our activity.
+            mPreview = new CameraPreview(this, mCamera);
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+            preview.addView(mPreview);
+            Button captureButton = (Button) findViewById(R.id.button_capture);
+            captureButton.setOnTouchListener(
+                    new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            switch (event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // PRESSED
+                                    mCamera.startPreview();
+                                    mCamera.takePicture(null, null, mPicture);
+                                    return true; // if you want to handle the touch event
+                                case MotionEvent.ACTION_UP:
+                                    // RELEASED
+                                    //mCamera.stopPreview();
+                                    Toast.makeText(camera.this, getString(R.string.takeImage), Toast.LENGTH_SHORT).show();
+                                    SystemClock.sleep(1000);
+                                    mCamera.startPreview();
+                                    Toast.makeText(camera.this, "If you have taken all the pictures for items, you can click the Done button", Toast.LENGTH_LONG).show();
+                                    return true; // if you want to handle the touch event
+                            }
+                            return false;
+                        }
+                    }
+            );
+            Button PopButton = (Button) findViewById(R.id.Popup);
+            PopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(camera.this, Pop.class));
+                }
+            });
+        } else {
+            Intent intent = new Intent(this, Pop.class);
+            startActivity(intent);
+        }
+    }
+
     protected void onPause() {
         super.onPause();
         releaseMediaRecorder();       // if you are using MediaRecorder, release it first
@@ -105,48 +155,51 @@ public class camera extends AppCompatActivity {
     }
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
-        // Add a listener to the Capture button
-        // Create an instance of Camera
-        mCamera = getCameraInstance();
+        if (MainActivity.est.room != null) {
+            setContentView(R.layout.activity_camera);
+            // Add a listener to the Capture button
+            // Create an instance of Camera
+            mCamera = getCameraInstance();
 
-        // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
-        Button captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setOnTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        switch(event.getAction()) {
-                            case MotionEvent.ACTION_DOWN:
-                                // PRESSED
-                                mCamera.startPreview();
-                                mCamera.takePicture(null, null, mPicture);
-                                return true; // if you want to handle the touch event
-                            case MotionEvent.ACTION_UP:
-                                // RELEASED
-                                //mCamera.stopPreview();
-                                Toast.makeText(camera.this,getString(R.string.takeImage),Toast.LENGTH_SHORT).show();
-                                SystemClock.sleep(1000);
-                                mCamera.startPreview();
-                                Toast.makeText(camera.this,"If you have taken all the pictures for items, you can click the Done button",Toast.LENGTH_LONG).show();
-                                return true; // if you want to handle the touch event
+            // Create our Preview view and set it as the content of our activity.
+            mPreview = new CameraPreview(this, mCamera);
+            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+            preview.addView(mPreview);
+            Button captureButton = (Button) findViewById(R.id.button_capture);
+            captureButton.setOnTouchListener(
+                    new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            switch (event.getAction()) {
+                                case MotionEvent.ACTION_DOWN:
+                                    // PRESSED
+                                    mCamera.startPreview();
+                                    mCamera.takePicture(null, null, mPicture);
+                                    return true; // if you want to handle the touch event
+                                case MotionEvent.ACTION_UP:
+                                    // RELEASED
+                                    //mCamera.stopPreview();
+                                    Toast.makeText(camera.this, getString(R.string.takeImage), Toast.LENGTH_SHORT).show();
+                                    SystemClock.sleep(1000);
+                                    mCamera.startPreview();
+                                    Toast.makeText(camera.this, "If you have taken all the pictures for items, you can click the Done button", Toast.LENGTH_LONG).show();
+                                    return true; // if you want to handle the touch event
+                            }
+                            return false;
                         }
-                        return false;
                     }
+            );
+            Button PopButton = (Button) findViewById(R.id.Popup);
+            PopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(camera.this, Pop.class));
                 }
-        );
-        Button doneButton = (Button) findViewById(R.id.done);
-        doneButton.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v) {
-                        setContentView(R.layout.activity_choose);
-                    }
-                }
-        );
+            });
+        } else {
+            Intent intent = new Intent(this, Pop.class);
+            startActivity(intent);
+        }
     }
     /** Check if this device has a camera */
     private boolean checkCameraHardware(Context context) {
@@ -257,6 +310,13 @@ public class camera extends AppCompatActivity {
                         }
                     });
                 } else {
+                    view_final.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            Toast.makeText(view_final.getContext(), "Valid POST Request", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                     updateUI(view_final);
                 }
             }
