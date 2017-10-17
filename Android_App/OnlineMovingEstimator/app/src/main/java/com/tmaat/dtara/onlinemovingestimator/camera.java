@@ -85,19 +85,18 @@ public class camera extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (MainActivity.est.room != null) {
-            setContentView(R.layout.activity_camera);
-            if (this.mCamera == null) {
-                this.mCamera = getCameraInstance();
-            }
+        setContentView(R.layout.activity_camera);
+        if (this.mCamera == null) {
+            this.mCamera = getCameraInstance();
+        }
 
-            // Create our Preview view and set it as the content of our activity.
-            mPreview = new CameraPreview(this, mCamera);
-            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-            preview.addView(mPreview);
-            Button captureButton = (Button) findViewById(R.id.button_capture);
-            captureButton.setOnTouchListener(
-                    new View.OnTouchListener() {
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this, mCamera);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
+        Button captureButton = (Button) findViewById(R.id.button_capture);
+        captureButton.setOnTouchListener(
+                new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
                             switch (event.getAction()) {
@@ -107,7 +106,7 @@ public class camera extends AppCompatActivity {
                                     mCamera.takePicture(null, null, mPicture);
                                     return true; // if you want to handle the touch event
                                 case MotionEvent.ACTION_UP:
-                                    // RELEASED
+                                    //RELEASED
                                     //mCamera.stopPreview();
                                     Toast.makeText(camera.this, getString(R.string.takeImage), Toast.LENGTH_SHORT).show();
                                     SystemClock.sleep(1000);
@@ -118,18 +117,14 @@ public class camera extends AppCompatActivity {
                             return false;
                         }
                     }
-            );
-            Button PopButton = (Button) findViewById(R.id.Popup);
-            PopButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(camera.this, Pop.class));
-                }
-            });
-        } else {
-            Intent intent = new Intent(this, Pop.class);
-            startActivity(intent);
-        }
+        );
+        Button PopButton = (Button) findViewById(R.id.Popup);
+        PopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(camera.this, Pop.class));
+            }
+        });
     }
 
     protected void onPause() {

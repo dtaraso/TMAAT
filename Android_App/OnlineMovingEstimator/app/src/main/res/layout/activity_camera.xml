@@ -37,6 +37,7 @@
             android:textColorHighlight="@android:color/holo_orange_dark"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="18sp" />
+
     </FrameLayout>
 
 </LinearLayout>
