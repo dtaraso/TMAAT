@@ -10,11 +10,11 @@ public class ImageResponse {
 
     ///Names must match the name of the main json dictionary returned
 
-    private String id;
-    private String item;
-    private String name;
-    private String category;
-    private String generic;
-    private int[] related;
+    public String id;
+    public String item;
+    public String name;
+    public String category;
+    public String generic;
+    public int[] related;
 
 }

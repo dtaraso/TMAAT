@@ -13,10 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static com.tmaat.dtara.onlinemovingestimator.camera.imgResponse;
 
 public class ImageConfirm extends AppCompatActivity {
 
@@ -25,6 +28,7 @@ public class ImageConfirm extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_confirm);
 
+        setUpFurnitureList();
         displayListView();
         checkButtonClick();
     }
@@ -34,31 +38,33 @@ public class ImageConfirm extends AppCompatActivity {
     private void displayListView() {
 
         //Array list of countries
-        ArrayList<Furniture> furnList = new ArrayList<Furniture>();
-        Furniture furn = new Furniture("Table",false);
-        furnList.add(furn);
-        Furniture furn1 = new Furniture("Chair",false);
-        furnList.add(furn1);
-        Furniture furn2 = new Furniture("Bed",false);
-        furnList.add(furn2);
-
-        //create an ArrayAdaptar from the String Array
-        dataAdapter = new ImageConfirm.MyCustomAdapter(this,
-                R.layout.activity_furn_catalog, furnList);
+        ArrayList<Furniture> furnList = MainActivity.est.getTempList();
         ListView listView = (ListView) findViewById(R.id.listFurn);
-        // Assign adapter to ListView
-        listView.setAdapter(dataAdapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                // When clicked, show a toast with the TextView text
-                Furniture furn = (Furniture) parent.getItemAtPosition(position);
-                Toast.makeText(getApplicationContext(),
-                        "Clicked on Row: " + furn.getName(),
-                        Toast.LENGTH_LONG).show();
-            }
-        });
+        if (furnList.size() != 0) {
+            //create an ArrayAdaptar from the String Array
+            dataAdapter = new ImageConfirm.MyCustomAdapter(this,
+                    R.layout.activity_furn_catalog, furnList);
+            // Assign adapter to ListView
+            listView.setAdapter(dataAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // When clicked, show a toast with the TextView text
+                    Furniture furn = (Furniture) parent.getItemAtPosition(position);
+                    Toast.makeText(getApplicationContext(),
+                            "Clicked on Row: " + furn.getName(),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        } else {
+            listView.setVisibility(View.GONE);
+            RelativeLayout rl = (RelativeLayout) findViewById(R.id.imgConfirm);
+            TextView txt = new TextView(this);
+            txt.setText("No Furniture Was Detected");
+            rl.addView(txt);
+        }
 
     }
 
@@ -121,12 +127,13 @@ public class ImageConfirm extends AppCompatActivity {
     }
 
     public void onRetake(View view) {
+        MainActivity.est.resetTempList();
         Intent intent = new Intent(this, camera.class);
         startActivity(intent);
     }
 
     public void onTakeAnother(View view) {
-        // TODO: Add furniture to estimate class
+        MainActivity.est.addToTotalList();
         Intent intent = new Intent(this, camera.class);
         startActivity(intent);
     }
@@ -154,4 +161,12 @@ public class ImageConfirm extends AppCompatActivity {
         });
     }
 
+    public void setUpFurnitureList() {
+        if (imgResponse.size() != 0) {
+            for (ImageResponse i: imgResponse) {
+                Furniture furn = new Furniture(i.generic, false, MainActivity.est.room, i.related.length);
+                MainActivity.est.addToTempList(furn);
+            }
+        }
+    }
 }

@@ -6,12 +6,16 @@ package com.tmaat.dtara.onlinemovingestimator;
 
 public class Furniture {
     String name = null;
+    String room = null;
+    int quantity = 0;
     boolean selected = false;
 
-    public Furniture(String name, boolean selected) {
+    public Furniture(String name, boolean selected, String room, int quantity) {
         super();
         this.name = name;
         this.selected = selected;
+        this.room = room;
+        this.quantity = quantity + 1;
     }
 
     public String getName() {
