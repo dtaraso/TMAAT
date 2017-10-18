@@ -29,8 +29,9 @@
         <activity android:name=".Choose" />
         <activity android:name=".Intro" />
         <activity android:name=".furn_catalog" />
-        <activity android:name=".ImageConfirm"></activity>
-        <activity android:name=".Pop"></activity>
+        <activity android:name=".ImageConfirm" />
+        <activity android:name=".Pop" />
+        <activity android:name=".FinalizeList"></activity>
     </application>
 
 </manifest>

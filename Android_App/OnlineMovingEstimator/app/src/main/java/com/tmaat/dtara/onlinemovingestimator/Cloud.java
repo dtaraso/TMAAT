@@ -1,19 +1,10 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.util.Xml;
 import android.view.View;
 
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Cloud {
     private static final String WEB_BASE_URL = "http://35.9.22.105:8555/";
-    ArrayList<ImageResponse> imgResponse;
+    public static ArrayList<ImageResponse> imgResponse;
 
 
     public boolean checkEstimateID(final String estimateID) {
@@ -41,7 +32,7 @@ public class Cloud {
         return true;
     }
 
-    public boolean ImageUpload(byte[] data, View view) {
+    public boolean ImageUpload(byte[] data, View view, final Context context) {
         Log.e("476", "In ImageUpload Function");
         String room = MainActivity.est.room;
 
@@ -71,6 +62,8 @@ public class Cloud {
             public void onResponse(Call<ArrayList<ImageResponse>> call, Response<ArrayList<ImageResponse>> response) {
                 Log.e("476","onResponse");
                 imgResponse = response.body();
+                Intent intent = new Intent(context, ImageConfirm.class);
+                context.startActivity(intent);
             }
 
             @Override

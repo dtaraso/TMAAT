@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import static com.tmaat.dtara.onlinemovingestimator.camera.imgResponse;
+import static com.tmaat.dtara.onlinemovingestimator.Cloud.imgResponse;
 
 public class ImageConfirm extends AppCompatActivity {
 
@@ -37,7 +37,7 @@ public class ImageConfirm extends AppCompatActivity {
 
     private void displayListView() {
 
-        //Array list of countries
+        //Array list of furniture
         ArrayList<Furniture> furnList = MainActivity.est.getTempList();
         ListView listView = (ListView) findViewById(R.id.listFurn);
 
@@ -62,7 +62,7 @@ public class ImageConfirm extends AppCompatActivity {
             listView.setVisibility(View.GONE);
             RelativeLayout rl = (RelativeLayout) findViewById(R.id.imgConfirm);
             TextView txt = new TextView(this);
-            txt.setText("No Furniture Was Detected");
+            txt.setText("No Furniture Collected");
             rl.addView(txt);
         }
 

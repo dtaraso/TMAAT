@@ -14,7 +14,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -22,25 +21,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class camera extends AppCompatActivity {
@@ -52,8 +37,6 @@ public class camera extends AppCompatActivity {
     public static final int MEDIA_TYPE_VIDEO = 2;
     boolean isPreviewRunning = false;
     SurfaceHolder mSurfaceHolder;
-    private static final String WEB_BASE_URL = "http://35.9.22.105:8555/";
-    public static ArrayList<ImageResponse> imgResponse = null;
 
     ProgressDialog progressDialog ;
     public  static final int RequestPermissionCode  = 1 ;
@@ -298,65 +281,36 @@ public class camera extends AppCompatActivity {
     public void imageUpload(byte[] data, View view) {
         final byte[] data_final = data;
         final View view_final = view;
-        final String room = MainActivity.est.room;
 
         new Thread(new Runnable() {
 
             @Override
             public void run() {
 
-                OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                        .readTimeout(60, TimeUnit.SECONDS)
-                        .connectTimeout(60, TimeUnit.SECONDS)
-                        .build();
+                Cloud cloud = new Cloud();
+                final boolean ok = cloud.ImageUpload(data_final, view_final, view_final.getContext());
+                if (!ok) {
+                    /*
+                     * If we fail to save, display a toast
+                     */
+                    // Please fill this in...
+                    view_final.post(new Runnable() {
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .client(okHttpClient)
-                        .baseUrl(WEB_BASE_URL) //(API BASE URL)
-                        .build();
+                        @Override
+                        public void run() {
+                            Toast.makeText(view_final.getContext(), "Not a Valid POST Request", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    view_final.post(new Runnable() {
 
-
-                ImageService service = retrofit.create(ImageService.class);
-                view_final.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(view_final.getContext(), "Valid POST Request", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-                RequestBody requestFile =
-                        RequestBody.create(MediaType.parse("image/jpeg"), data_final);
-                MultipartBody.Part body =
-                        MultipartBody.Part.createFormData("image", "image.jpeg", requestFile);
-                 service.postImage(room,body);
-                Call<ArrayList<ImageResponse>> call = service.postImage(room,body);
-                call.enqueue(new Callback<ArrayList<ImageResponse>>() {
-                    @Override
-                    public void onResponse(Call<ArrayList<ImageResponse>> call, Response<ArrayList<ImageResponse>> response) {
-                        Log.e("476","onResponse");
-                        imgResponse = response.body();
-                        Log.e("476",response.body().toString());
-                        updateUI();
-                    }
-                     @Override
-                     public void onFailure(Call<ArrayList<ImageResponse>> call, Throwable t) {
-                         Log.e("476","FAILURE");
-                         Log.e("476",t.getMessage());
-                         view_final.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    Toast.makeText(view_final.getContext(), "Sending image to server: FAILED\nTry Again", Toast.LENGTH_SHORT).show();
-                                }
-                         });
-                     }
-                });
-             }
+                        @Override
+                        public void run() {
+                            Toast.makeText(view_final.getContext(), "Valid POST Request", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
         }).start();
-    }
-
-    public void updateUI() {
-        Intent intent = new Intent(this, ImageConfirm.class);
-        startActivity(intent);
     }
 }
