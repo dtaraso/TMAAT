@@ -67,6 +67,7 @@ class Estimate{
             return
         }
         else{
+            print(json)
             for item in json{
                 let newItem : MovingItem?
                 let category = item["category"] as! String

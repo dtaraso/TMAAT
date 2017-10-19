@@ -8,7 +8,7 @@
 
 import Foundation
 
-class MovingItem{
+class MovingItem: NSCopying{
     
     //Member Variables
     var itemCategory : String
@@ -25,6 +25,11 @@ class MovingItem{
         relatedItemsIDs = relatedItems
         genericName = generic
         
+    }
+    
+    func copy(with zone: NSZone? = nil) -> Any {
+        let item = MovingItem(category: itemCategory, name: itemName, ID: itemID, relatedItems: relatedItemsIDs, generic: genericName)
+        return item
     }
     
 }

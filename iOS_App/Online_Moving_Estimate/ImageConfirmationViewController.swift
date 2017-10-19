@@ -8,54 +8,116 @@
 
 import UIKit
 
-class ImageConfirmationViewController: UIViewController {
+class FurnitureCell: UITableViewCell{
+    
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var incrementButton: UIButton!
+    @IBOutlet weak var decrementButton: UIButton!
+    
+}
+
+class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    
     
     //Member Variables
     var estimateSession : Estimate!
-    
+    var names = [(name: String, value: Int, movingItem: MovingItem, index: Int)]()
     
     //Outlets
-    @IBOutlet weak var results: UITextView!
+    @IBOutlet weak var furnTableView: UITableView!
     
+    
+    func checkIfInNames(name: String) -> Int{
+        for (i,n) in names.enumerated(){
+            if (n.name == name){
+                return i
+            }
+        }
+        return -1
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        results.text = ""
         
-        var names : [String:Int]
-        names = [:]
+        
+        
         var nameToAdd: String
-        for item in estimateSession.tempList{
+        for (i,item) in estimateSession.tempList.enumerated(){
             if (item.genericName != nil){
                 nameToAdd = item.genericName!
             }
             else{
                 nameToAdd = item.itemName
             }
-            
-            if (names[nameToAdd] == nil){
-                names[nameToAdd] = 1
+            let index = checkIfInNames(name: nameToAdd)
+            if index != -1{
+                names[index].value = names[index].value + 1
             }
             else{
-                names[nameToAdd] = names[nameToAdd]! + 1
+                names.append((name: nameToAdd, value: 1, movingItem: item, index: i))
             }
         }
         
         
-        if (names.count == 0){
-            results.text = "No items detected!"
-        }
-        else{
-            for (name, count) in names{
-                results.text = results.text + name + " x" + (count as NSNumber).stringValue + "\n"
-            }
-        }
+ 
+        
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return names.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath ) as! FurnitureCell
+        let item = names[indexPath.row]
+        cell.nameLabel.text = item.name
+        cell.incrementButton.tag = indexPath.row
+        cell.decrementButton.tag = indexPath.row
+        cell.countLabel.text = String(item.value)
+        return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "Detected Items"
+    }
+    
+    
+    
+    
+    
+    @IBAction func incrementCount(_ sender: UIButton) {
+ 
+        let old = names[sender.tag].movingItem
+        let new = old.copy() as! MovingItem
+        estimateSession.tempList.append(new)
+        names[sender.tag].value = names[sender.tag].value + 1
+        self.furnTableView.reloadData()
         
         
         
     }
+    
+    @IBAction func decrementCount(_ sender: UIButton) {
+        let toDelete = names[sender.tag].index
+        estimateSession.tempList.remove(at: toDelete)
+        names[sender.tag].value = names[sender.tag].value - 1
+        self.furnTableView.reloadData()
+    }
+    
+    
+    
+    
+    
+
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
