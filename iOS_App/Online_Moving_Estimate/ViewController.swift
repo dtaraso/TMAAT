@@ -63,7 +63,7 @@ class ViewController: UIViewController{
             
             //setup camera output
             capturePhotoOutput = AVCapturePhotoOutput()
-            capturePhotoOutput?.isHighResolutionCaptureEnabled = true
+            capturePhotoOutput?.isHighResolutionCaptureEnabled = false
             captureSession?.addOutput(capturePhotoOutput)
             
             
@@ -90,7 +90,7 @@ class ViewController: UIViewController{
         
         // Set photo settings for our need
         photoSettings.isAutoStillImageStabilizationEnabled = true
-        photoSettings.isHighResolutionPhotoEnabled = true
+        photoSettings.isHighResolutionPhotoEnabled = false
         photoSettings.flashMode = .auto
         
         // Call capturePhoto method by passing our photo settings and a

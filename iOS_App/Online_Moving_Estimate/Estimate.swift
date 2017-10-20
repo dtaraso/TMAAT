@@ -17,6 +17,7 @@ class Estimate{
     var tempList : [MovingItem]
     var RoomNames = ["Living Room", "Bedroom", "Dining Room", "Home Office", "Garage", "Patio", "Business Office", "Business File Room", "Business Reception"]
     var ActualRoomNames = ["LivingRoom", "Bedroom", "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
+    var fullList : [[String: Any]]?
     
     init(ID: String){
         estimateID = ID
@@ -28,6 +29,8 @@ class Estimate{
             let newRoom = Room(name: name)
             rooms.append(newRoom)
         }
+        
+        self.getFullList()
         
     }
     
@@ -61,6 +64,30 @@ class Estimate{
         
     }
     
+    func getFullList(){
+        let URI = "http://35.9.22.105:8555/api/getItems"
+        let serverURL = URL(string: URI)
+        var request = URLRequest(url:serverURL!)
+        request.httpMethod = "GET"
+        
+        let task =  URLSession.shared.dataTask(with: request,completionHandler: {
+            (data, response, error) -> Void in
+            
+            do{
+                
+                let json = try JSONSerialization.jsonObject(with: data!) as! [[String: Any]]
+               self.fullList = json
+                
+            }catch{
+                print("Whoops with the JSON")
+
+            }
+
+        })
+        task.resume()
+        
+    }
+    
     func parseJson(json: [[String: Any]]){
         
         if (json.count == 0){
@@ -75,17 +102,13 @@ class Estimate{
                 let ID = item["id"] as! Int
                 
                 
-                if (item["related"] != nil && item["generic"] != nil){
-                    let related = nil as [Int]?
-                    let generic = item["generic"] as! String?
-                    newItem = MovingItem(category: category, name: name, ID: ID, relatedItems: related, generic: generic)
-                }
-                else{
-                    newItem = MovingItem(category: category, name: name, ID: ID)
-                }
                 
-                
+                let related = item["relatedInCategory"] as! [Int]
+                let generic = item["generic"] as! String?
+                newItem = MovingItem(category: category, name: name, ID: ID, relatedItems: related, generic: generic)
                 tempList.append(newItem!)
+                
+
                 
             }
         }

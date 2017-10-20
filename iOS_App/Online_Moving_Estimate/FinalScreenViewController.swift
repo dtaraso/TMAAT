@@ -11,110 +11,100 @@ import UIKit
 class FinalFurnitureCell: UITableViewCell{
     
     @IBOutlet weak var itemLabel: UILabel!
-    @IBOutlet weak var countLabel: UILabel!
+
     
     @IBOutlet weak var subcategoryButton: UIButton!
 }
 
-internal struct FurnitureStruct{
-    var name: String
-    var value: Int
-    var movingItem : MovingItem
-    var index : Int
-}
 
-class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
+class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SubCategoryDelegate {
     
     //Member Variables
     var estimateSession : Estimate!
-    var names = [(room: Room, item : FurnitureStruct)]()
-    var nonEmptyRooms = [Room]()
+    var tableController : FurnitureOverviewTableController?
+    var selected : MovingItem?
     
     //Outlets
     @IBOutlet weak var finalTableView: UITableView!
     
-    func checkIfInNames(room: Room, name: String) -> Int{
-        for (i,n) in names.enumerated(){
-            if (n.room.Name == room.Name && n.item.name == name){
-                return i
-            }
-        }
-        return -1
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let rooms = estimateSession.rooms
-        for room in rooms{
-            if(room.itemsToMove.count > 0){
-                nonEmptyRooms.append(room)
-            }
-        }
-
-        for room in rooms{
-            
-            var nameToAdd: String
-            for (i,item) in room.itemsToMove.enumerated(){
-                if (item.genericName != nil){
-                    nameToAdd = item.genericName!
-                }
-                else{
-                    nameToAdd = item.itemName
-                }
-                let index = checkIfInNames(room: room, name: nameToAdd)
-                if index != -1{
-                    names[index].item.value = names[index].item.value + 1
-                }
-                else{
-                    names.append((room, FurnitureStruct(name: nameToAdd, value: 1, movingItem: item, index: i)))
-                }
-            }
+        tableController = FurnitureOverviewTableController(rooms: estimateSession.rooms)
+        tableController?.drawList()
             
         }
-            
-        }
+    
+    
     
         
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let rooms = estimateSession.rooms
-        let room_name = nonEmptyRooms[section].Name
-        var row_number = 0
-        for entry in names{
-            if entry.room.Name == room_name{
-                row_number = row_number + 1
-            }
-        }
-        return row_number
+        
+        return (tableController?.getNumberOfRows(section: section))!
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FinalItemCall", for: indexPath ) as! FinalFurnitureCell
-        let furniture = names[indexPath.row]
-        if (furniture.item.movingItem.genericName == nil){
+        let location = (indexPath.section * 1000) + indexPath.row
+        let furniture = (tableController?.getFurniture(location: location) )!
+        
+        
+        cell.subcategoryButton.isHidden = false
+        if !furniture.movingItem.needSpecification {
+          
             cell.subcategoryButton.isHidden = true
+            
         }
-        cell.itemLabel.text = furniture.item.name
-        cell.countLabel.text = String(furniture.item.value)
+
+        cell.itemLabel.text = furniture.name
+        
+        
+        
+        cell.subcategoryButton.tag = location
         return cell
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         
         
-        return nonEmptyRooms.count
+        return (tableController?.getNumberOfSections())!
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return nonEmptyRooms[section].Name
+        return tableController?.getTitleForSection(section: section)
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func ShowSubCategory(_ sender: UIButton) {
+        
+        let furniture = tableController?.getFurniture(location: sender.tag)
+        
+        selected = furniture?.movingItem
+        
+    }
+    
+    func refresh() {
+        tableController?.drawList()
+        self.finalTableView.reloadData()
+    }
+    
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let viewController = segue.destination as? SubCategoryViewController{
+            viewController.selected = selected
+            viewController.estimateSession = estimateSession
+            viewController.delegate = self
+        }
     }
     
 

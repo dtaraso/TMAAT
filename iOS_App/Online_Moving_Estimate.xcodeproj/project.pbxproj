@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		843CF0491F9A7CD000757522 /* SubCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843CF0481F9A7CD000757522 /* SubCategoryViewController.swift */; };
+		843CF04B1F9A9CC000757522 /* FurnitureOverviewTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 843CF04A1F9A9CC000757522 /* FurnitureOverviewTable.swift */; };
 		84454A381F902418002A70F7 /* FinalScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84454A371F902418002A70F7 /* FinalScreenViewController.swift */; };
 		848E22381F741B05000ED744 /* Estimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848E22371F741B05000ED744 /* Estimate.swift */; };
 		84DEC47E1F745D9600F707BC /* MovingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DEC47D1F745D9600F707BC /* MovingItem.swift */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		843CF0481F9A7CD000757522 /* SubCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubCategoryViewController.swift; sourceTree = "<group>"; };
+		843CF04A1F9A9CC000757522 /* FurnitureOverviewTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureOverviewTable.swift; sourceTree = "<group>"; };
 		84454A371F902418002A70F7 /* FinalScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalScreenViewController.swift; sourceTree = "<group>"; };
 		848E22371F741B05000ED744 /* Estimate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Estimate.swift; sourceTree = "<group>"; };
 		84DEC47D1F745D9600F707BC /* MovingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovingItem.swift; sourceTree = "<group>"; };
@@ -115,8 +119,10 @@
 		84DF922E1F731B5F002D6140 /* Online_Moving_Estimate */ = {
 			isa = PBXGroup;
 			children = (
-				84E57DD01F8AA3EA00492F33 /* ImageConfirmationViewController.swift */,
+				843CF0481F9A7CD000757522 /* SubCategoryViewController.swift */,
 				84454A371F902418002A70F7 /* FinalScreenViewController.swift */,
+				84E57DD01F8AA3EA00492F33 /* ImageConfirmationViewController.swift */,
+				843CF04A1F9A9CC000757522 /* FurnitureOverviewTable.swift */,
 				84DF922F1F731B5F002D6140 /* AppDelegate.swift */,
 				84DF92311F731B5F002D6140 /* ViewController.swift */,
 				84E57DD41F8AC5B700492F33 /* RoomSelectorViewController.swift */,
@@ -288,9 +294,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				84E48E391F82BD600021D18C /* Shared.swift in Sources */,
+				843CF0491F9A7CD000757522 /* SubCategoryViewController.swift in Sources */,
 				84DF92321F731B5F002D6140 /* ViewController.swift in Sources */,
 				84E48E351F82B5960021D18C /* EstimateIDViewController.swift in Sources */,
 				84E57DD11F8AA3EA00492F33 /* ImageConfirmationViewController.swift in Sources */,
+				843CF04B1F9A9CC000757522 /* FurnitureOverviewTable.swift in Sources */,
 				84454A381F902418002A70F7 /* FinalScreenViewController.swift in Sources */,
 				848E22381F741B05000ED744 /* Estimate.swift in Sources */,
 				84E57DD31F8AC01600492F33 /* Room.swift in Sources */,

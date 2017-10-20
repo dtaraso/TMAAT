@@ -17,7 +17,7 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        estimateSession.getFullList()
         // Do any additional setup after loading the view.
     }
     

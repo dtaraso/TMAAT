@@ -14,10 +14,11 @@ class MovingItem: NSCopying{
     var itemCategory : String
     var itemName : String
     var itemID: Int
-    var relatedItemsIDs: [Int]?
+    var relatedItemsIDs: [Int]
     var genericName : String?
+    var needSpecification : Bool
     
-    init(category: String, name: String, ID: Int, relatedItems: [Int]? = nil, generic : String? = nil ){
+    init(category: String, name: String, ID: Int, relatedItems: [Int], generic : String? = nil ){
         
         itemCategory = category
         itemName = name
@@ -25,10 +26,34 @@ class MovingItem: NSCopying{
         relatedItemsIDs = relatedItems
         genericName = generic
         
+        relatedItemsIDs.append(itemID)
+        
+        if relatedItemsIDs.count > 1{
+            needSpecification = true
+        }else{
+            needSpecification = false
+        }
+        
+    }
+    
+    init(category: String, name: String, ID: Int, secondRelatedItems: [Int], generic : String? = nil ){
+        
+        itemCategory = category
+        itemName = name
+        itemID = ID
+        relatedItemsIDs = secondRelatedItems
+        genericName = generic
+        
+        if relatedItemsIDs.count > 1{
+            needSpecification = true
+        }else{
+            needSpecification = false
+        }
+        
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
-        let item = MovingItem(category: itemCategory, name: itemName, ID: itemID, relatedItems: relatedItemsIDs, generic: genericName)
+        let item = MovingItem(category: itemCategory, name: itemName, ID: itemID, secondRelatedItems: relatedItemsIDs, generic: genericName)
         return item
     }
     
