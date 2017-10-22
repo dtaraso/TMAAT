@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">OnlineMovingEstimator</string>
+    <string name="app_name">Online Moving Estimator</string>
     <string name="enterCode">Enter Estimate Code:</string>
     <string name="tmaat">TWO MEN AND A TRUCK</string>
     <string name="submit">Submit</string>
