@@ -24,18 +24,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Cloud {
     private static final String WEB_BASE_URL = "http://35.9.22.105:8555/";
-    public static ArrayList<ImageResponse> imgResponse;
+    public static ArrayList<ImageResponse> imgResponse = new ArrayList<ImageResponse>();
+    public static ArrayList<ImageResponse> furnResponse = new ArrayList<ImageResponse>();
 
-
-    public boolean checkEstimateID(final String estimateID) {
-        // TODO: get from TMAAT API to verify estimate id
-        return true;
-    }
-
-    public boolean ImageUpload(byte[] data, View view, final Context context) {
-        Log.e("476", "In ImageUpload Function");
-        String room = MainActivity.est.room;
-
+    private ImageService initialize() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
@@ -47,8 +39,39 @@ public class Cloud {
                 .baseUrl(WEB_BASE_URL) //(API BASE URL)
                 .build();
 
-
         ImageService service = retrofit.create(ImageService.class);
+        return service;
+    }
+
+    public boolean checkEstimateID(final String estimateID) {
+        // TODO: get from TMAAT API to verify estimate id
+        return true;
+    }
+
+    public boolean getItems() {
+        ImageService service = initialize();
+        service.getItems();
+        Call<ArrayList<ImageResponse>> call = service.getItems();
+
+        call.enqueue(new Callback<ArrayList<ImageResponse>>() {
+            @Override
+            public void onResponse(Call<ArrayList<ImageResponse>> call, Response<ArrayList<ImageResponse>> response) {
+                Log.e("476", "on response get items");
+                furnResponse = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<ImageResponse>> call, Throwable t) {
+                Log.e("476","getItems FAILURE");
+                Log.e("476",t.getMessage());
+            }
+        });
+        return true;
+    }
+
+    public boolean ImageUpload(byte[] data, View view, final Context context) {
+        String room = MainActivity.est.room;
+        ImageService service = initialize();
 
         RequestBody requestFile =
                 RequestBody.create(MediaType.parse("image/jpeg"), data);
@@ -60,7 +83,7 @@ public class Cloud {
         call.enqueue(new Callback<ArrayList<ImageResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<ImageResponse>> call, Response<ArrayList<ImageResponse>> response) {
-                Log.e("476","onResponse");
+                Log.e("476","on Response");
                 imgResponse = response.body();
                 Intent intent = new Intent(context, ImageConfirm.class);
                 context.startActivity(intent);

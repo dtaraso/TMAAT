@@ -1,6 +1,9 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.content.res.TypedArrayUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +20,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static com.tmaat.dtara.onlinemovingestimator.Cloud.furnResponse;
 
 public class FinalizeList extends AppCompatActivity {
 
@@ -33,7 +40,6 @@ public class FinalizeList extends AppCompatActivity {
 
     private void displayListView() {
 
-        //Array list of countries
         ArrayList<Furniture> furnList = MainActivity.est.getTotalList();
         ListView listView = (ListView) findViewById(R.id.listFurn);
 
@@ -78,6 +84,7 @@ public class FinalizeList extends AppCompatActivity {
         private class ViewHolder {
             TextView code;
             CheckBox name;
+            Button classify;
         }
 
         @Override
@@ -94,6 +101,7 @@ public class FinalizeList extends AppCompatActivity {
                 holder = new FinalizeList.MyCustomAdapter.ViewHolder();
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
                 convertView.setTag(holder);
 
                 holder.name.setOnClickListener( new View.OnClickListener() {
@@ -107,6 +115,29 @@ public class FinalizeList extends AppCompatActivity {
                         furn.setSelected(cb.isChecked());
                     }
                 });
+
+                holder.classify.setOnClickListener( new View.OnClickListener() {
+                        public void onClick(View view) {
+                        CharSequence[] items = { "Mango", "Banana", "Apple" };
+                        //Button cb = (Button) view;
+                        //Furniture furn = (Furniture) cb.getTag();
+                        //    Log.e("476", cb.getTag().toString());
+                        //List<String> furnItems = getItems(furn);
+                        //CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
+                        Context context = view.getContext();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Select Furniture Type");
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                });
             }
             else {
                 holder = (FinalizeList.MyCustomAdapter.ViewHolder) convertView.getTag();
@@ -116,6 +147,10 @@ public class FinalizeList extends AppCompatActivity {
             holder.name.setText(furn.getName());
             holder.name.setChecked(furn.isSelected());
             holder.name.setTag(furn);
+
+            if (furn.quantity.size() == 0) {
+                holder.classify.setVisibility(View.GONE);
+            }
 
             return convertView;
 
@@ -143,5 +178,17 @@ public class FinalizeList extends AppCompatActivity {
                         responseText, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private List<String> getItems(Furniture furn) {
+        Log.e("476", furn.quantity.toString());
+        Log.e("476", furnResponse.toString());
+        List<String> items = new ArrayList<String>();
+        for (ImageResponse i: furnResponse) {
+            if (furn.quantity.contains(i.id)){
+                items.add(i.name);
+            }
+        }
+        return items;
     }
 }

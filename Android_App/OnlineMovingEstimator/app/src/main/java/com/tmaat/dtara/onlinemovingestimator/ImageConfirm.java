@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.tmaat.dtara.onlinemovingestimator.Cloud.imgResponse;
 
@@ -82,6 +83,7 @@ public class ImageConfirm extends AppCompatActivity {
         private class ViewHolder {
             TextView code;
             CheckBox name;
+            Button classify;
         }
 
         @Override
@@ -98,7 +100,10 @@ public class ImageConfirm extends AppCompatActivity {
                 holder = new ImageConfirm.MyCustomAdapter.ViewHolder();
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
                 convertView.setTag(holder);
+
+                holder.classify.setVisibility(View.GONE);
 
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
@@ -128,12 +133,14 @@ public class ImageConfirm extends AppCompatActivity {
 
     public void onRetake(View view) {
         MainActivity.est.resetTempList();
+        imgResponse.clear();
         Intent intent = new Intent(this, camera.class);
         startActivity(intent);
     }
 
     public void onTakeAnother(View view) {
         MainActivity.est.addToTotalList();
+        imgResponse.clear();
         Intent intent = new Intent(this, camera.class);
         startActivity(intent);
     }
@@ -145,6 +152,10 @@ public class ImageConfirm extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                MainActivity.est.addToTotalList();
+                Intent intent = new Intent(v.getContext(), FinalizeList.class);
+                v.getContext().startActivity(intent);
+                /*
                 StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
 
@@ -157,14 +168,17 @@ public class ImageConfirm extends AppCompatActivity {
                 }
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
+                        */
             }
         });
     }
 
     public void setUpFurnitureList() {
+        Log.e("476",imgResponse.toString());
         if (imgResponse.size() != 0) {
             for (ImageResponse i: imgResponse) {
-                Furniture furn = new Furniture(i.generic, false, MainActivity.est.room, i.related.length);
+                Furniture furn = new Furniture(i.generic, true, MainActivity.est.room, i.related);
+                Log.e("476",furn.quantity.toString());
                 MainActivity.est.addToTempList(furn);
             }
         }

@@ -15,6 +15,7 @@ public class ImageResponse {
     public String name;
     public String category;
     public String generic;
-    public int[] related;
+    public ArrayList<String> related;
+    public ArrayList<String> relatedInCategory;
 
 }

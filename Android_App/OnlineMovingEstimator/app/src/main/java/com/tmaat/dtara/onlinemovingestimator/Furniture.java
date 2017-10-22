@@ -1,5 +1,8 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by dtara on 9/24/2017.
  */
@@ -7,15 +10,15 @@ package com.tmaat.dtara.onlinemovingestimator;
 public class Furniture {
     String name = null;
     String room = null;
-    int quantity = 0;
-    boolean selected = false;
+    ArrayList<String> quantity = new ArrayList<String>();
+    boolean selected = true;
 
-    public Furniture(String name, boolean selected, String room, int quantity) {
+    public Furniture(String name, boolean selected, String room, ArrayList<String> quantity) {
         super();
         this.name = name;
         this.selected = selected;
         this.room = room;
-        this.quantity = quantity + 1;
+        this.quantity = quantity;
     }
 
     public String getName() {

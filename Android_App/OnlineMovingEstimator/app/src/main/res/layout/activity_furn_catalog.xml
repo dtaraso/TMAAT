@@ -21,4 +21,13 @@
         android:layout_alignBaseline="@+id/checkBox1"
         android:layout_alignBottom="@+id/checkBox1"
         android:layout_toRightOf="@+id/checkBox1" />
+
+    <Button
+        android:id="@+id/classify_furn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:background="@android:drawable/ic_dialog_info"
+        android:text="@string/classify" />
 </RelativeLayout>
