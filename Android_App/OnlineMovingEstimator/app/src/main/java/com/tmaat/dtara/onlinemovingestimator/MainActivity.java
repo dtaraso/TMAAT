@@ -1,20 +1,36 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewParent;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     public static Estimate est;
+    ActionBar actionbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Typeface face;
+        face = Typeface.createFromAsset(getAssets(),"1.otf");
+        TextView textView = (TextView)findViewById(R.id.enterCode);
+        textView.setTypeface(face);
+        textView.setTextColor(Color.WHITE);
+        Button button1 = (Button)findViewById(R.id.finish);
+        button1.setTypeface(face);
     }
 
     public void onCheckCode(final View view){
