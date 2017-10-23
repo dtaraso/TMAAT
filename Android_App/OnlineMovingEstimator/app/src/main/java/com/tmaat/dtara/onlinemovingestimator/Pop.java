@@ -24,7 +24,7 @@ public class Pop extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pop);
-
+/*
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.x = -20;
         params.height = 1300;
@@ -76,6 +76,7 @@ public class Pop extends AppCompatActivity {
 
         Button button = (Button)findViewById(R.id.DoneButton);
         button.setTypeface(face);
+        */
         addListenerOnButton();
     }
 

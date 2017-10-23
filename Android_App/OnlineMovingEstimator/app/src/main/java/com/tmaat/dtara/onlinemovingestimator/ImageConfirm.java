@@ -174,11 +174,9 @@ public class ImageConfirm extends AppCompatActivity {
     }
 
     public void setUpFurnitureList() {
-        Log.e("476",imgResponse.toString());
         if (imgResponse.size() != 0) {
             for (ImageResponse i: imgResponse) {
                 Furniture furn = new Furniture(i.generic, true, MainActivity.est.room, i.related);
-                Log.e("476",furn.quantity.toString());
                 MainActivity.est.addToTempList(furn);
             }
         }

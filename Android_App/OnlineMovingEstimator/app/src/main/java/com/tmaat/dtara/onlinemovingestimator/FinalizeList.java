@@ -102,6 +102,7 @@ public class FinalizeList extends AppCompatActivity {
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
+                holder.classify.setTag(holder);
                 convertView.setTag(holder);
 
                 holder.name.setOnClickListener( new View.OnClickListener() {
@@ -117,20 +118,24 @@ public class FinalizeList extends AppCompatActivity {
                 });
 
                 holder.classify.setOnClickListener( new View.OnClickListener() {
-                        public void onClick(View view) {
-                        CharSequence[] items = { "Mango", "Banana", "Apple" };
-                        //Button cb = (Button) view;
-                        //Furniture furn = (Furniture) cb.getTag();
-                        //    Log.e("476", cb.getTag().toString());
-                        //List<String> furnItems = getItems(furn);
-                        //CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
-                        Context context = view.getContext();
+                        public void onClick(View v) {
+                            // CharSequence[] items = { "Mango", "Banana", "Apple" };
+                            Button cb = (Button) v ;
+
+                            final ViewHolder parentRow = (ViewHolder) v.getParent();
+                            Furniture furn = (Furniture) cb.getTag();
+                        List<String> furnItems = getItems(furn);
+                        CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
+                            final CharSequence[] items_final = items;
+                        Context context = v.getContext();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Select Furniture Type");
                         builder.setItems(items, new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                String furn_name = (String) items_final[which];
+                                parentRow.code.setText(furn_name);
                                 dialog.cancel();
                             }
                         });
@@ -147,6 +152,7 @@ public class FinalizeList extends AppCompatActivity {
             holder.name.setText(furn.getName());
             holder.name.setChecked(furn.isSelected());
             holder.name.setTag(furn);
+            holder.classify.setTag(furn);
 
             if (furn.quantity.size() == 0) {
                 holder.classify.setVisibility(View.GONE);
@@ -181,8 +187,6 @@ public class FinalizeList extends AppCompatActivity {
     }
 
     private List<String> getItems(Furniture furn) {
-        Log.e("476", furn.quantity.toString());
-        Log.e("476", furnResponse.toString());
         List<String> items = new ArrayList<String>();
         for (ImageResponse i: furnResponse) {
             if (furn.quantity.contains(i.id)){

@@ -70,6 +70,7 @@ public class Cloud {
     }
 
     public boolean ImageUpload(byte[] data, View view, final Context context) {
+        Log.e("476","in image upload function");
         String room = MainActivity.est.room;
         ImageService service = initialize();
 
@@ -83,7 +84,7 @@ public class Cloud {
         call.enqueue(new Callback<ArrayList<ImageResponse>>() {
             @Override
             public void onResponse(Call<ArrayList<ImageResponse>> call, Response<ArrayList<ImageResponse>> response) {
-                Log.e("476","on Response");
+                Log.e("476","image upload Response");
                 imgResponse = response.body();
                 Intent intent = new Intent(context, ImageConfirm.class);
                 context.startActivity(intent);
@@ -91,7 +92,7 @@ public class Cloud {
 
             @Override
             public void onFailure(Call<ArrayList<ImageResponse>> call, Throwable t) {
-                Log.e("476","FAILURE");
+                Log.e("476","image upload FAILURE");
                 Log.e("476",t.getMessage());
             }
         });
