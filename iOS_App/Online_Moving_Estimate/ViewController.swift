@@ -29,19 +29,19 @@ class ViewController: UIViewController{
     var roomName: String!
 
 
-    
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
+        
         
 
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
+        
         //Set room Label
         RoomLabel.text = estimateSession.getRoomName()
         
         //Hide spinner
         spinner.isHidden = true
-
+        
         // Use default camera (back camera)
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
         
@@ -70,6 +70,15 @@ class ViewController: UIViewController{
         } catch {
             print(error)
         }
+    }
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        title = roomName
+        
+        
         
         
         

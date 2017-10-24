@@ -18,12 +18,27 @@ class WelcomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         estimateSession.getFullList()
-        // Do any additional setup after loading the view.
+        
+        title = "Weclome!"
+        self.navigationController?.navigationBar.tintColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? RoomSelectorViewController{
             viewController.estimateSession = estimateSession
+            
+            var imageSet = [UIImage]()
+            for room in estimateSession.ActualRoomNames{
+                print(room)
+                let image = UIImage(named: room)
+                imageSet.append(image!)
+                
+            }
+            
+            viewController.imageSet = imageSet
+            
+
         }
     }
 

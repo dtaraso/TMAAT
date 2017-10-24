@@ -24,7 +24,7 @@ class MovingItem: NSCopying{
         itemName = name
         itemID = ID
         relatedItemsIDs = relatedItems
-        genericName = generic
+        genericName = generic?.capitalizingFirstLetter()
         
         relatedItemsIDs.append(itemID)
         
@@ -57,4 +57,16 @@ class MovingItem: NSCopying{
         return item
     }
     
+    
+    
+}
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
+    
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
 }

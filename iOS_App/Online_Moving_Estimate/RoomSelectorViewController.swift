@@ -8,22 +8,71 @@
 
 import UIKit
 
+class roomCell: UICollectionViewCell {
+    
+    @IBOutlet weak var theImage: UIImageView!
+    
+    @IBOutlet weak var roomName: UILabel!
+    
+}
 
-class RoomSelectorViewController: UIViewController{
+
+class RoomSelectorViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource{
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return estimateSession.ActualRoomNames.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        var cell = roomCollectionView.dequeueReusableCell(withReuseIdentifier: "room", for: indexPath) as! roomCell
+        
+        cell.theImage.image = imageSet![indexPath.item]
+        cell.roomName.text = estimateSession.RoomNames[indexPath.item]
+        
+        
+        
+        return cell
+        
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let cell = self.roomCollectionView.cellForItem(at: indexPath)
+        
+        let room = estimateSession.RoomNames[indexPath.item]
+        selected = room
+        self.roomCollectionView.reloadData()
+        performSegue(withIdentifier: "room", sender: Any?.self)
+        cell?.layer.borderWidth = 0.0
+        
+        
+    }
+    
+    
+    
     
     //Member Variables
     var estimateSession : Estimate!
-
+    var imageSet : [UIImage]?
+    var selected : String?
+    
+    @IBOutlet weak var roomCollectionView: UICollectionView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        title = ""
+        
         // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
     }
 
     
@@ -32,9 +81,9 @@ class RoomSelectorViewController: UIViewController{
         
         if let viewController = segue.destination as? ViewController{
             
-            print("test")
-            let button = sender as! UIButton
-            let roomSelection = button.titleLabel?.text
+            
+            
+            let roomSelection = selected
             
             // Set index of the selected room
             estimateSession.currentRoom = estimateSession.RoomNames.index(of: roomSelection!)!
@@ -45,6 +94,8 @@ class RoomSelectorViewController: UIViewController{
             
         }
     }
+    
+    
     
 
     override func didReceiveMemoryWarning() {

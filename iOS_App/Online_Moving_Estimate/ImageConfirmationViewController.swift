@@ -41,8 +41,11 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         
-        
+        title = "items"
+        self.navigationItem.setHidesBackButton(true, animated: false)
         
         
         var nameToAdd: String
@@ -125,14 +128,16 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     }
     
     @IBAction func Retake(_ sender: Any) {
-        dismiss(animated: true, completion:nil)
+        
+        self.navigationController?.popViewController(animated: true)
+        
     }
     
     
     @IBAction func Confirm(_ sender: Any) {
         
         estimateSession.confirmItems()
-        dismiss(animated: true, completion:nil)
+        self.navigationController?.popViewController(animated: true)
         
     }
     

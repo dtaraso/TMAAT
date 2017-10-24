@@ -15,8 +15,8 @@ class Estimate{
     var rooms : [Room]
     var currentRoom: Int
     var tempList : [MovingItem]
-    var RoomNames = ["Living Room", "Bedroom", "Dining Room", "Home Office", "Garage", "Patio", "Business Office", "Business File Room", "Business Reception"]
-    var ActualRoomNames = ["LivingRoom", "Bedroom", "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
+    var RoomNames = ["Living Room", "Bedroom", "Kitchen", "Dining Room", "Home Office", "Garage", "Patio", "Business Office", "Business File Room", "Business Reception"]
+    var ActualRoomNames = ["LivingRoom", "Bedroom", "Kitchen" , "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
     var fullList : [[String: Any]]?
     
     init(ID: String){
@@ -76,6 +76,7 @@ class Estimate{
             do{
                 
                 let json = try JSONSerialization.jsonObject(with: data!) as! [[String: Any]]
+                
                self.fullList = json
                 
             }catch{

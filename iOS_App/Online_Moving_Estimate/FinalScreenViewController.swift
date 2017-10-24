@@ -12,6 +12,7 @@ class FinalFurnitureCell: UITableViewCell{
     
     @IBOutlet weak var itemLabel: UILabel!
 
+    @IBOutlet weak var subCategorytest: UILabel!
     
     @IBOutlet weak var subcategoryButton: UIButton!
 }
@@ -32,6 +33,8 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        title = "All Items Captured"
+        self.navigationItem.setHidesBackButton(true, animated: false)
         tableController = FurnitureOverviewTableController(rooms: estimateSession.rooms)
         tableController?.drawList()
             
@@ -55,10 +58,11 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         
         
         cell.subcategoryButton.isHidden = false
+        cell.subCategorytest.isHidden = false
         if !furniture.movingItem.needSpecification {
           
             cell.subcategoryButton.isHidden = true
-            
+            cell.subCategorytest.isHidden = true
         }
 
         cell.itemLabel.text = furniture.name
@@ -73,6 +77,11 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         
         
         return (tableController?.getNumberOfSections())!
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
+    {
+        return 60.0;//Choose your custom row height
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
