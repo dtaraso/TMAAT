@@ -1,7 +1,9 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.DialogInterface;
+import android.support.v4.content.res.TypedArrayUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,32 +21,31 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-import static com.tmaat.dtara.onlinemovingestimator.Cloud.imgResponse;
+import static com.tmaat.dtara.onlinemovingestimator.Cloud.furnResponse;
 
-public class ImageConfirm extends AppCompatActivity {
+public class FinalizeList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_confirm);
+        setContentView(R.layout.activity_finalize_list);
 
-        setUpFurnitureList();
         displayListView();
         checkButtonClick();
     }
 
-    ImageConfirm.MyCustomAdapter dataAdapter = null;
+    FinalizeList.MyCustomAdapter dataAdapter = null;
 
     private void displayListView() {
 
-        //Array list of furniture
-        ArrayList<Furniture> furnList = MainActivity.est.getTempList();
+        ArrayList<Furniture> furnList = MainActivity.est.getTotalList();
         ListView listView = (ListView) findViewById(R.id.listFurn);
 
         if (furnList.size() != 0) {
             //create an ArrayAdaptar from the String Array
-            dataAdapter = new ImageConfirm.MyCustomAdapter(this,
+            dataAdapter = new FinalizeList.MyCustomAdapter(this,
                     R.layout.activity_furn_catalog, furnList);
             // Assign adapter to ListView
             listView.setAdapter(dataAdapter);
@@ -63,7 +64,7 @@ public class ImageConfirm extends AppCompatActivity {
             listView.setVisibility(View.GONE);
             RelativeLayout rl = (RelativeLayout) findViewById(R.id.imgConfirm);
             TextView txt = new TextView(this);
-            txt.setText("No Furniture Collected");
+            txt.setText("No Furniture Was Detected");
             rl.addView(txt);
         }
 
@@ -89,7 +90,7 @@ public class ImageConfirm extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            ImageConfirm.MyCustomAdapter.ViewHolder holder = null;
+            FinalizeList.MyCustomAdapter.ViewHolder holder = null;
             Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
@@ -97,13 +98,12 @@ public class ImageConfirm extends AppCompatActivity {
                         Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.activity_furn_catalog, null);
 
-                holder = new ImageConfirm.MyCustomAdapter.ViewHolder();
+                holder = new FinalizeList.MyCustomAdapter.ViewHolder();
                 holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
+                holder.classify.setTag(holder);
                 convertView.setTag(holder);
-
-                holder.classify.setVisibility(View.GONE);
 
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
@@ -116,46 +116,60 @@ public class ImageConfirm extends AppCompatActivity {
                         furn.setSelected(cb.isChecked());
                     }
                 });
+
+                holder.classify.setOnClickListener( new View.OnClickListener() {
+                        public void onClick(View v) {
+                            // CharSequence[] items = { "Mango", "Banana", "Apple" };
+                            Button cb = (Button) v ;
+
+                            final ViewHolder parentRow = (ViewHolder) v.getParent();
+                            Furniture furn = (Furniture) cb.getTag();
+                        List<String> furnItems = getItems(furn);
+                        CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
+                            final CharSequence[] items_final = items;
+                        Context context = v.getContext();
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                        builder.setTitle("Select Furniture Type");
+                        builder.setItems(items, new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String furn_name = (String) items_final[which];
+                                parentRow.code.setText(furn_name);
+                                dialog.cancel();
+                            }
+                        });
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+                });
             }
             else {
-                holder = (ImageConfirm.MyCustomAdapter.ViewHolder) convertView.getTag();
+                holder = (FinalizeList.MyCustomAdapter.ViewHolder) convertView.getTag();
             }
 
             Furniture furn = furnList.get(position);
             holder.name.setText(furn.getName());
             holder.name.setChecked(furn.isSelected());
             holder.name.setTag(furn);
+            holder.classify.setTag(furn);
+
+            if (furn.quantity.size() == 0) {
+                holder.classify.setVisibility(View.GONE);
+            }
 
             return convertView;
 
         }
     }
 
-    public void onRetake(View view) {
-        MainActivity.est.resetTempList();
-        imgResponse.clear();
-        Intent intent = new Intent(this, camera.class);
-        startActivity(intent);
-    }
-
-    public void onTakeAnother(View view) {
-        MainActivity.est.addToTotalList();
-        imgResponse.clear();
-        Intent intent = new Intent(this, camera.class);
-        startActivity(intent);
-    }
-
     private void checkButtonClick() {
-        Button myButton = (Button) findViewById(R.id.finish);
+        Button myButton = (Button) findViewById(R.id.done);
         myButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                MainActivity.est.addToTotalList();
-                Intent intent = new Intent(v.getContext(), FinalizeList.class);
-                v.getContext().startActivity(intent);
-                /*
                 StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
 
@@ -168,17 +182,17 @@ public class ImageConfirm extends AppCompatActivity {
                 }
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
-                        */
             }
         });
     }
 
-    public void setUpFurnitureList() {
-        if (imgResponse.size() != 0) {
-            for (ImageResponse i: imgResponse) {
-                Furniture furn = new Furniture(i.generic, true, MainActivity.est.room, i.related);
-                MainActivity.est.addToTempList(furn);
+    private List<String> getItems(Furniture furn) {
+        List<String> items = new ArrayList<String>();
+        for (ImageResponse i: furnResponse) {
+            if (furn.quantity.contains(i.id)){
+                items.add(i.name);
             }
         }
+        return items;
     }
 }
