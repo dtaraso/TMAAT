@@ -69,8 +69,8 @@ public class Choose extends Activity {
         }
 
         private class ViewHolder {
-            TextView code;
             CheckBox name;
+            Button classify;
         }
 
         @Override
@@ -85,8 +85,8 @@ public class Choose extends Activity {
                 convertView = vi.inflate(R.layout.activity_furn_catalog, null);
 
                 holder = new ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
+                holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
                 convertView.setTag(holder);
 
                 holder.name.setOnClickListener( new View.OnClickListener() {

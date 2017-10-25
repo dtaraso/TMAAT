@@ -31,7 +31,8 @@
         <activity android:name=".furn_catalog" />
         <activity android:name=".ImageConfirm" />
         <activity android:name=".Pop" />
-        <activity android:name=".FinalizeList"></activity>
+        <activity android:name=".FinalizeList" />
+        <activity android:name=".QuickEstimate"></activity>
     </application>
 
 </manifest>

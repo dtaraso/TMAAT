@@ -31,5 +31,7 @@ public class Estimate {
     public void addToTempList(Furniture furn) {tempFurnList.add(furn); }
     public void resetTempList() {tempFurnList.clear();}
 
+    public void removeFromTempList(int index) {tempFurnList.remove(index);}
+
     public void addCurrentRoom(String r) {room = r;}
 }

@@ -81,7 +81,6 @@ public class ImageConfirm extends AppCompatActivity {
         }
 
         private class ViewHolder {
-            TextView code;
             CheckBox name;
             Button classify;
         }
@@ -98,7 +97,6 @@ public class ImageConfirm extends AppCompatActivity {
                 convertView = vi.inflate(R.layout.activity_furn_catalog, null);
 
                 holder = new ImageConfirm.MyCustomAdapter.ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
                 convertView.setTag(holder);
@@ -108,12 +106,12 @@ public class ImageConfirm extends AppCompatActivity {
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
+                        View parentRow = (View) v.getParent();
+                        ListView listView = (ListView) parentRow.getParent();
+                        int position = listView.getPositionForView(parentRow);
                         Furniture furn = (Furniture) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();
                         furn.setSelected(cb.isChecked());
+                        MainActivity.est.removeFromTempList(position);
                     }
                 });
             }
@@ -155,20 +153,6 @@ public class ImageConfirm extends AppCompatActivity {
                 MainActivity.est.addToTotalList();
                 Intent intent = new Intent(v.getContext(), FinalizeList.class);
                 v.getContext().startActivity(intent);
-                /*
-                StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
-
-                ArrayList<Furniture> furnList = dataAdapter.furnList;
-                for(int i=0;i<furnList.size();i++){
-                    Furniture furn = furnList.get(i);
-                    if(furn.isSelected()){
-                        responseText.append("\n" + furn.getName());
-                    }
-                }
-                Toast.makeText(getApplicationContext(),
-                        responseText, Toast.LENGTH_LONG).show();
-                        */
             }
         });
     }
@@ -176,7 +160,9 @@ public class ImageConfirm extends AppCompatActivity {
     public void setUpFurnitureList() {
         if (imgResponse.size() != 0) {
             for (ImageResponse i: imgResponse) {
-                Furniture furn = new Furniture(i.generic, true, MainActivity.est.room, i.related);
+                String str = i.generic;
+                String cap = str.substring(0, 1).toUpperCase() + str.substring(1);
+                Furniture furn = new Furniture(cap, true, MainActivity.est.room, i.related);
                 MainActivity.est.addToTempList(furn);
             }
         }
