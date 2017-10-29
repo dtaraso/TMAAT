@@ -121,7 +121,7 @@ public class FinalizeList extends AppCompatActivity {
                             // CharSequence[] items = { "Mango", "Banana", "Apple" };
                             Button cb = (Button) v ;
 
-                            Furniture furn = (Furniture) cb.getTag();
+                            final Furniture furn = (Furniture) cb.getTag();
                         List<String> furnItems = getItems(furn);
                         CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
                             final CharSequence[] items_final = items;
@@ -134,6 +134,7 @@ public class FinalizeList extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 String furn_name = (String) items_final[which];
                                 holder1.name.setText(furn_name);
+                                furn.setName(furn_name);
                                 dialog.cancel();
                             }
                         });

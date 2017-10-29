@@ -105,10 +105,8 @@ public class camera extends AppCompatActivity {
                                 case MotionEvent.ACTION_UP:
                                     //RELEASED
                                     //mCamera.stopPreview();
-                                    Toast.makeText(camera.this, getString(R.string.takeImage), Toast.LENGTH_SHORT).show();
                                     SystemClock.sleep(1000);
                                     mCamera.startPreview();
-                                    Toast.makeText(camera.this, "If you have taken all the pictures for items, you can click the Done button", Toast.LENGTH_LONG).show();
                                     return true; // if you want to handle the touch event
                             }
                             return false;
@@ -171,10 +169,8 @@ public class camera extends AppCompatActivity {
                                 case MotionEvent.ACTION_UP:
                                     // RELEASED
                                     //mCamera.stopPreview();
-                                    Toast.makeText(camera.this, getString(R.string.takeImage), Toast.LENGTH_SHORT).show();
                                     SystemClock.sleep(1000);
                                     mCamera.startPreview();
-                                    Toast.makeText(camera.this, "If you have taken all the pictures for items, you can click the Done button", Toast.LENGTH_LONG).show();
                                     return true; // if you want to handle the touch event
                             }
                             return false;
@@ -298,7 +294,7 @@ public class camera extends AppCompatActivity {
 
                         @Override
                         public void run() {
-                            Toast.makeText(view_final.getContext(), "Not a Valid POST Request", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view_final.getContext(), "Unable to process picture. Try again later.", Toast.LENGTH_LONG).show();
                         }
                     });
                 } else {
@@ -306,7 +302,10 @@ public class camera extends AppCompatActivity {
 
                         @Override
                         public void run() {
-                            Toast.makeText(view_final.getContext(), "Valid POST Request", Toast.LENGTH_SHORT).show();
+                            ProgressDialog progress = new ProgressDialog(view_final.getContext());
+                            progress.setMessage("Processing Image");
+                            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                            progress.show();
                         }
                     });
                 }

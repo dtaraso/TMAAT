@@ -18,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.tmaat.dtara.onlinemovingestimator.Cloud.imgResponse;
 
@@ -162,7 +161,7 @@ public class ImageConfirm extends AppCompatActivity {
             for (ImageResponse i: imgResponse) {
                 String str = i.generic;
                 String cap = str.substring(0, 1).toUpperCase() + str.substring(1);
-                Furniture furn = new Furniture(cap, true, MainActivity.est.room, i.related);
+                Furniture furn = new Furniture(cap, true, MainActivity.est.room, i.relatedInCategory);
                 MainActivity.est.addToTempList(furn);
             }
         }

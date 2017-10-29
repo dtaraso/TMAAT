@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,23 +24,6 @@ public class Intro extends AppCompatActivity {
             public void run() {
                 Cloud cloud = new Cloud();
                 final boolean ok = cloud.getItems();
-                if (!ok) {
-                    view.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            Toast.makeText(view.getContext(), "Not a Valid POST Request -- INTRO", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    view.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            Toast.makeText(view.getContext(), "Valid POST Request -- INTRO", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
             }
         }).start();
         Typeface face;
