@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -82,7 +83,6 @@ public class FinalizeList extends AppCompatActivity {
         }
 
         private class ViewHolder {
-            TextView code;
             CheckBox name;
             Button classify;
         }
@@ -99,10 +99,8 @@ public class FinalizeList extends AppCompatActivity {
                 convertView = vi.inflate(R.layout.activity_furn_catalog, null);
 
                 holder = new FinalizeList.MyCustomAdapter.ViewHolder();
-                holder.code = (TextView) convertView.findViewById(R.id.code);
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
-                holder.classify.setTag(holder);
                 convertView.setTag(holder);
 
                 holder.name.setOnClickListener( new View.OnClickListener() {
@@ -117,13 +115,13 @@ public class FinalizeList extends AppCompatActivity {
                     }
                 });
 
+                final ViewHolder holder1 = holder;
                 holder.classify.setOnClickListener( new View.OnClickListener() {
                         public void onClick(View v) {
                             // CharSequence[] items = { "Mango", "Banana", "Apple" };
                             Button cb = (Button) v ;
 
-                            final ViewHolder parentRow = (ViewHolder) v.getParent();
-                            Furniture furn = (Furniture) cb.getTag();
+                            final Furniture furn = (Furniture) cb.getTag();
                         List<String> furnItems = getItems(furn);
                         CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
                             final CharSequence[] items_final = items;
@@ -135,7 +133,8 @@ public class FinalizeList extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String furn_name = (String) items_final[which];
-                                parentRow.code.setText(furn_name);
+                                holder1.name.setText(furn_name);
+                                furn.setName(furn_name);
                                 dialog.cancel();
                             }
                         });

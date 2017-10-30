@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.tmaat.dtara.onlinemovingestimator.furn_catalog">
+    tools:context="com.tmaat.dtara.onlinemovingestimator.QuickEstimate">
 
-    <CheckBox
-        android:id="@+id/checkBox1"
+    <TextView
+        android:id="@+id/estimateTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
-
-    <Button
-        android:id="@+id/classify_furn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:background="@android:drawable/ic_dialog_info"
-        android:text="@string/classify" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="129dp"
+        android:text="@string/estimateTitle" />
+
+    <TextView
+        android:id="@+id/estimate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/estimateTitle"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp" />
 </RelativeLayout>
