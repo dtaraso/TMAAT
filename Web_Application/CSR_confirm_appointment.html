@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="CSR_confirm_appointment.js"></script>
   <title>Confirm Appointment</title>
 </head>
-<body onload="populate_dropdown('Morning')">
+<body>
   <h1>Confirm Appointment</h1>
-  <form>
-	  Pick an appointment date:
-	  <input type="date" id="date_confirm"><br>
-	  Pick an appointment time:
-	  <select id="time_confirm"><br>
-	  <input type="button" id="cancel_confirm" value="Cancel" onclick="cancel();">
-	  <input type="submit" id="submit_confirm" value="Confirm"><br>
-  </form>
+  Pick an appointment date:
+  <input type="date" id="date_confirm"><br>
+  Pick an appointment time:
+  <select id="time_confirm"><br>
+  <input type="button" id="cancel_confirm" value="Cancel" onclick="cancel();">
+  <input type="submit" id="submit_confirm" value="Confirm" onclick="submit_post();"><br>
 </body>
 </html>
