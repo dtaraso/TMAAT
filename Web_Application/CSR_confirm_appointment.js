@@ -38,7 +38,7 @@ function submit_post() {
 
   $.ajax({
 
-    url: "https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParamter('i') +"&date="+datetime.toISOString(),
+    url: "https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') +"&date="+datetime.toISOString(),
     type: "POST",
     success: function( result ) {
       location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
