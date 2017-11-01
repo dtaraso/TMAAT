@@ -1,7 +1,12 @@
 $(document).ready(function() {
-  populate_dropdown("Morning");
+  var time_of_day = getURLParameter('t');
+  populate_dropdown(time_of_day);
 
 });
+
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
 
 function populate_dropdown(time_of_day) {
   
@@ -20,14 +25,12 @@ function populate_dropdown(time_of_day) {
 
 function cancel() {
   alert("CANCEL");
-  // TODO : go to live queue page
+  location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";  
 }
 
 function submit_post() {
-  // alert("SUBMIT_POST");
+  alert("SUBMIT_POST");
 
-  var name = "Jack";
-  var chatid = "1234";
   var date = $('#date_confirm').val();
   var time = $('#time_confirm').find(':selected').text();
   var date_str = date+' '+time+":00";
@@ -35,12 +38,13 @@ function submit_post() {
 
   $.ajax({
 
-    url: "https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + name + "&chatid=" + +"&date="+datetime.toISOString(),type: "POST",
-      success: function( result ) {
-        // location.href = "customerLauncher.html?cid=" + result;
-      },
-      error: function(xhr, status, error) {
-        console.log(error);
-      }
+    url: "https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParamter('i') +"&date="+datetime.toISOString(),
+    type: "POST",
+    success: function( result ) {
+      location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
+    },
+    error: function(xhr, status, error) {
+      console.log(error);
+    }
   }); 
 }
