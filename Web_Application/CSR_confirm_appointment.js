@@ -53,7 +53,8 @@ function submit_post() {
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatId=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
   joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onload = function(){
-      console.log("post worked");
+    console.log("post worked");
+    location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
   };
   joinRequest.send();
 }
