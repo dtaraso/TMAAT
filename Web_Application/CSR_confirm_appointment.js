@@ -50,8 +50,8 @@ function submit_post() {
   */
   var token = window.localStorage.getItem("user-Token");
   var joinRequest = new XMLHttpRequest();
-  joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatId=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
+  joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onload = function(){
       console.log("post worked");
   };
