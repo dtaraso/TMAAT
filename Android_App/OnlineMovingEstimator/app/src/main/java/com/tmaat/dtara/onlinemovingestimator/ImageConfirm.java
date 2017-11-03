@@ -110,7 +110,6 @@ public class ImageConfirm extends AppCompatActivity {
                         int position = listView.getPositionForView(parentRow);
                         Furniture furn = (Furniture) cb.getTag();
                         furn.setSelected(cb.isChecked());
-                        MainActivity.est.removeFromTempList(position);
                     }
                 });
             }

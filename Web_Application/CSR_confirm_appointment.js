@@ -48,9 +48,12 @@ function submit_post() {
     }
   });
   */
-  token = window.localStorage.getItem("user-Token");
-  joinRequest = new XMLHttpRequest();
-  joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatId=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
+  var token = window.localStorage.getItem("user-Token");
+  var joinRequest = new XMLHttpRequest();
   joinRequest.setRequestHeader("Auth-Token", token);
+  joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatId=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
+  joinRequest.onload = function(){
+      console.log("post worked");
+  };
   joinRequest.send();
 }

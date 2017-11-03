@@ -1,11 +1,6 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
 import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by dtara on 9/24/2017.
- */
 
 public class Furniture {
     String name = null;
