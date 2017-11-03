@@ -54,7 +54,7 @@ function submit_post() {
   joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onload = function(){
     console.log("post worked");
-    location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
+    // location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
   };
   joinRequest.send();
 }
