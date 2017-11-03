@@ -36,7 +36,7 @@ function submit_post() {
   var date_str = date+' '+time+":00";
   var datetime = new Date(date_str);
 
-  $.ajax({
+  /*$.ajax({
 
     url: "https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') +"&date="+datetime.toISOString(),
     type: "POST",
@@ -46,5 +46,11 @@ function submit_post() {
     error: function(xhr, status, error) {
       console.log(error);
     }
-  }); 
+  });
+  */
+  token = window.localStorage.getItem("user-Token");
+  joinRequest = new XMLHttpRequest();
+  joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatId=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
+  joinRequest.setRequestHeader("Auth-Token", token);
+  joinRequest.send();
 }
