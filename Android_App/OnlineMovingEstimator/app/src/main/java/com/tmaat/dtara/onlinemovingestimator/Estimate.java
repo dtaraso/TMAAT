@@ -24,14 +24,23 @@ public class Estimate {
         return furnitureList;
     }
     public void addToTotalList() {
-        furnitureList.addAll(tempFurnList); tempFurnList.clear();
+        updateTempList(); furnitureList.addAll(tempFurnList); tempFurnList.clear();
+    }
+
+    public void updateTempList() {
+        ArrayList<Furniture> loopList = tempFurnList;
+        for (Furniture f: loopList) {
+            if (!f.isSelected()) {
+                tempFurnList.remove(f);
+            }
+        }
     }
 
     public ArrayList<Furniture> getTempList() { return tempFurnList; }
     public void addToTempList(Furniture furn) {tempFurnList.add(furn); }
     public void resetTempList() {tempFurnList.clear();}
 
-    public void removeFromTempList(int index) {tempFurnList.remove(index);}
+    // public void removeFromTempList(Furniture furn) {tempFurnList.remove(furn);}
 
     public void addCurrentRoom(String r) {room = r;}
 }
