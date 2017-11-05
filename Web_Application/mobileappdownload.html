@@ -8,6 +8,11 @@
     <title>Download Mobile App</title>
     <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
     <script type="text/javascript">
+        window.onload = function () {
+            console.log("here");
+            setEstimateID();
+        };
+
         $(window).scroll(function () {
             if($(window).scrollTop()+ $(window).height() == $(document).height()){
                 document.getElementById("myBtn").style.display = "block";
@@ -47,18 +52,7 @@
         });
 
     </script>
-    <script type="text/javascript" src="addSchedule.js" >
-        function setEstimateID (){
-            document.getElementById("myBtn").innerHTML = '';
-            document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
-            document.getElementById("myBtn").innerHTML += getURLParameter('estimateid'); //estimate ID
-            console.log(getURLParameter('estimateid'));
-        };
-        window.onload = function () {
-            console.log("here");
-            setEstimateID();
-        }
-    </script>
+    <script type="text/javascript" src="addSchedule.js" ></script>
 </head>
 <body>
 <div id="mySidenav" class="sidenav">
