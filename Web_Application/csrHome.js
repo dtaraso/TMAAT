@@ -8,7 +8,7 @@ window.onload = function(){
     username = window.localStorage.getItem("username");
     token = window.localStorage.getItem("user-Token");
 
-    document.getElementById('csr_name').innerHTML ="<img src=\"images/moNX8nz0.jpg\" alt=\"Person\" width=\"96\" height=\"96\">"+ "Logged in as " + username;
+    document.getElementById('csr_name').innerHTML = "Logged in as " + username;
     startUpdates();
 };
 
@@ -58,13 +58,18 @@ function updateAppointmentQueue(){
     appointmentQueueRequest.setRequestHeader("Auth-Token", token);
     appointmentQueueRequest.onload = function(){
         //console.log("appointment queue updating.");
-        //console.log(appointmentQueueRequest.response);
+        console.log("appointment queue response: " + appointmentQueueRequest.response);
         appointmentQueue = JSON.parse(appointmentQueueRequest.response);
 
         htmlString = "<h2>My Appointments</h2>";
 
         for (i=0 ; i<appointmentQueue.length ; i++){
-            htmlString += '<br>WHATEVER BRO';
+            htmlString += '<br>WHATEVER BRO ;)';
+            // date + time + customer name
+
+            //date = appointmentQueue[i].id;
+            //time = appointmentQueue[i].customertime;
+            //name =  appointmenteQueue[i].customerName;
         }
 
         document.getElementById('appts').innerHTML = htmlString;
