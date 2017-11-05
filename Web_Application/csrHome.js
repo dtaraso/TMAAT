@@ -43,7 +43,7 @@ function updateChatQueue(){
             //console.log(customerName + " : " + customerID);
             //console.log(chatURLstub);
 
-            htmlString += '<a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a><br>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a>';
         }
 
         document.getElementById('chatqueue').innerHTML = htmlString;
