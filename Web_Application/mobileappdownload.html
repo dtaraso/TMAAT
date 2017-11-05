@@ -18,11 +18,6 @@
         })
 
         // When the user clicks on the button, scroll to the top of the document
-        function topFunction() {
-            document.getElementById("myBtn").innerHTML = '';
-            document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
-            document.getElementById("myBtn").innerHTML += "123456"; //estimate ID
-        }
         var i = 0;
         var txt = 'Download Mobile App to Get Free Quotes';
         var speed = 70;
@@ -50,7 +45,9 @@
                 };
             });
         });
+
     </script>
+    <script type="text/javascript" src="addSchedule.js" ></script>
 </head>
 <body>
 <div id="mySidenav" class="sidenav">
@@ -111,7 +108,7 @@
     </form>
 
 </div>
-<button onmouseenter="topFunction()" id="myBtn" title="Show Estimate Id">Get Your Estimate Id</button>
+<button id="myBtn" title="Show Estimate Id">Get Your Estimate Id</button>
 <script language="JavaScript">
     function openNav(){
         document.getElementById("myNav").style.height = "100%";
