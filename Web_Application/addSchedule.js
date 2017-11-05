@@ -16,7 +16,7 @@ function goToMobileApp(){
 
 function goToLiveChat(){
     console.log("GoToLiveChat");
-    location.href = "https://cse.msu.edu/~will1907/tmaat/beta/betaprechat.html"
+    location.href = "https://cse.msu.edu/~will1907/tmaat/chat/preChat.html"
 }
 function setEstimateID (){
     document.getElementById("myBtn").innerHTML = '';
