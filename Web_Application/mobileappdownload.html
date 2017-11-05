@@ -48,8 +48,13 @@
 
     </script>
     <script type="text/javascript" src="addSchedule.js" >
+        function setEstimateID (){
+            document.getElementById("myBtn").innerHTML = '';
+            document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
+            document.getElementById("myBtn").innerHTML += getURLParameter('estimateid'); //estimate ID
+        };
         window.onload = function () {
-            setEstimateId();
+            setEstimateID();
         }
     </script>
 </head>
