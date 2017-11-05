@@ -20,12 +20,10 @@ body{
 h1{
     color: orange;
     font-size: 40px;
-    margin-bottom: -20px;
-    margin-top: 10px;
+    margin-bottom: -5px;
+    margin-top: 20px;
 }
-em{
-    color:white;
-}
+
 h2{
     text-align:center;
     display: inline-block;
@@ -45,9 +43,10 @@ p,a{
 }
 
 a{
-    color:white;
-    border-left: 6px solid darkorange;
-    background-color: sandybrown;
+    color:black;
+    border-left: 6px solid red;
+    background-color: lightgrey;
+    margin-top: 10px;
 }
 p{text-align: left}
 
@@ -89,7 +88,7 @@ p{text-align: left}
     color: white;
     float: right;
     clear: right;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     margin-top: 5px;
     border: 1px solid black;
 }
