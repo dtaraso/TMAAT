@@ -1,4 +1,4 @@
-const chatURL = "https://cse.msu.edu/~will1907/tmaat/chat/chat.html";
+const chatURL = "https://cse.msu.edu/~will1907/tmaat/beta/betachat.html";
 const appointmentURL = "https://dtaraso.github.io/TMAAT/Web_Application/CSR_confirm_appointment";
 
 window.onload = function(){
