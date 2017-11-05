@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="mobileapp.css" type="text/css" rel="stylesheet" />
+    <script language="javascript" src="jquery.js"></script>
+    <script language="javascript" src="jquery.dimensions.js"></script>
+    <title>Download Mobile App</title>
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js?ver=1.3.2'></script>
+    <script type="text/javascript">
+        $(window).scroll(function () {
+            if($(window).scrollTop()+ $(window).height() == $(document).height()){
+                document.getElementById("myBtn").style.display = "block";
+            }
+            else{
+                document.getElementById("myBtn").style.display = "none";
+            }
+        })
+
+        // When the user clicks on the button, scroll to the top of the document
+        function topFunction() {
+            document.getElementById("myBtn").innerHTML = '';
+            document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
+            document.getElementById("myBtn").innerHTML += "123456"; //estimate ID
+        }
+        var i = 0;
+        var txt = 'Download Mobile App to Get Free Quotes';
+        var speed = 70;
+
+        function typeWriter() {
+            if (i < txt.length) {
+                document.getElementById("demo").innerHTML += txt.charAt(i);
+                i++;
+                setTimeout(typeWriter, speed);
+            }
+        }
+
+        $(function() {
+            var offset = $("#mySidenav").offset();
+            var topPadding = 15;
+            $(window).scroll(function() {
+                if ($(window).scrollTop() > offset.top) {
+                    $("#mySidenav").stop().animate({
+                        marginTop: $(window).scrollTop() - offset.top + topPadding
+                    });
+                } else {
+                    $("#mySidenav").stop().animate({
+                        marginTop: 0
+                    });
+                };
+            });
+        });
+    </script>
+</head>
+<body>
+<div id="mySidenav" class="sidenav">
+    <a href="#step1" id="about" style="font-family: Arial,sans-serif">Step 1</a>
+    <a href="#step2" id="blog" style="font-family: Arial">Step 2</a>
+    <a href="#step3" id="projects" style="font-family: Arial">Step 3</a>
+</div>
+
+<div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+        <h1>SCAN CODE BELOW</h1>
+        <img src="qrcode.png" class="ios" alt="ios" width="300" height="300">
+        <h2>Download iOS APP</h2>
+        <h2></h2>
+    </div>
+</div>
+<div id="myNav2" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">&times;</a>
+    <div class="overlay-content">
+        <h1>SCAN CODE BELOW</h1>
+        <img src="qrcode.png" class="android" alt="android" width="300" height="300">
+        <h2>Download Android APP</h2>
+    </div>
+</div>
+
+<div class="imgcontainer" onmouseenter="typeWriter()">
+    <p></p>
+    <img src="tmt_logo_long_converted1-resized-600.png" alt="logo">
+    <p></p>
+    <h1 id="demo"></h1>
+    <img src="mobileappclearversion3_1024.png" alt="example" class="mobile" width="190" height="390" style="padding-bottom: 5%">
+    <h2 id="step1">Step1: Choose your mobile device system</h2>
+    <img src="ios.png" class="ioslogo" alt="ios" width="100" height="100" onclick="openNav()">
+    <img src="Android_robot.png" class="androidlogo" alt="android" width="100" height="100" onclick="openNav2()">
+    <p></p>
+    <h2 id="step2">Step2: Scan QR CODE to download mobile app</h2>
+    <form class="container">
+        <div class="leftcodecontainer">
+            <img src="qrcode.png" class="ios" alt="ios" width="200" height="200" >
+            <h2>iOS Mobile App</h2>
+        </div>
+        <div class="rightcodecontainer">
+            <img src="qrcode.png" class="android" alt="android" width="200" height="200">
+            <h2>Android Mobile App</h2>
+        </div>
+    </form>
+    <h2 id="step3">Step3: Enter estimate ID into mobile app to login in</h2>
+    <form class="container">
+        <div class="leftcodecontainer">
+            <img src="phone-in-hand.png" class="ios" alt="ios" width="270" height="300" style="margin-right: 20px;">
+            <h2>iOS Mobile App</h2>
+        </div>
+        <div class="rightcodecontainer">
+            <img src="default_watermarked_a10998base.png" class="android" alt="android" width="220" height="300">
+            <h2>Android Mobile App</h2>
+        </div>
+    </form>
+
+</div>
+<button onmouseenter="topFunction()" id="myBtn" title="Show Estimate Id">Get Your Estimate Id</button>
+<script language="JavaScript">
+    function openNav(){
+        document.getElementById("myNav").style.height = "100%";
+    }
+    function closeNav(){
+        document.getElementById("myNav").style.height = "0%";
+    }
+    function openNav2(){
+        document.getElementById("myNav2").style.height = "100%";
+    }
+    function closeNav2(){
+        document.getElementById("myNav2").style.height = "0%";
+    }
+
+</script>
+</body>
+</html>
