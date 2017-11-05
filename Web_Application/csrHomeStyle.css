@@ -47,6 +47,8 @@ a{
     border-left: 6px solid red;
     background-color: lightgrey;
     margin-top: 10px;
+    float:left;
+    clear:left;
 }
 p{text-align: left}
 
