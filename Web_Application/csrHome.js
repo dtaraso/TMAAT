@@ -1,4 +1,4 @@
-const chatURL = "https://cse.msu.edu/~will1907/tmaat/beta/betachat.html";
+const chatURL = "https://cse.msu.edu/~will1907/tmaat/chat/chat.html";
 const appointmentURL = "https://dtaraso.github.io/TMAAT/Web_Application/CSR_confirm_appointment";
 
 window.onload = function(){
@@ -8,7 +8,7 @@ window.onload = function(){
     username = window.localStorage.getItem("username");
     token = window.localStorage.getItem("user-Token");
 
-    document.getElementById('csr_name').innerHTML = "<img src=\"images/moNX8nz0.jpg\" alt=\"Person\" width=\"96\" height=\"96\">"+"Logged in as " + username;
+    document.getElementById('csr_name').innerHTML = "Logged in as " + username;
     startUpdates();
 };
 
@@ -52,11 +52,9 @@ function updateChatQueue(){
 }
 
 function updateAppointmentQueue(){
-    /*
-
     //console.log("Requesting appointment queue from server...");
     appointmentQueueRequest = new XMLHttpRequest();
-    appointmentQueueRequest.open("GET","https://35.9.22.105:5555/api/",true);
+    appointmentQueueRequest.open("GET","https://35.9.22.105:5555/api/getCsrScheduleQueue?username=" + username,true);
     appointmentQueueRequest.setRequestHeader("Auth-Token", token);
     appointmentQueueRequest.onload = function(){
         //console.log("appointment queue updating.");
@@ -72,8 +70,6 @@ function updateAppointmentQueue(){
         document.getElementById('appts').innerHTML = htmlString;
     };
     appointmentQueueRequest.send();
-
-    */
 }
 
 function updateScheduleQueue(){
