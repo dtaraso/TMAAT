@@ -13,7 +13,6 @@
             background-image: url('images/backgroundtmaat.jpg');
             text-align: center;
             background-attachment: fixed;
-            width: 100%; /* Full width (cover the whole page) */
         }
         .homepage{
             padding: 2%;
@@ -29,23 +28,29 @@
             width: 100%; /* Full width (cover the whole page) */
             height: 100%; /* Full height (cover the whole page) */
             background-color: rgba(150,150,150,0.7);
+            position: fixed;
+        }
+        .bigbox{
+            margin-top: auto;
         }
     </style>
 </head>
 <body>
 <div class="layer">
-<div class="imgcontainer">
-    <img src="images/tmt-logo-transparent.png" class="w3-round" alt="Norway">
-</div>
-<form class="homepage" style="border: none">
-    <label><b>First name: </b></label>
-    <input type="text" name="firstname" id="firstName" placeholder="Enter First Name"><br>
-    <label><b>Email Address: </b></label>
-    <input id="emailAddress" type="email" placeholder="Enter Email Address"><br>
-    <label><b>Estimate ID: </b></label>
-    <input id="estimateID" type="text" placeholder="Enter Estimate ID"><br>
-<input type="submit" id="register" class="customerlogin" style="margin-top: 5%">
-</form>
+    <div class="bigbox">
+        <div class="imgcontainer">
+            <img src="images/tmt-logo-transparent.png" class="w3-round" alt="Norway">
+        </div>
+        <form class="homepage" style="border: none">
+            <label><b>First name: </b></label>
+            <input type="text" name="firstname" id="firstName" placeholder="Enter First Name"><br>
+            <label><b>Email Address: </b></label>
+            <input id="emailAddress" type="email" placeholder="Enter Email Address"><br>
+            <label><b>Estimate ID: </b></label>
+            <input id="estimateID" type="text" placeholder="Enter Estimate ID"><br>
+            <input type="submit" id="register" class="customerlogin" style="margin-top: 5%">
+        </form>
+    </div>
 </div>
 </body>
 </html>
