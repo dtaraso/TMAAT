@@ -11,7 +11,7 @@ function goToAddSchedule(){
 function goToMobileApp(){
     console.log("GoToMobileApp");
     var estimateid = getURLParameter('estimateid');
-    location.href = "https://cse.msu.edu/~yeliyang/TMAAT/mobileappdownload.html?estimateid=" +estimateid;
+    location.href = "https://dtaraso.github.io/TMAAT/Web_Application/mobileappdownload.html?estimateid=" +estimateid;
 }
 
 function goToLiveChat(){
