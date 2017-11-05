@@ -8,7 +8,7 @@ window.onload = function(){
     username = window.localStorage.getItem("username");
     token = window.localStorage.getItem("user-Token");
 
-    document.getElementById('csr_name').innerHTML = "Logged in as " + username;
+    document.getElementById('csr_name').innerHTML ="<img src=\"images/moNX8nz0.jpg\" alt=\"Person\" width=\"96\" height=\"96\">"+ "Logged in as " + username;
     startUpdates();
 };
 
