@@ -25,3 +25,4 @@ c:\users\kevin\documents\visual studio 2015\Projects\TMAAT_WebAPI\TMAAT_WebAPI\b
 c:\users\kevin\documents\visual studio 2015\Projects\TMAAT_WebAPI\TMAAT_WebAPI\bin\System.Web.Http.WebHost.xml
 c:\users\kevin\documents\visual studio 2015\Projects\TMAAT_WebAPI\TMAAT_WebAPI\obj\Release\TMAAT_WebAPI.dll
 c:\users\kevin\documents\visual studio 2015\Projects\TMAAT_WebAPI\TMAAT_WebAPI\obj\Release\TMAAT_WebAPI.pdb
+C:\Users\Kevin\documents\visual studio 2015\Projects\TMAAT_WebApi\TMAAT_WebAPI\obj\Release\TMAAT_WebAPI.csprojResolveAssemblyReference.cache
