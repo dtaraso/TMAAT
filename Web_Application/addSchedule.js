@@ -19,7 +19,7 @@ function goToLiveChat(){
     location.href = "https://cse.msu.edu/~will1907/tmaat/beta/betaprechat.html"
 }
 
-window.onload = function (){
+function setEstimateID (){
     document.getElementById("myBtn").innerHTML = '';
     document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
     document.getElementById("myBtn").innerHTML += getURLParameter('estimateid'); //estimate ID
