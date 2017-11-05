@@ -26,7 +26,8 @@ function populate_dropdown(time_of_day) {
 
 function cancel() {
   alert("CANCEL");
-  location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";  
+  // location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";  
+  location.href = "https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html";
 }
 
 function submit_post() {
@@ -37,24 +38,12 @@ function submit_post() {
   var date_str = date+' '+time+":00";
   var datetime = new Date(date_str);
 
-  /*$.ajax({
-
-    url: "https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') +"&date="+datetime.toISOString(),
-    type: "POST",
-    success: function( result ) {
-      location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
-    },
-    error: function(xhr, status, error) {
-      console.log(error);
-    }
-  });
-  */
-   var joinRequest = new XMLHttpRequest();
+  var joinRequest = new XMLHttpRequest();
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
   joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onload = function(){
     console.log("post worked");
-    // location.href = "https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html";
+    // location.href = "https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html";
   };
   joinRequest.send();
 }

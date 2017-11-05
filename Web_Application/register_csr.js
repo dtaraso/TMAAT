@@ -41,7 +41,8 @@ function sign_in(){
             console.log(window.localStorage.getItem("user-Token"));
             console.log(window.localStorage.getItem("username"));
             document.getElementById('id01').style.display='none';
-            window.location.assign("https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html");
+            // window.location.assign("https://cse.msu.edu/~will1907/tmaat/beta/beta_csrhome.html");
+            window.location.assign("https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html");
         }
     };
     loginRequest.send(JSON.stringify( { "username": username, "password": password}) );
