@@ -61,6 +61,7 @@ p{text-align: left}
     clear: right;
     margin-bottom: 10px;
     margin-top: 5px;
+    border: 1px solid black;
 }
 
 .chip img {
