@@ -1,23 +1,53 @@
-body{
-    background-color: orange;
-    background-size: 100% 130%;
-    background-repeat: no-repeat;
+.background{
+    background-image: url("images/moNX8nz0.jpg");
     text-align: center;
+    background-size: 10%;
+    position: relative;
+}
+.layer{
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+}
+body{
+    background-color: rgba(0,0,0,0.5);
 }
 
 h1{
-    color: white;
+    color: orange;
     font-size: 40px;
     margin-bottom: -20px;
-    margin-top: 5px;
+    margin-top: 10px;
 }
-
+em{
+    color:white;
+}
 h2{
     text-align:center;
+    display: inline-block;
+    padding: 0 15px;
+    height: 50px;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 15px;
+    background-color: orange;
+    color: white;
+    font-style: oblique;
+    border: 1px solid black;
 }
-h2,p,a{
+p,a{
     color: orange;
     font-style: oblique;
+}
+
+a{
+    color:white;
+    border-left: 6px solid darkorange;
+    background-color: sandybrown;
 }
 p{text-align: left}
 
@@ -66,7 +96,7 @@ p{text-align: left}
 
 .chip img {
     float: left;
-    margin: 0 10px 0 -25px;
+    margin: 0 5px 0 -15.5px;
     height: 50px;
     width: 50px;
     border-radius: 50%;
