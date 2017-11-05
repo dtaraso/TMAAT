@@ -38,6 +38,9 @@ p{text-align: left}
 
 }
 
+#column_table .column a{
+    cursor: pointer;text-decoration: none;
+}
 .chip {
     display: inline-block;
     padding: 0 15px;
