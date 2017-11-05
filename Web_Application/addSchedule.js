@@ -22,8 +22,9 @@ function goToLiveChat(){
 
 $(document).ready(function() {
 
-    $( "#register" ).click(function() {
+    $( "#register" ).click(function(event) {
         //console.log($("#firstName").val())
+        event.preventDefault()
         var name = $("#firstName").val();
         var email = $("#emailAddress").val();
         var estimateID = $("#estimateID").val();
