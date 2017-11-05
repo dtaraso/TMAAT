@@ -160,7 +160,7 @@ public class ImageConfirm extends AppCompatActivity {
             for (ImageResponse i: imgResponse) {
                 String str = i.generic;
                 String cap = str.substring(0, 1).toUpperCase() + str.substring(1);
-                Furniture furn = new Furniture(cap, true, MainActivity.est.room, i.relatedInCategory);
+                Furniture furn = new Furniture(cap, i.id, true, MainActivity.est.room, i.relatedInCategory);
                 MainActivity.est.addToTempList(furn);
             }
         }

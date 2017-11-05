@@ -11,18 +11,25 @@ function goToAddSchedule(){
 function goToMobileApp(){
     console.log("GoToMobileApp");
     var estimateid = getURLParameter('estimateid');
-    location.href = "https://cse.msu.edu/~yeliyang/TMAAT/mobileappdownload.html?estimateid=" +estimateid;
+    location.href = "https://dtaraso.github.io/TMAAT/Web_Application/mobileappdownload.html?estimateid=" +estimateid;
 }
 
 function goToLiveChat(){
     console.log("GoToLiveChat");
-    location.href = "https://cse.msu.edu/~will1907/tmaat/beta/betaprechat.html"
+    location.href = "https://cse.msu.edu/~will1907/tmaat/chat/preChat.html"
 }
+function setEstimateID (){
+    document.getElementById("myBtn").innerHTML = '';
+    document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
+    document.getElementById("myBtn").innerHTML += getURLParameter('estimateid'); //estimate ID
+    console.log(getURLParameter('estimateid'));
+};
 
 $(document).ready(function() {
 
-    $( "#register" ).click(function() {
+    $( "#register" ).click(function(event) {
         //console.log($("#firstName").val())
+        event.preventDefault()
         var name = $("#firstName").val();
         var email = $("#emailAddress").val();
         var estimateID = $("#estimateID").val();

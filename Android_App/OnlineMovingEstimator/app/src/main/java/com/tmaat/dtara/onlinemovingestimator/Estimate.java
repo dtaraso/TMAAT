@@ -28,19 +28,18 @@ public class Estimate {
     }
 
     public void updateTempList() {
-        ArrayList<Furniture> loopList = tempFurnList;
-        for (Furniture f: loopList) {
+        ArrayList<Furniture> loopList = new ArrayList<Furniture>();
+        for (Furniture f: tempFurnList) {
             if (!f.isSelected()) {
-                tempFurnList.remove(f);
+                loopList.add(f);
             }
         }
+        tempFurnList.removeAll(loopList);
     }
 
     public ArrayList<Furniture> getTempList() { return tempFurnList; }
     public void addToTempList(Furniture furn) {tempFurnList.add(furn); }
     public void resetTempList() {tempFurnList.clear();}
-
-    // public void removeFromTempList(Furniture furn) {tempFurnList.remove(furn);}
 
     public void addCurrentRoom(String r) {room = r;}
 }

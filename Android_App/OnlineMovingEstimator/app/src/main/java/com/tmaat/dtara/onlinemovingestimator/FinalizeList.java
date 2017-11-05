@@ -123,18 +123,21 @@ public class FinalizeList extends AppCompatActivity {
 
                             final Furniture furn = (Furniture) cb.getTag();
                         List<String> furnItems = getItems(furn);
-                        CharSequence[] items = furnItems.toArray(new CharSequence[furnItems.size()]);
-                            final CharSequence[] items_final = items;
+                        List<String> furnIDs = getIDs(furn);
+                        final CharSequence[] items_final = furnItems.toArray(new CharSequence[furnItems.size()]);
+                        final CharSequence[] IDs_final = furnIDs.toArray(new CharSequence[furnIDs.size()]);
                         Context context = v.getContext();
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
                         builder.setTitle("Select Furniture Type");
-                        builder.setItems(items, new DialogInterface.OnClickListener() {
+                        builder.setItems(items_final, new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String furn_name = (String) items_final[which];
+                                String furn_id = (String) IDs_final[which];
                                 holder1.name.setText(furn_name);
                                 furn.setName(furn_name);
+                                furn.setID(furn_id);
                                 dialog.cancel();
                             }
                         });
@@ -190,6 +193,16 @@ public class FinalizeList extends AppCompatActivity {
         for (ImageResponse i: furnResponse) {
             if (furn.quantity.contains(i.id)){
                 items.add(i.name);
+            }
+        }
+        return items;
+    }
+
+    private List<String> getIDs(Furniture furn) {
+        List<String> items = new ArrayList<String>();
+        for (ImageResponse i: furnResponse) {
+            if (furn.quantity.contains(i.id)){
+                items.add(i.id);
             }
         }
         return items;

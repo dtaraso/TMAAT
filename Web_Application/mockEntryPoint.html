@@ -4,12 +4,53 @@
     <meta charset="UTF-8">
     <title>Register</title>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <link href="choose.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript" src="addSchedule.js" ></script>
+    <style>
+        body{
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+            background-image: url('images/backgroundtmaat.jpg');
+            text-align: center;
+            background-attachment: fixed;
+        }
+        .homepage{
+            padding: 2%;
+        }
+        b{
+            color: white;
+        }
+        .layer{
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            background-color: rgba(200,200,220,0.7);
+            position: fixed;
+        }
+        .bigbox{
+            margin-top: auto;
+        }
+    </style>
 </head>
 <body>
-First name: <input type="text" name="firstname" id="firstName"><br>
-Email Address: <input id="emailAddress" type="email" ><br>
-Estimate ID: <input id="estimateID" type="email" ><br>
-<input type="submit" id="register">
+<div class="layer">
+    <div class="bigbox">
+        <div class="imgcontainer">
+            <img src="images/tmt-logo-transparent.png" class="w3-round" alt="Norway">
+        </div>
+        <form class="homepage" style="border: none">
+            <label><b>First name: </b></label>
+            <input type="text" name="firstname" id="firstName" placeholder="Enter First Name"><br>
+            <label><b>Email Address: </b></label>
+            <input id="emailAddress" type="email" placeholder="Enter Email Address"><br>
+            <label><b>Estimate ID: </b></label>
+            <input id="estimateID" type="text" placeholder="Enter Estimate ID"><br>
+            <input type="submit" id="register" class="customerlogin" style="margin-top: 5%">
+        </form>
+    </div>
+</div>
 </body>
 </html>

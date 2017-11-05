@@ -1,22 +1,59 @@
+.background{
+    background-image: url("images/moNX8nz0.jpg");
+    text-align: center;
+    background-size: 10%;
+    position: relative;
+}
+.layer{
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+}
 body{
-    background-color: #555759;
+    background-color: rgba(0,0,0,0.5);
 }
 
 h1{
-    text-align:center;
-    background-color: #FF9900;
-    color: white;
+    color: orange;
+    font-size: 40px;
+    margin-bottom: -5px;
+    margin-top: 20px;
 }
 
 h2{
     text-align:center;
+    display: inline-block;
+    padding: 0 15px;
+    height: 50px;
+    font-size: 24px;
+    line-height: 50px;
+    border-radius: 15px;
+    background-color: orange;
+    color: white;
+    font-style: oblique;
+    border: 1px solid black;
+}
+p,a{
+    color: orange;
+    font-style: oblique;
 }
 
-#csr_name{
-    text-align: right;
-    margin-bottom: 10px;
-    color: white;
+a{
+    color:black;
+    border-left: 6px solid red;
+    background-color: lightgrey;
+    margin-top: 10px;
+    float:left;
+    clear:left;
+    margin-left: 5%;
+    font-size: 20px;
 }
+p{text-align: left}
+
 
 #column_table {
     display: table;
@@ -31,4 +68,39 @@ h2{
     display: table-cell;
     border: 1px solid black;
     padding: 15px;
+    border-radius: 30px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+#column_table .column:hover{
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+#column_table .column a{
+    cursor: pointer;
+    text-decoration: none;
+
+}
+.chip {
+    display: inline-block;
+    padding: 0 15px;
+    height: 50px;
+    font-size: 16px;
+    line-height: 50px;
+    border-radius: 25px;
+    background-color: orange;
+    color: white;
+    float: right;
+    clear: right;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    border: 1px solid black;
+}
+
+.chip img {
+    float: left;
+    margin: 0 5px 0 -15.5px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
 }
