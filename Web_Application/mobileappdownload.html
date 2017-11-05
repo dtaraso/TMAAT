@@ -52,8 +52,10 @@
             document.getElementById("myBtn").innerHTML = '';
             document.getElementById("myBtn").innerHTML += 'Your Estimate ID is: ';
             document.getElementById("myBtn").innerHTML += getURLParameter('estimateid'); //estimate ID
+            console.log(getURLParameter('estimateid'));
         };
         window.onload = function () {
+            console.log("here");
             setEstimateID();
         }
     </script>
