@@ -53,3 +53,8 @@ C:\Users\Kevin\Documents\Visual Studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_
 C:\Users\Kevin\Documents\Visual Studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\bin\System.Web.Http.WebHost.xml
 C:\Users\Kevin\Documents\Visual Studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\obj\Debug\TMAAT_WebAPI.dll
 C:\Users\Kevin\Documents\Visual Studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\obj\Debug\TMAAT_WebAPI.pdb
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\obj\Debug\TMAAT_WebAPI.csprojResolveAssemblyReference.cache
+C:\Users\Kevin\Documents\Visual Studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\bin\MySql.Data.dll
+C:\Users\Kevin\Documents\visual studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\bin\System.Web.Cors.dll
+C:\Users\Kevin\Documents\visual studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\bin\System.Web.Http.Cors.dll
+C:\Users\Kevin\Documents\visual studio 2015\Projects\TMAAT_WebAPI\Web_API\TMAAT_WebAPI\bin\System.Web.Http.Cors.xml

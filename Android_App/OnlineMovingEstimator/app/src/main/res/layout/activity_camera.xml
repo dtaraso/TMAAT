@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1">
+
+    <FrameLayout
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="Suspicious0dp,UselessParent" >
+
+        <Button
+            android:id="@+id/Popup"
+            android:layout_width="64dp"
+            android:layout_height="60dp"
+            android:layout_gravity="top|start"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@android:drawable/ic_menu_search"
+            android:gravity="bottom|center_horizontal"
+            android:text="@string/roomchoice"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="10sp"
+            android:textStyle="bold|italic"
+            tools:ignore="RtlHardcoded,SmallSp" />
+
+        <Button
+            android:id="@+id/button_capture"
+            android:text="@string/capture"
+            android:layout_width="137dp"
+            android:layout_height="103dp"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="10dp"
+            android:background="@android:drawable/ic_menu_camera"
+            android:textColorHighlight="@android:color/holo_orange_dark"
+            android:textColor="@android:color/holo_orange_dark"
+            android:textSize="18sp" />
+
+    </FrameLayout>
+
+</LinearLayout>

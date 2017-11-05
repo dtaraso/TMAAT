@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Online Moving Estimator</string>
+    <string name="enterCode">Enter Estimate Code:</string>
+    <string name="tmaat">TWO MEN AND A TRUCK</string>
+    <string name="submit">Submit</string>
+    <string name="code">Estimate ID</string>
+    <string name="about">Take pictures of your furniture and we\'ll provide you with a quick estimate. To remove duplicate accounts of furniture or specify types of furniture, you can do so before getting the quick estimate.</string>
+    <string name="takeImage">take images</string>
+    <string name="loadTitle">Finalize List For Quick Estimate</string>
+    <string name="capture">Capture Image</string>
+    <string name="catalog_fail">Failed to load</string>
+    <string name="estimate_heading">Quick Estimate:</string>
+    <string name="done">Done</string>
+    <string name="retake">Retake</string>
+    <string name="takeAnother">Take Another</string>
+    <string name="Finish">Finish</string>
+    <string name="roomchoice">Please Select A Room Type:</string>
+    <string name="bedroom">Bedroom</string>
+    <string name="livingroom">Living Room</string>
+    <string name="diningroom">Dining Room</string>
+    <string name="kitchen">Kitchen</string>
+    <string name="office">Office</string>
+    <string name="garage">Garage</string>
+    <string name="patio">Patio</string>
+    <string name="businessoffice">Business Office</string>
+    <string name="businessfileroom">Business File Room</string>
+    <string name="businesscopyroom">Business Copy Room</string>
+    <string name="businessreceptionarea">Business Reception Area</string>
+    <string name="classify">Classify</string>
+    <string name="estimateTitle">Your Quick Estimate:</string>
+</resources>
