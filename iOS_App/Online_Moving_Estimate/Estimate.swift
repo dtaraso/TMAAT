@@ -155,6 +155,56 @@ class Estimate{
         return RoomNames
     }
     
+    func resetExceptID(){
+        rooms = [Room]()
+        tempList = [MovingItem]()
+        currentRoom = -1
+        
+        for name in ActualRoomNames{
+            let newRoom = Room(name: name)
+            rooms.append(newRoom)
+        }
+    }
+    
+    func getFinalEstimate(){
+        
+        let URI = "https://mwc.test.twomen.com/mwcwebapi/estimate/addInventoryToEstimate"
+        let serverURL = URL(string: URI)
+        var request = URLRequest(url:serverURL!)
+        request.httpMethod = "POST"
+        
+        let username = "msucapstone"
+        let password = "Vf@tN7Ck"
+        let loginString = String(format: "%@:%@", username, password)
+        let loginData = loginString.data(using: String.Encoding.utf8)!
+        let base64LoginString = loginData.base64EncodedString()
+        request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+        
+        
+        let task =  URLSession.shared.dataTask(with: request,completionHandler: {
+            (data, response, error) -> Void in
+            
+            do{
+                
+                print(response)
+                
+            }catch{
+                
+                print("Whoops with the JSON")
+                
+            }
+            
+        })
+        task.resume()
+        
+    }
+    
+    func createFinalEstimateRequestBody() -> Data{
+        
+      print("Not implemented")
+      return [] as! Data
+    }
+    
     
     
     

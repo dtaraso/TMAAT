@@ -114,6 +114,29 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
             viewController.estimateSession = estimateSession
             viewController.delegate = self
         }
+        else if let viewController = segue.destination as? FinalEstimateViewController{
+            
+            viewController.estimateSession = estimateSession
+            
+        }
+        if let viewController = segue.destination as? RoomSelectorViewController{
+            estimateSession.resetExceptID()
+            viewController.estimateSession = estimateSession
+            
+            var imageSet = [UIImage]()
+            for room in estimateSession.ActualRoomNames{
+                print(room)
+                let image = UIImage(named: room)
+                imageSet.append(image!)
+                
+            }
+            
+            viewController.imageSet = imageSet
+            
+            
+            
+            
+        }
     }
     
 

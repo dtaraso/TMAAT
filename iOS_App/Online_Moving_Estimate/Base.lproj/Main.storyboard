@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gLV-cv-CAi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gLV-cv-CAi">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -478,9 +478,29 @@
                                     <outlet property="delegate" destination="GGv-eH-Yse" id="DIc-Cm-wUa"/>
                                 </connections>
                             </tableView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lIG-ql-109">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem title="Wow Best app ever this is sweet!" id="RZk-Oh-0cw">
+                                        <color key="tintColor" red="0.96862745100000003" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <segue destination="u9v-59-nTe" kind="show" id="YDq-mY-AuD"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Re-Do" id="XsV-14-vRz">
+                                        <color key="tintColor" red="0.96862745100000003" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                        <connections>
+                                            <segue destination="Mb2-wE-cFU" kind="show" id="F0q-uV-P39"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="finalTableView" destination="yTS-Dv-ZbY" id="xlZ-eZ-RUP"/>
                     </connections>
@@ -566,9 +586,45 @@
             </objects>
             <point key="canvasLocation" x="3909.5999999999999" y="150.67466266866569"/>
         </scene>
+        <!--Final Estimate View Controller-->
+        <scene sceneID="0kV-tt-qGG">
+            <objects>
+                <viewController id="u9v-59-nTe" customClass="FinalEstimateViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y64-Bj-ASX"/>
+                        <viewControllerLayoutGuide type="bottom" id="qfz-on-c0r"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="uNa-B7-2W9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mZn-QU-ySq">
+                                <rect key="frame" x="117" y="119" width="157" height="133"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="50"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <toolbarItems>
+                        <barButtonItem title="Start Over" id="bYT-vO-5Ia">
+                            <color key="tintColor" red="0.96862745100000003" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </barButtonItem>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="56L-o6-CIT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3058.4000000000001" y="875.71214392803608"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Tmaat" width="398" height="172"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="F0q-uV-P39"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.96862745098039216" green="0.6588235294117647" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
 </document>
