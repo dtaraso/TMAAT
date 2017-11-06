@@ -4,22 +4,101 @@
     <meta charset="UTF-8">
     <link href="choose.css" type="text/css" rel="stylesheet" />
     <title>Quick Estimate</title>
+    <style>
+        .launcherOption{
+            background-color: white;
+            display: table-cell;
+            border: 1px solid black;
+            padding: 15px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+        }
+        .launcher{
+            display: table;
+            table-layout: fixed;
+            width:90%;
+            height:80vh;
+            margin:auto;
+            margin-left: 12.7%;
+        }
+        body{
+            background-image: url("images/moNX8nz0.jpg");
+            text-align: center;
+            background-size: 10%;
+            background-attachment: fixed;
+        }
+        .imgcontainer{
+            text-align: center;
+            top: -24px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            background-color: rgba(255, 165, 133, 0.7);
+            position: fixed;
+        }
+        h1{
+            font-size: 40px;
+            font-family: Arial;
+        }
+        #tmaat{
+            animation: shake 0.75s;
+            animation-iteration-count: 4;
+            margin-top: 5%;
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        .modal-content button{
+
+        }
+    </style>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="addSchedule.js" ></script>
 </head>
 <body>
-<div class="launcher">
-<div class="launcherOption">
-    <img src="images/livechat-icon.png" height="100" width="100" class="logo" alt="logo" style="width:auto";>
-<button type="button" onclick="goToLiveChat()" >Start A live Chat</button>
+
+<div id="schedule" class="modal">
+    <span onclick="document.getElementById('schedule').style.display='none'" class="close" title="Close Modal">&times;</span>
+    <form class="modal-content animate" id="scheduling" style="padding-left: 2%;padding-right: 2%;padding-bottom: 2%;border-radius: 30px;">
+        <h2>What time do you prefer?</h2>
+        <img src="images/morning.jpg" style="width: 10%">
+        <button type="button" >Morning</button>
+        <button type="button" >Afternoon</button>
+        <button type="button" >Evening</button>
+    </form>
 </div>
-<div class="launcherOption">
-    <img src="images/calendar.png" height="100" width="100" class="logo" alt="logo" style="width:auto";>
-<button type="button" onclick="goToAddSchedule()">Schedule a Chat</button>
-</div>
-<div class="launcherOption">
-    <img src="images/iphoneIcon.png" height="100" width="100" class="logo" alt="logo" style="width:auto";>
-<button type="button" onclick="goToMobileApp()">Use Image Recognition App</button>
-</div>
+
+<div class="imgcontainer">
+    <p></p>
+    <img src="images/tmt_logo_long_converted1-resized-600.png" alt="logo" id="tmaat">
+    <p></p>
+    <h1 id="demo">Choose your way to get quoted</h1>
+    <div class="launcher">
+        <div class="launcherOption">
+            <img src="images/livechat-icon.png" height="100" width="100" class="logo" alt="logo" style="width:auto";>
+            <button type="button" onclick="goToLiveChat()" >Start A live Chat</button>
+        </div>
+        <div class="launcherOption">
+            <img src="images/calendar.png" height="100" width="100" class="logo" alt="logo" style="width:auto";>
+            <button type="button" onclick="document.getElementById('schedule').style.display='block'">Schedule a Chat</button>
+        </div>
+        <div class="launcherOption">
+            <img src="images/iphoneIcon.png" height="100" width="100" class="logo" alt="logo" style="width:auto";>
+            <button type="button" onclick="goToMobileApp()">Use Image Recognition App</button>
+        </div>
+    </div>
 </div>
 </body>
 </html>

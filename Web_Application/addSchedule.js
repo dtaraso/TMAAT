@@ -53,7 +53,8 @@ $(document).ready(function() {
     });
 
 
-    $( "#schedule > button" ).click(function() {
+    $( "#scheduling > button" ).click(function() {
+        console.log("here");
         var cid = getURLParameter('cid');
 
         var time = $(this).text();
