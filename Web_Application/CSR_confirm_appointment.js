@@ -31,9 +31,12 @@ function cancel() {
 function submit_post() {
   var date = $('#date_confirm').val();
   var time = $('#time_confirm').find(':selected').text();
+  if (time != '10:00' && time != '10:30' && time != '11:00' && time != '11:30' && time != '12:00' && time != '12:30') {
+    time = '0' + time;
+  }
   var date_str = date+' '+time+":00";
   var datetime = new Date(date_str);
-
+  
   var joinRequest = new XMLHttpRequest();
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
   joinRequest.setRequestHeader("Auth-Token", token);
