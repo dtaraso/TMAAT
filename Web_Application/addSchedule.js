@@ -16,7 +16,9 @@ function goToMobileApp(){
 
 function goToLiveChat(){
     console.log("GoToLiveChat");
-    location.href = "https://cse.msu.edu/~will1907/tmaat/chat/preChat.html"
+    var email = getURLParameter('email');
+    var name= getURLParameter('name');
+    location.href = "https://cse.msu.edu/~will1907/tmaat/chat/preChat.html?" + "n=" + name + "&e=" + email;
 }
 function setEstimateID (){
     document.getElementById("myBtn").innerHTML = '';
@@ -41,7 +43,7 @@ $(document).ready(function() {
             success: function( result ) {
                 console.log("hey");
                 console.log(result);
-                location.href = "customerLauncher.html?cid=" + result + "&estimateid=" + estimateID;
+                location.href = "customerLauncher.html?cid=" + result + "&estimateid=" + estimateID + "&name=" + name + "&email=" + email;
             },
 
             error: function(xhr, status, error) {
