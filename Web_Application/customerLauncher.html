@@ -109,29 +109,7 @@
         }
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script type="text/javascript" src="addSchedule.js" >
-        // Get the modal
-        var modal = document.getElementById('schedule');
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
-
-        function closeNav() {
-            document.getElementById("overlay").style.height = "0";
-            document.getElementById("imgcontainer").style.marginBottom= "0";
-            document.body.style.backgroundColor = "white";
-        }
-
-        function closeNav1() {
-            document.getElementById("overlay1").style.height = "0";
-            document.getElementById("imgcontainer").style.marginBottom= "0";
-            document.body.style.backgroundColor = "white";
-        }
-    </script>
+    <script type="text/javascript" src="addSchedule.js" ></script>
 </head>
 <body>
 
@@ -187,5 +165,28 @@
         <p>When your appointment is confirmed, we will send you an email!</p>
     </div>
 </div>
+<script>
+    // Get the modal
+    var modal = document.getElementById('schedule');
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    function closeNav() {
+        document.getElementById("overlay").style.height = "0";
+        document.getElementById("imgcontainer").style.marginBottom= "0";
+        document.body.style.backgroundColor = "white";
+    }
+
+    function closeNav1() {
+        document.getElementById("overlay1").style.height = "0";
+        document.getElementById("imgcontainer").style.marginBottom= "0";
+        document.body.style.backgroundColor = "white";
+    }
+</script>
 </body>
 </html>
