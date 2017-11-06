@@ -64,12 +64,9 @@ function updateAppointmentQueue(){
         htmlString = "<h2>My Appointments</h2>";
 
         for (i=0 ; i<appointmentQueue.length ; i++){
-            htmlString += '<br>WHATEVER BRO ;)';
-            // date + time + customer name
-
-            //date = appointmentQueue[i].id;
-            //time = appointmentQueue[i].customertime;
-            //name =  appointmenteQueue[i].customerName;
+            time = appointmentQueue[i].time;
+            customerName = appointmentQueue[i].customerName;
+            htmlString += "<br>" + customerName + " " + time;
         }
 
         document.getElementById('appts').innerHTML = htmlString;
