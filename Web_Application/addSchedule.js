@@ -63,21 +63,24 @@ $(document).ready(function() {
             url: "https://35.9.22.105:5555//api/customerJoinScheduleQueue?cid=" + cid + "&ctime=" + time,
             type: "POST",
             success: function( result ) {
-                console.log("we did it!")
+                console.log("we did it!");
                 console.log(result);
                 if (result != undefined){
-                    location.href = "scheduleConfirmation.html"
+                    //location.href = "scheduleConfirmation.html";
+                    document.getElementById('schedule').style.display='none';
+                    document.getElementById('overlay1').style.height = '40%';
                 }
                 else{
-                    location.href = "scheduleNotConfirmed.html"
+                    //location.href = "scheduleNotConfirmed.html";
+                    document.getElementById('schedule').style.display='none';
+                    document.getElementById('overlay').style.height = '40%';
                 }
 
 
 
             },
             error: function(xhr, status, error) {
-                console.log("ho");
-                console.log(error);
+                alert("Something goes wrong here, please try again.");
             }
 
         });
