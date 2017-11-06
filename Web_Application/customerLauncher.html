@@ -65,7 +65,17 @@
         }
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
-    <script type="text/javascript" src="addSchedule.js" ></script>
+    <script type="text/javascript" src="addSchedule.js" >
+        // Get the modal
+        var modal = document.getElementById('schedule');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </head>
 <body>
 
@@ -73,10 +83,18 @@
     <span onclick="document.getElementById('schedule').style.display='none'" class="close" title="Close Modal">&times;</span>
     <form class="modal-content animate" id="scheduling" style="padding-left: 2%;padding-right: 2%;padding-bottom: 2%;border-radius: 30px;">
         <h2>What time do you prefer?</h2>
-        <img src="images/morning.jpg" style="width: 10%">
-        <button type="button" >Morning</button>
-        <button type="button" >Afternoon</button>
-        <button type="button" >Evening</button>
+        <div>
+            <img src="images/weather-sunrise.gif" style="width: 20%">
+            <button type="button" style="border-radius: 30px; width: auto;">Morning</button>
+        </div>
+        <div>
+            <img src="images/sun.gif" style="width: 20%">
+            <button type="button" style="border-radius: 30px; width: auto">Afternoon</button>
+        </div>
+        <div>
+            <img src="images/even.gif" style="width: 20%">
+            <button type="button" style="border-radius: 30px; width: auto">Evening</button>
+        </div>
     </form>
 </div>
 
