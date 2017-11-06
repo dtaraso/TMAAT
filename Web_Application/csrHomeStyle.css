@@ -4,17 +4,17 @@
     background-size: 10%;
     position: relative;
 }
-.layer{
+.layer {
     width: 100%; /* Full width (cover the whole page) */
     height: 100%; /* Full height (cover the whole page) */
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(84, 88, 90, 0.7);
 }
-body{
-    background-color: rgba(0,0,0,0.5);
+body {
+    background-color: rgba(84, 88, 90, 0.7);
 }
 
 h1{
