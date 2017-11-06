@@ -68,15 +68,15 @@ $(document).ready(function() {
                 if (result != undefined){
                     //location.href = "scheduleConfirmation.html";
                     document.getElementById('schedule').style.display='none';
-                    document.getElementById('overlay1').style.height = '250px';
-                    document.getElementById("imgcontainer").style.marginBottom = "250px";
+                    document.getElementById('overlay1').style.height = '400px';
+                    document.getElementById("imgcontainer").style.marginBottom = "400px";
                     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
                 }
                 else{
                     //location.href = "scheduleNotConfirmed.html";
                     document.getElementById('schedule').style.display='none';
-                    document.getElementById('overlay').style.height = '250px';
-                    document.getElementById("imgcontainer").style.marginBottom = "250px";
+                    document.getElementById('overlay').style.height = '400px';
+                    document.getElementById("imgcontainer").style.marginBottom = "400px";
                     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
                 }
 
