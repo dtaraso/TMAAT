@@ -53,7 +53,7 @@ $(document).ready(function() {
     });
 
 
-    $( "#scheduling > button" ).click(function() {
+    $( "#scheduling > div > button" ).click(function() {
         console.log("here");
         var cid = getURLParameter('cid');
 
