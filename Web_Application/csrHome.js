@@ -66,7 +66,7 @@ function updateAppointmentQueue(){
         for (i=0 ; i<appointmentQueue.length ; i++){
             time = appointmentQueue[i].time;
             customerName = appointmentQueue[i].customerName;
-            customerID = appointmentQueue[i].customerid;
+            customerID = appointmentQueue[i].id;
             htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' ' + time + '</a>';
         }
 
