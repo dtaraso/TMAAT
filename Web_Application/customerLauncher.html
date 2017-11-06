@@ -68,11 +68,12 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background-color: #008CBA;
             overflow: hidden;
             width: 100%;
             height: 0;
             transition: .5s ease;
+            z-index: 1;
+            background-color: #111;
         }
 
         .text {
@@ -86,6 +87,26 @@
             transform: translate(-50%, -50%);
             -ms-transform: translate(-50%, -50%);
         }
+        .overlay a {
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            font-size: 25px;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+
+        .overlay a:hover {
+            color: #f1f1f1;
+        }
+
+        .overlay .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+        }
     </style>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript" src="addSchedule.js" >
@@ -97,6 +118,12 @@
             if (event.target == modal) {
                 modal.style.display = "none";
             }
+        }
+        
+        function closeNav() {
+            document.getElementById("mySidenav").style.height = "0";
+            document.getElementById("main").style.marginBottom= "0";
+            document.body.style.backgroundColor = "white";
         }
     </script>
 </head>
@@ -143,9 +170,11 @@
 </div>
 
 <div class="overlay" id="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <div class="text">Sorry! You've already scheduled an appointment! Please wait until a CSR views your appointment request. An email will be sent to you once this occurs.</div>
 </div>
 <div class="overlay" id="overlay1">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <div class="text">Congrats! We've sent an appointment request over to our customer service agents. When your appointment is confirmed, we will send you an email!
     </div>
 </div>
