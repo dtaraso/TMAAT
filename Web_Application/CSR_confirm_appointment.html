@@ -4,15 +4,118 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="text/javascript" src="CSR_confirm_appointment.js"></script>
   <title>Confirm Appointment</title>
+  <style>
+    input[type=date], select{
+      width: 100%;
+      padding: 12px 20px;
+      margin: 8px 0;
+      display: inline-block;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      margin-top: 20px;
+      background-color: rgba(253, 255, 255, 0.66);
+    }
+    input[type=button],input[type=submit]{
+      background-color: #4CAF50;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      float: left;
+      width: 50%;
+    }
+    input[type=button]{
+      padding: 14px 20px;
+      background-color: #f44336;
+    }
+    input[type=button]:hover,input[type=submit]:hover{
+      opacity: 0.8;
+    }
+    input[type=button]:active,input[type=submit]:active{
+      background-color: #3e8e41;
+      box-shadow: 0 5px #666;
+      transform: translateY(4px);
+    }
+    .clearfix::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+    @media screen and (max-width: 300px) {
+      #cancel_confirm, #submit_confirm {
+        width: 100%;
+      }
+    }
+    h1{
+      text-align: center;
+      color: white;
+    }
+    input[type=date]{
+      margin-bottom: 20px;
+    }
+    .overlay{
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%; /* Full width (cover the whole page) */
+      height: 100%; /* Full height (cover the whole page) */
+      background-color: rgba(84, 88, 90, 0.7);
+      position: fixed;
+    }
+    body{
+      background-image: url("images/backgroundtmaat.jpg");
+      background-size: 100% 100%;
+      background-attachment: fixed;
+    }
+    .background{
+      width: 40%;
+      display: block;margin: auto;
+    }
+    b{
+      color: white;
+    }
+    #tmaat{
+      animation: shake 1s;
+      animation-iteration-count: 4;
+    }
+    @keyframes shake {
+      0% { transform: translate(1px, 1px) rotate(0deg); }
+      10% { transform: translate(-1px, -2px) rotate(-1deg); }
+      20% { transform: translate(-3px, 0px) rotate(1deg); }
+      30% { transform: translate(3px, 2px) rotate(0deg); }
+      40% { transform: translate(1px, -1px) rotate(1deg); }
+      50% { transform: translate(-1px, 2px) rotate(-1deg); }
+      60% { transform: translate(-3px, 1px) rotate(0deg); }
+      70% { transform: translate(3px, 1px) rotate(-1deg); }
+      80% { transform: translate(-1px, -1px) rotate(1deg); }
+      90% { transform: translate(1px, 2px) rotate(0deg); }
+      100% { transform: translate(1px, -2px) rotate(-1deg); }
+    }
+    .clearfix{
+      margin-top: 5%;
+    }
+    .background{
+      margin-top: 3%;
+    }
+  </style>
 </head>
 <body>
-  <h1>Confirm Appointment</h1>
-  Pick an appointment date:
-  <input type="date" id="date_confirm"><br>
-  Pick an appointment time:
-  <select id="time_confirm"><br>
-  <input type="button" id="cancel_confirm" value="Cancel" onclick="cancel();">
-  <input type="submit" id="submit_confirm" value="Confirm" onclick="submit_post();"><br>
-  </select>
+<div class="overlay" id="overlay" style="font-family: Arial;">
+  <div class="background">
+    <img src="images/white_logo.png" alt="logo" id="tmaat" style="margin-top: 3%;">
+    <h1>Confirm Appointment</h1>
+    <label><b>Pick an appointment date:</b></label>
+    <input type="date" id="date_confirm"><br>
+    <label><b>Pick an appointment time:</b></label>
+    <select id="time_confirm" style="margin-bottom: 3%"></select><br>
+    <div class="clearfix">
+      <input type="button" id="cancel_confirm" value="Cancel" onclick="cancel();">
+      <input type="submit" id="submit_confirm" value="Confirm" onclick="submit_post();"><br>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>
