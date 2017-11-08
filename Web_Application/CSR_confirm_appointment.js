@@ -31,10 +31,15 @@ function cancel() {
 function submit_post() {
   var date = $('#date_confirm').val();
   var time = $('#time_confirm').find(':selected').text();
+  var tod = "PM";
   if (time != '10:00' && time != '10:30' && time != '11:00' && time != '11:30' && time != '12:00' && time != '12:30') {
     time = '0' + time;
+    tod = "AM";
   }
-  var date_str = date+' '+time+":00";
+  else if (time == '8:00' || time == '8:30' || time == '9:00' || time == '9:30') {
+    tod = "AM";
+  }
+  var date_str = date+'-'+time+":00-"+tod;
   // var datetime = new Date(date_str);
 
   var joinRequest = new XMLHttpRequest();
