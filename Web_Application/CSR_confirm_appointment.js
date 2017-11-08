@@ -35,12 +35,10 @@ function submit_post() {
     time = '0' + time;
   }
   var date_str = date+' '+time+":00";
-  var datetime = new Date(date_str);
+  // var datetime = new Date(date_str);
 
-  alert(datetime);
-  alert(date_str);
   var joinRequest = new XMLHttpRequest();
-  joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
+  joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+date_str,true);
   joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onreadystatechange = function(){
     location.href = "https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html";
