@@ -44,7 +44,7 @@ function submit_post() {
   joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onreadystatechange = function(){
     alert(joinRequest.responseText);
-    location.href = "https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html";
+    // location.href = "https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html";
   };
   joinRequest.send();
 }
