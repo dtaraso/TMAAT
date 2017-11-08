@@ -36,7 +36,9 @@ function submit_post() {
   }
   var date_str = date+' '+time+":00";
   var datetime = new Date(date_str);
-  
+
+  alert(datetime);
+  alert(datetime.toISOString());
   var joinRequest = new XMLHttpRequest();
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
   joinRequest.setRequestHeader("Auth-Token", token);
