@@ -43,6 +43,7 @@ function submit_post() {
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+datetime.toISOString(),true);
   joinRequest.setRequestHeader("Auth-Token", token);
   joinRequest.onreadystatechange = function(){
+    alert(joinRequest.responseText);
     location.href = "https://dtaraso.github.io/TMAAT/Web_Application/csrHome.html";
   };
   joinRequest.send();
