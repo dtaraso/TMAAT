@@ -17,7 +17,11 @@ class Estimate{
     var tempList : [MovingItem]
     var RoomNames = ["Living Room", "Bedroom", "Kitchen", "Dining Room", "Home Office", "Garage", "Patio", "Business Office", "Business File Room", "Business Reception"]
     var ActualRoomNames = ["LivingRoom", "Bedroom", "Kitchen" , "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
+    var ImageNames = ["LivingRoom", "Bedroom", "Kitchen", "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
+    var RoomIDs = ["3", "1", "2", "8", "9", "4", "17", "12", "13", "22"]
     var fullList : [[String: Any]]?
+    var names = [(name: String, value: Int, movingItem: MovingItem, index: Int)]()
+    var finalEstimate : String?
     
     init(ID: String){
         estimateID = ID
@@ -166,44 +170,98 @@ class Estimate{
         }
     }
     
-    func getFinalEstimate(){
+    func getFinalEstimateRequest() -> URLRequest{
         
         let URI = "https://mwc.test.twomen.com/mwcwebapi/estimate/addInventoryToEstimate"
         let serverURL = URL(string: URI)
         var request = URLRequest(url:serverURL!)
         request.httpMethod = "POST"
         
-        let username = "msucapstone"
+        let username = "twomen\\msucapstone"
         let password = "Vf@tN7Ck"
         let loginString = String(format: "%@:%@", username, password)
         let loginData = loginString.data(using: String.Encoding.utf8)!
         let base64LoginString = loginData.base64EncodedString()
         request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = createEstimateBody()
+        
+        return request
         
         
-        let task =  URLSession.shared.dataTask(with: request,completionHandler: {
-            (data, response, error) -> Void in
-            
-            do{
-                
-                print(response)
-                
-            }catch{
-                
-                print("Whoops with the JSON")
-                
-            }
-            
-        })
-        task.resume()
         
     }
     
-    func createFinalEstimateRequestBody() -> Data{
+    func createEstimateBody() -> Data?{
         
-      print("Not implemented")
-      return [] as! Data
+        
+        var rooms_body = [[String: Any]]()
+        
+        for (idx, room) in rooms.enumerated(){
+            
+            if room.itemsToMove.count < 1{
+                continue
+            }
+            var items_body = [[String: Int]]()
+            
+            for item in room.itemsToMove{
+                
+                updateQuant(items: &items_body, itemID: item.itemID)
+                 
+                
+            }
+            
+            let room_entry = ["id": RoomIDs[idx], "name": ActualRoomNames[idx], "items": items_body] as [String : Any]
+            rooms_body.append(room_entry)
+
+            
+        }
+        
+        let body = ["estimateid": self.estimateID, "rooms":rooms_body] as [String : Any]
+        
+        do{
+            let jsonData = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+            return jsonData
+        }catch{
+            print("could not create estimate body")
+            return nil
+        }
+        
+        
+        
+        
+        
+        
+        
     }
+    
+    func updateQuant(items: inout [[String:Int]], itemID: Int){
+        var found = false
+        
+        for (idx,item) in items.enumerated(){
+            let id = item["id"]
+            
+            if id == itemID{
+                items[idx]["quantity"] = items[idx]["quantity"]! + 1
+                found = true
+            }
+        }
+        
+        if (!found){
+            let entry = ["id":itemID, "quantity": 1]
+            items.append(entry)
+        }
+     
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
     
     
     

@@ -25,9 +25,11 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     var estimateSession : Estimate!
     var tableController : FurnitureOverviewTableController?
     var selected : MovingItem?
+    var needsSelection  = true
     
     //Outlets
     @IBOutlet weak var finalTableView: UITableView!
+    @IBOutlet weak var getEstimateButton: UIButton!
     
     
     override func viewDidLoad() {
@@ -37,6 +39,13 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         self.navigationItem.setHidesBackButton(true, animated: false)
         tableController = FurnitureOverviewTableController(rooms: estimateSession.rooms)
         tableController?.drawList()
+        self.needsSelection = (tableController?.needsSelection)!
+        if self.needsSelection{
+            getEstimateButton.isHidden = true
+        }
+        else{
+            getEstimateButton.isHidden = false
+        }
             
         }
     
@@ -59,11 +68,13 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         
         cell.subcategoryButton.isHidden = false
         cell.subCategorytest.isHidden = false
+        
         if !furniture.movingItem.needSpecification {
           
             cell.subcategoryButton.isHidden = true
             cell.subCategorytest.isHidden = true
         }
+        
 
         cell.itemLabel.text = furniture.name
         
@@ -103,6 +114,15 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     
     func refresh() {
         tableController?.drawList()
+        self.needsSelection = (tableController?.needsSelection)!
+        if self.needsSelection{
+            
+            getEstimateButton.isHidden = true
+        }
+        else{
+            
+            getEstimateButton.isHidden = false
+        }
         self.finalTableView.reloadData()
     }
     
@@ -124,7 +144,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
             viewController.estimateSession = estimateSession
             
             var imageSet = [UIImage]()
-            for room in estimateSession.ActualRoomNames{
+            for room in estimateSession.ImageNames{
                 print(room)
                 let image = UIImage(named: room)
                 imageSet.append(image!)
