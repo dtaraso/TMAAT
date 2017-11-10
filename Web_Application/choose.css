@@ -162,8 +162,26 @@ span.psw {
     display:inline-block;
 
 }
+.homepage button{
+    margin-top: 5%;
+}
+
 body{
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url('images/backgroundtmaat.jpg');
     text-align: center;
+    background-attachment: fixed;
+}
+.layer{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    background-color: rgba(84, 88, 90, 0.7);
+    position: fixed;
 }
 .customerlogin {
     background-color: #4CAF50;
