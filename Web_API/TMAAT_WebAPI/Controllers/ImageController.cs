@@ -21,6 +21,9 @@ namespace TMAAT_WebAPI.Controllers
     {
         public static string WORKING_DIR = "C:\\Users\\Administrator\\Desktop\\darknet\\x64";
 
+        public static int TASK_NUMBER = 0;
+        private System.Object lockThis = new System.Object();
+
         [RequireHttpsFilter]
         [HttpGet]
         [Route("authTest")]
@@ -167,8 +170,9 @@ namespace TMAAT_WebAPI.Controllers
         }
 
         public string[] CopyToDarknet(string startPath) {
-            File.Copy(startPath, WORKING_DIR + "\\data\\upload.jpg");
-            return new string[] { "data/upload.jpg", WORKING_DIR + "\\data\\upload.jpg" };
+            string filename = startPath.Substring(startPath.LastIndexOf('\\'));
+            File.Copy(startPath, WORKING_DIR + "\\data\\" + filename + ".jpg");
+            return new string[] { "data/" + filename + ".jpg", WORKING_DIR + "\\data\\" + filename + ".jpg" };
         }
 
         private bool kindOfMatches(MovingItemEnum mie, string cur) {
