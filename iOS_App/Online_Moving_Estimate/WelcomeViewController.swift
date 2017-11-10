@@ -61,7 +61,7 @@ class WelcomeViewController: UIViewController {
             viewController.estimateSession = estimateSession
             
             var imageSet = [UIImage]()
-            for room in estimateSession.ActualRoomNames{
+            for room in estimateSession.ImageNames{
                 print(room)
                 let image = UIImage(named: room)
                 imageSet.append(image!)

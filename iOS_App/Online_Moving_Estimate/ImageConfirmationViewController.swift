@@ -41,6 +41,9 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
     
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         
@@ -68,6 +71,13 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         
  
         
+    }
+    
+    private func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.portrait
+    }
+    private func shouldAutorotate() -> Bool {
+        return false
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -129,7 +139,10 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     @IBAction func Retake(_ sender: Any) {
         
+        
         self.navigationController?.popViewController(animated: true)
+        let value = UIInterfaceOrientation.landscapeRight.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
         
     }
     
@@ -137,7 +150,10 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     @IBAction func Confirm(_ sender: Any) {
         
         estimateSession.confirmItems()
+        
         self.navigationController?.popViewController(animated: true)
+        let value = UIInterfaceOrientation.landscapeRight.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
         
     }
     
@@ -145,7 +161,11 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         if let viewController = segue.destination as? FinalScreenViewController{
             estimateSession.confirmItems()
             viewController.estimateSession = estimateSession
+            
         }
+        
+            
+        
     }
     
     
