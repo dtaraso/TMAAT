@@ -8,7 +8,7 @@ window.onload = function(){
     username = window.localStorage.getItem("username");
     token = window.localStorage.getItem("user-Token");
 
-    document.getElementById('csr_name').innerHTML = "<img src=\"images/moNX8nz0.jpg\" alt=\"Person\" width=\"96\" height=\"96\">"+"Logged in as " + username;
+    document.getElementById('csr_name').innerHTML = "Logged in as " + username;
     startUpdates();
 };
 
@@ -58,7 +58,7 @@ function updateAppointmentQueue(){
     appointmentQueueRequest.setRequestHeader("Auth-Token", token);
     appointmentQueueRequest.onload = function(){
         //console.log("appointment queue updating.");
-        console.log("appointment queue response: " + appointmentQueueRequest.response);
+        //console.log("appointment queue response: " + appointmentQueueRequest.response);
         appointmentQueue = JSON.parse(appointmentQueueRequest.response);
 
         htmlString = "<h2>My Appointments</h2>";
@@ -66,8 +66,8 @@ function updateAppointmentQueue(){
         for (i=0 ; i<appointmentQueue.length ; i++){
             time = appointmentQueue[i].time;
             customerName = appointmentQueue[i].customerName;
-            chatID = appointmentQueue[i].id;
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + chatID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' ' + time + '</a>';
+            customerID = appointmentQueue[i].id;
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' ' + time + '</a>';
         }
 
         document.getElementById('appts').innerHTML = htmlString;
