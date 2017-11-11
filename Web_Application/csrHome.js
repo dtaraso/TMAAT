@@ -40,7 +40,7 @@ function updateChatQueue(){
             chatID = queue[i].id;
             //chatURLstub = "betachat.html?n=CSR#"+ customerID;
 
-            //console.log(customerName + " : " + customerID);
+            console.log(customerName + " : " + customerID);
             //console.log(chatURLstub);
 
             htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a>';
