@@ -1,8 +1,8 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.v4.content.res.TypedArrayUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,14 +14,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static com.tmaat.dtara.onlinemovingestimator.Cloud.furnResponse;
@@ -172,7 +170,7 @@ public class FinalizeList extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                StringBuffer responseText = new StringBuffer();
+                final StringBuffer responseText = new StringBuffer();
                 responseText.append("The following were selected...\n");
 
                 ArrayList<Furniture> furnList = dataAdapter.furnList;
@@ -182,8 +180,44 @@ public class FinalizeList extends AppCompatActivity {
                         responseText.append("\n" + furn.getName());
                     }
                 }
-                Toast.makeText(getApplicationContext(),
-                        responseText, Toast.LENGTH_LONG).show();
+                final View view_final = v;
+
+                new Thread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        Cloud cloud = new Cloud();
+                        final boolean ok = cloud.FurnitureUpload(getApplicationContext());
+                        if (!ok) {
+                    /*
+                     * If we fail to save, display a toast
+                     */
+                            // Please fill this in...
+                            view_final.post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    //Toast.makeText(getApplicationContext(),
+                                    //        responseText, Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(),
+                                            "Failed to upload furniture.", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            view_final.post(new Runnable() {
+
+                                @Override
+                                public void run() {
+                                    ProgressDialog progress = new ProgressDialog(view_final.getContext());
+                                    progress.setMessage("Processing Estimate Information");
+                                    progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                                    progress.show();
+                                }
+                            });
+                        }
+                    }
+                }).start();
             }
         });
     }

@@ -15,11 +15,12 @@
             android:id="@+id/Popup"
             android:layout_width="64dp"
             android:layout_height="60dp"
-            android:layout_gravity="top|start"
+            android:layout_gravity="right|center_horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
             android:background="@android:drawable/ic_menu_search"
             android:gravity="bottom|center_horizontal"
+            android:rotation="90"
             android:text="@string/roomchoice"
             android:textColor="@android:color/holo_orange_dark"
             android:textSize="10sp"
@@ -28,15 +29,16 @@
 
         <Button
             android:id="@+id/button_capture"
-            android:text="@string/capture"
-            android:layout_width="137dp"
-            android:layout_height="103dp"
-            android:layout_gravity="bottom|center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginBottom="10dp"
             android:background="@android:drawable/ic_menu_camera"
-            android:textColorHighlight="@android:color/holo_orange_dark"
+            android:text="@string/capture"
             android:textColor="@android:color/holo_orange_dark"
-            android:textSize="18sp" />
+            android:textColorHighlight="@android:color/holo_orange_dark"
+            android:textSize="18sp"
+            tools:rotation="90" />
 
     </FrameLayout>
 

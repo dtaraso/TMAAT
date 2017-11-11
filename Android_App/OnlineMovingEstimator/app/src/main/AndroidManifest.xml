@@ -7,7 +7,6 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
@@ -25,7 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".camera" />
+        <activity android:name=".camera" android:screenOrientation="landscape"/>
         <activity android:name=".Choose" />
         <activity android:name=".Intro" />
         <activity android:name=".furn_catalog" />

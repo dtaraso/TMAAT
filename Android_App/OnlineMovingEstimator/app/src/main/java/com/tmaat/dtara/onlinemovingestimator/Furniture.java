@@ -8,6 +8,7 @@ public class Furniture {
     String ID = null;
     ArrayList<String> quantity = new ArrayList<String>();
     boolean selected = true;
+    int numOfFurn = 0;
 
     public Furniture(String name, String id, boolean selected, String room, ArrayList<String> quantity) {
         super();
@@ -16,6 +17,7 @@ public class Furniture {
         this.selected = selected;
         this.room = room;
         this.quantity = quantity;
+        this.quantity.add(id);
     }
 
     public String getName() {
@@ -34,4 +36,7 @@ public class Furniture {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+    public int getNumOfFurn() {return numOfFurn;}
+    public void incrementNumOfFurn() {numOfFurn = numOfFurn+1;}
 }
