@@ -751,7 +751,7 @@ TWO MEN AND A TRUCK");
         [Route("csrJoinScheduleQueue")]
         public HttpResponseMessage csrJoinScheduleQueue([FromUri] string username, [FromUri] int chatid, [FromUri] string date)
         {
-            var dateFinal = DateTime.ParseExact(date, "yyyy-MM-dd-HH:mm:ss-tt", CultureInfo.InvariantCulture);
+            var dateFinal = DateTime.ParseExact(date, "yyyy-MM-dd-hh:mm:ss-tt", CultureInfo.InvariantCulture);
             try
             {
                 var id = addCSRToDBScheduleQueue(getCsrId(username), chatid, dateFinal);
@@ -772,8 +772,7 @@ TWO MEN AND A TRUCK");
 
         public static int addCSRToDBScheduleQueue(int csrid, int chatid, DateTime date)
         {
-            //true if successfully added
-            int id = -1;
+            //returns chatid if successfully added
             var changed = 0;
             using (var conn = new MySqlConnection("Uid = manager;" +
                                                    "Pwd = rdelatable; Server = 127.0.0.1;" +
@@ -816,25 +815,9 @@ TWO MEN AND A TRUCK");
                 {
                     return -1;
                 }
-
-                string sql3 = "SELECT id FROM chatschedulequeue WHERE csremployeeid = @cid";
-                MySqlCommand cmd3 = new MySqlCommand(sql3, conn);
-                cmd3.Parameters.AddWithValue("@cid", chatid);
-                cmd3.Prepare();
-                MySqlDataReader rdr = cmd3.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    id = (int)rdr["id"];
-                }
-
                 conn.Close();
             }
-
-            //send notification email to customer
-
-
-            return id;
+            return chatid;
         }
 
         [RequireHttpsFilter]
@@ -897,8 +880,6 @@ WHERE chatschedulequeue.csremployeeid IS NULL";
             return queue;
         }
 
-        [RequireHttpsFilter]
-        [BasicAuthFilter]
         [HttpPost]
         [Route("removeChat")]
         public HttpResponseMessage removeChat([FromUri] int chatid)
