@@ -18,6 +18,7 @@ class FurnitureOverviewTableController{
     //Member Variables
     var rooms : [Room]
     var table : [(room :String, Furniture : [ FurnitureStruct ])]
+    var needsSelection = false
     
     
     init(rooms : [Room]){
@@ -26,7 +27,7 @@ class FurnitureOverviewTableController{
     }
     
     func drawList(){
-        
+        needsSelection = false
         table = [(room :String, Furniture : [ FurnitureStruct ])]()
         var room_count = -1
         for room in rooms{
@@ -37,6 +38,7 @@ class FurnitureOverviewTableController{
                 for (item) in room.itemsToMove{
                     if (item.needSpecification){
                         nameToAdd = item.genericName!
+                        self.needsSelection = true
                     }
                     else{
                         nameToAdd = item.itemName

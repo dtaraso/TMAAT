@@ -4,6 +4,7 @@ body {
     background-color: #fefefe;
 }
 
+
 .overlay {
     height: 0;
     width: 100%;
@@ -67,8 +68,8 @@ body {
     animation-iteration-count: infinite;
 }
 .mobile{
-    animation: shake2 0.75s;
-    animation-iteration-count: 4;
+    animation: shake2 1.5s;
+    animation-iteration-count: 2;
 }
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }

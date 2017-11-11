@@ -56,6 +56,10 @@ class ViewController: UIViewController{
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
             videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
+            
+            let orientation = UIDevice.current.orientation
+            videoPreviewLayer?.connection.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue)!
+            
             cameraView.layer.addSublayer(videoPreviewLayer!)
             
             //begin capture session
@@ -64,6 +68,7 @@ class ViewController: UIViewController{
             //setup camera output
             capturePhotoOutput = AVCapturePhotoOutput()
             capturePhotoOutput?.isHighResolutionCaptureEnabled = false
+            
             captureSession?.addOutput(capturePhotoOutput)
             
             
@@ -79,9 +84,29 @@ class ViewController: UIViewController{
         title = roomName
         
         
+        let value = UIInterfaceOrientation.landscapeRight.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
         
         
-        
+    }
+    
+    
+    
+    func back(sender: UIBarButtonItem) {
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        _ = navigationController?.popViewController(animated: true)
+    }
+    
+    private func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscapeRight
+    }
+    private func shouldAutorotate() -> Bool {
+        return false
     }
     
 

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -748,14 +749,15 @@ TWO MEN AND A TRUCK");
         [BasicAuthFilter]
         [HttpPost]
         [Route("csrJoinScheduleQueue")]
-        public HttpResponseMessage csrJoinScheduleQueue([FromUri] string username, [FromUri] int chatid, [FromUri] DateTime date)
+        public HttpResponseMessage csrJoinScheduleQueue([FromUri] string username, [FromUri] int chatid, [FromUri] string date)
         {
+            var dateFinal = DateTime.ParseExact(date, "yyyy-MM-dd-hh:mm:ss-tt", CultureInfo.InvariantCulture);
             try
             {
-                var id = addCSRToDBScheduleQueue(getCsrId(username), chatid, date);
-                sendCustomerEmail(date, username, chatid);
+                var id = addCSRToDBScheduleQueue(getCsrId(username), chatid, dateFinal);
                 if (id > 0)
                 {
+                    sendCustomerEmail(dateFinal, username, chatid);
                     var response = new HttpResponseMessage(HttpStatusCode.OK);
                     response.Content = new StringContent(id.ToString());
                     return response;
@@ -770,8 +772,7 @@ TWO MEN AND A TRUCK");
 
         public static int addCSRToDBScheduleQueue(int csrid, int chatid, DateTime date)
         {
-            //true if successfully added
-            int id = -1;
+            //returns chatid if successfully added
             var changed = 0;
             using (var conn = new MySqlConnection("Uid = manager;" +
                                                    "Pwd = rdelatable; Server = 127.0.0.1;" +
@@ -814,25 +815,9 @@ TWO MEN AND A TRUCK");
                 {
                     return -1;
                 }
-
-                string sql3 = "SELECT id FROM chatschedulequeue WHERE csremployeeid = @cid";
-                MySqlCommand cmd3 = new MySqlCommand(sql3, conn);
-                cmd3.Parameters.AddWithValue("@cid", chatid);
-                cmd3.Prepare();
-                MySqlDataReader rdr = cmd3.ExecuteReader();
-
-                while (rdr.Read())
-                {
-                    id = (int)rdr["id"];
-                }
-
                 conn.Close();
             }
-
-            //send notification email to customer
-
-
-            return id;
+            return chatid;
         }
 
         [RequireHttpsFilter]
@@ -895,8 +880,6 @@ WHERE chatschedulequeue.csremployeeid IS NULL";
             return queue;
         }
 
-        [RequireHttpsFilter]
-        [BasicAuthFilter]
         [HttpPost]
         [Route("removeChat")]
         public HttpResponseMessage removeChat([FromUri] int chatid)
@@ -1074,7 +1057,7 @@ WHERE chatschedulequeue.id = @chatid";
             var msg = new MailMessage("tmaat.automation@gmail.com", email, "TMAAT Moving Estimate Scheduled",
             String.Format(@"<p>Hello {0},</p>
 <p>{1} has scheduled a video chat estimate with you on {2}.</p>
-<p>Use <a href='https://cse.msu.edu/~will1907/tmaat/beta/betachat.html?n={0}#{3}'>this link</a> to join at that time.</p>
+<p>Use <a href='https://cse.msu.edu/~will1907/tmaat/chat/chat.html?n={0}#{3}'>this link</a> to join at that time.</p>
 <p>Thank you,</p>
 <p>TWO MEN AND A TRUCK</p>
 <p>734.249.6072</p>", customerName, csrName, date.ToString(), chatid));
