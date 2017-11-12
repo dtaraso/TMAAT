@@ -68,7 +68,7 @@ function updateAppointmentQueue(){
             customerName = appointmentQueue[i].customerName;
             customerID = appointmentQueue[i].id;
             chatID = customerID;
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' on ' + time.toString() + '</a>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' on ' + time.toLocaleString() + '</a>';
         }
 
         document.getElementById('appts').innerHTML = htmlString;
