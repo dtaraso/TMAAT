@@ -34,14 +34,14 @@ function submit_post() {
   var tod = "PM";
   if (time != '10:00' && time != '10:30' && time != '11:00' && time != '11:30' && time != '12:00' && time != '12:30') {
     time = '0' + time;
-    tod = "AM";
   }
-  else if (time == '8:00' || time == '8:30' || time == '9:00' || time == '9:30') {
+  if (getURLParameter('n') == 'Morning') {
     tod = "AM";
   }
   var date_str = date+'-'+time+":00-"+tod;
   // var datetime = new Date(date_str);
 
+  alert(date_str);
   var joinRequest = new XMLHttpRequest();
   joinRequest.open("POST","https://35.9.22.105:5555/api/csrJoinScheduleQueue?username=" + getURLParameter('n') + "&chatid=" + getURLParameter('i') + "&date="+date_str,true);
   joinRequest.setRequestHeader("Auth-Token", token);
