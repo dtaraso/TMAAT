@@ -64,11 +64,11 @@ function updateAppointmentQueue(){
         htmlString = "<h2>My Appointments</h2>";
 
         for (i=0 ; i<appointmentQueue.length ; i++){
-            time = appointmentQueue[i].time;
+            time = new Date(appointmentQueue[i].time);
             customerName = appointmentQueue[i].customerName;
             customerID = appointmentQueue[i].id;
             chatID = customerID;
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' ' + time + '</a>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' on ' + time.toString() + '</a>';
         }
 
         document.getElementById('appts').innerHTML = htmlString;
