@@ -123,6 +123,7 @@ public class Cloud {
 
     public boolean FurnitureUpload(final Context context) {
         Log.e("476","in furniture upload function");
+        MainActivity.est.updateRoomList();
         JSONObject finalJSON = createJSON();
         ImageService service = tmaat_initialize();
         String basicAuth = "Basic " + Base64.encodeToString((username+":"+password).getBytes(), Base64.NO_WRAP);

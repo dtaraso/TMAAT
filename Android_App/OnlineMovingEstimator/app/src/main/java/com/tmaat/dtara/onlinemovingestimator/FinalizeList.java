@@ -89,7 +89,6 @@ public class FinalizeList extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             FinalizeList.MyCustomAdapter.ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(
@@ -105,10 +104,6 @@ public class FinalizeList extends AppCompatActivity {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
                         Furniture furn = (Furniture) cb.getTag();
-                        Toast.makeText(getApplicationContext(),
-                                "Clicked on Checkbox: " + cb.getText() +
-                                        " is " + cb.isChecked(),
-                                Toast.LENGTH_LONG).show();
                         furn.setSelected(cb.isChecked());
                     }
                 });

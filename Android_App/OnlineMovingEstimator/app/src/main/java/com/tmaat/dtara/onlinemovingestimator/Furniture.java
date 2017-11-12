@@ -39,4 +39,6 @@ public class Furniture {
 
     public int getNumOfFurn() {return numOfFurn;}
     public void incrementNumOfFurn() {numOfFurn = numOfFurn+1;}
+
+    public String getRoom() {return room;}
 }

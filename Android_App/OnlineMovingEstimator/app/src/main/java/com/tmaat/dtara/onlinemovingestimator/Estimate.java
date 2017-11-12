@@ -47,7 +47,7 @@ public class Estimate {
         return furnitureList;
     }
     public void addToTotalList() {
-        updateTempList(); updateRoomList(); furnitureList.addAll(tempFurnList); tempFurnList.clear();
+        updateTempList(); /*updateRoomList();*/ furnitureList.addAll(tempFurnList); tempFurnList.clear();
     }
 
     public void updateTempList() {
@@ -68,23 +68,28 @@ public class Estimate {
 
     public void updateRoomList() {
         ArrayList<Furniture> newList;
-        if (roomFurnList.containsKey(room)) {
-            newList = roomFurnList.get(room);
-            roomFurnList.remove(room);
-
-        } else {
-            newList = new ArrayList<Furniture>();
-        }
-            for (Furniture f : tempFurnList) {
-                if (!withinArray(newList,f)) {
-                    f.incrementNumOfFurn();
-                    newList.add(f);
-                } else {
-                    Furniture ff = newList.get(indexArray(newList,f));
-                    ff.incrementNumOfFurn();
+        for (String r: RoomList) {
+            if (roomFurnList.containsKey(r)) {
+                newList = roomFurnList.get(r);
+                roomFurnList.remove(room);
+            } else {
+                newList = new ArrayList<Furniture>();
+            }
+            for (Furniture f : furnitureList) {
+                if (f.getRoom().equals(r)) {
+                    if (!withinArray(newList, f)) {
+                        f.incrementNumOfFurn();
+                        newList.add(f);
+                    } else {
+                        Furniture ff = newList.get(indexArray(newList, f));
+                        ff.incrementNumOfFurn();
+                    }
                 }
             }
-            roomFurnList.put(room, newList);
+            if (newList.size() > 0) {
+                roomFurnList.put(r, newList);
+            }
+        }
     }
 
     public boolean withinArray(ArrayList<Furniture> newList, Furniture f) {
