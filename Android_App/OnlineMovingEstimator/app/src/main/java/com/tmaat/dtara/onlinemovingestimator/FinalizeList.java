@@ -116,7 +116,6 @@ public class FinalizeList extends AppCompatActivity {
                 final ViewHolder holder1 = holder;
                 holder.classify.setOnClickListener( new View.OnClickListener() {
                         public void onClick(View v) {
-                            // CharSequence[] items = { "Mango", "Banana", "Apple" };
                             Button cb = (Button) v ;
 
                             final Furniture furn = (Furniture) cb.getTag();
@@ -188,7 +187,7 @@ public class FinalizeList extends AppCompatActivity {
                     public void run() {
 
                         Cloud cloud = new Cloud();
-                        final boolean ok = cloud.FurnitureUpload(getApplicationContext());
+                        final boolean ok = cloud.FurnitureUpload(view_final.getContext());
                         if (!ok) {
                     /*
                      * If we fail to save, display a toast

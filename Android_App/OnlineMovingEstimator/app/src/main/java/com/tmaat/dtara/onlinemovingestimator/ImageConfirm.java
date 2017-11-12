@@ -25,12 +25,20 @@ public class ImageConfirm extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_image_confirm);
 
-        setUpFurnitureList();
-        displayListView();
-        checkButtonClick();
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState == null) {
+            setContentView(R.layout.activity_image_confirm);
+
+            setUpFurnitureList();
+            displayListView();
+            checkButtonClick();
+        } else {
+            setContentView(R.layout.activity_image_confirm);
+            displayListView();
+            checkButtonClick();
+        }
     }
 
     ImageConfirm.MyCustomAdapter dataAdapter = null;
