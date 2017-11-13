@@ -16,21 +16,27 @@ internal struct FurnitureStruct{
 class FurnitureOverviewTableController{
     
     //Member Variables
-    var rooms : [Room]
-    var table : [(room :String, Furniture : [ FurnitureStruct ])]
+    var pics : [Picture]
+    var table : [(pic :String, Furniture : [ FurnitureStruct ])]
     var needsSelection = false
     
     
-    init(rooms : [Room]){
-        self.rooms = rooms
-        self.table = [(room :String, Furniture : [ FurnitureStruct ])]()
+    init(pics : [Picture]){
+        self.pics = pics
+        self.table = [(pic :String, Furniture : [ FurnitureStruct ])]()
     }
     
+    /*
     func drawList(){
         needsSelection = false
         table = [(room :String, Furniture : [ FurnitureStruct ])]()
         var room_count = -1
+        
+        
         for room in rooms{
+            
+            
+            
             if room.itemsToMove.count > 0{
                 room_count = room_count + 1
                 table.append((room: room.Name, Furniture: []))
@@ -55,6 +61,50 @@ class FurnitureOverviewTableController{
         
         
     }
+    */
+    
+    func drawList(){
+        needsSelection = false
+        table = [(pic :String, Furniture : [ FurnitureStruct ])]()
+        var pic_count = -1
+    
+        
+            
+            for pic in pics{
+                
+                
+                
+                pic_count = pic_count + 1
+                table.append((pic: "Image " + String(pic.number! + 1) + " - " + pic.room.Name, Furniture: []))
+                var nameToAdd: String
+                
+                if !pic.doneLoading{
+                    table[pic_count].Furniture.append(FurnitureStruct(name: "Loading...", movingItem: MovingItem(category: "none", name: "loading...", ID: -1, relatedItems: [Int]())))
+                }
+                else if pic.itemsToMove.count == 0{
+                    table[pic_count].Furniture.append(FurnitureStruct(name: "No Items Detected", movingItem: MovingItem(category: "none", name: "no items detected", ID: -1, relatedItems: [Int]())))
+                }
+                
+                    for item in pic.itemsToMove{
+                        if (item.needSpecification){
+                            nameToAdd = item.genericName!
+                            self.needsSelection = true
+                        }
+                        else{
+                            nameToAdd = item.itemName
+                        }
+                        
+                        table[pic_count].Furniture.append(FurnitureStruct(name: nameToAdd, movingItem: item))
+                        
+                    }
+                
+            
+    
+        }
+    
+    
+    
+    }
     
     func getNumberOfRows(section: Int) -> Int{
         return table[section].Furniture.count
@@ -65,7 +115,7 @@ class FurnitureOverviewTableController{
     }
     
     func getTitleForSection(section: Int) -> String{
-        return table[section].room
+        return table[section].pic
     }
     
     func getFurniture(location: Int) -> FurnitureStruct{

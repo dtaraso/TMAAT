@@ -13,12 +13,14 @@ class WelcomeViewController: UIViewController {
     //Member Variables
     var estimateSession : Estimate!
     
+    @IBOutlet weak var gotIT: UIButton!
+    
     
 
     override func viewDidLoad() {
         super.viewDidLoad()
         estimateSession.getFullList()
-        
+        gotIT.layer.cornerRadius = 5
         title = "Weclome!"
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
         

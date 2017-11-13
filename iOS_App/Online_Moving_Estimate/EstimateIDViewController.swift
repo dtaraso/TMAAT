@@ -20,7 +20,9 @@ class EstimateIDViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        estimateText.becomeFirstResponder()
+        ContinueButton.layer.cornerRadius = 5
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         // Do any additional setup after loading the view.
     }
     

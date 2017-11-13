@@ -12,16 +12,24 @@ import Foundation
 class Room{
     
     //Member Variables
-    var itemsToMove: [MovingItem]
+
+    var pictures: [Picture]
+    
     var Name: String!
     
     init(name: String){
-        itemsToMove = [MovingItem]()
+        pictures = [Picture]()
         Name = name
+        
     }
     
-    func addItem(item : MovingItem){
-        itemsToMove.append(item)
+    func addPicture(count: Int) -> Picture{
+        let pic = Picture(number: count, room: self)
+        pictures.append(pic)
+        
+        return pic
     }
+    
+    
     
 }

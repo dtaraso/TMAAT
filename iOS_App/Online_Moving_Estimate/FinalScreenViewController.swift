@@ -19,25 +19,38 @@ class FinalFurnitureCell: UITableViewCell{
 
 
 
-class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SubCategoryDelegate {
+class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SubCategoryDelegate, EditDelegate {
     
     //Member Variables
     var estimateSession : Estimate!
     var tableController : FurnitureOverviewTableController?
     var selected : MovingItem?
     var needsSelection  = true
-    
+    var picToEdit : Picture?
+    var observerRegistered = false
     //Outlets
     @IBOutlet weak var finalTableView: UITableView!
     @IBOutlet weak var getEstimateButton: UIButton!
+    let name = Notification.Name("ImageRequestComplete")
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        createObserver()
+        
+        getEstimateButton.layer.cornerRadius = 5
+        
+        self.navigationItem.hidesBackButton = true
+        let newBackButton = UIBarButtonItem(title: "Camera", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FinalScreenViewController.back(sender:)))
+        self.navigationItem.leftBarButtonItem = newBackButton
+        
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
+        
+        
         title = "All Items Captured"
-        self.navigationItem.setHidesBackButton(true, animated: false)
-        tableController = FurnitureOverviewTableController(rooms: estimateSession.rooms)
+        tableController = FurnitureOverviewTableController(pics: estimateSession.pictures)
         tableController?.drawList()
         self.needsSelection = (tableController?.needsSelection)!
         if self.needsSelection{
@@ -51,7 +64,18 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     
+    func back(sender: UIBarButtonItem) {
         
+        
+        _ = navigationController?.popViewController(animated: true)
+        
+    }
+    
+    func createObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(FinalScreenViewController.refresh), name: name, object: nil)
+    }
+    
+    
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -69,7 +93,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         cell.subcategoryButton.isHidden = false
         cell.subCategorytest.isHidden = false
         
-        if !furniture.movingItem.needSpecification {
+        if !(furniture.movingItem.needSpecification) {
           
             cell.subcategoryButton.isHidden = true
             cell.subCategorytest.isHidden = true
@@ -95,9 +119,37 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         return 60.0;//Choose your custom row height
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return tableController?.getTitleForSection(section: section)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = UIColor.lightGray
+        
+        let button = UIButton(frame: CGRect(x: 330, y: 5, width: 35, height: 35))
+        button.tag = section
+        button.setTitle("Edit", for: [])
+        
+        button.addTarget(self, action: #selector(FinalScreenViewController.editPic(button:)), for: .touchDown)
+        
+        
+        let label = UILabel()
+        label.text = tableController?.getTitleForSection(section: section)
+        label.textColor = UIColor.white
+        label.frame = CGRect(x: 9, y: 5, width: 200, height: 35)
+        view.addSubview(label)
+        view.addSubview(button)
+        
+        return view
     }
+    
+    func editPic(button: UIButton) {
+        performSegue(withIdentifier: "edit", sender: button)
+        
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 45
+    }
+    
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -113,7 +165,12 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     }
     
     func refresh() {
+        
+        print("ayyyy")
+
+        tableController = FurnitureOverviewTableController(pics: estimateSession.pictures)
         tableController?.drawList()
+        
         self.needsSelection = (tableController?.needsSelection)!
         if self.needsSelection{
             
@@ -128,7 +185,13 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     
+    
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
+        
+        
         if let viewController = segue.destination as? SubCategoryViewController{
             viewController.selected = selected
             viewController.estimateSession = estimateSession
@@ -136,10 +199,14 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         }
         else if let viewController = segue.destination as? FinalEstimateViewController{
             
+            
             viewController.estimateSession = estimateSession
             
         }
-        if let viewController = segue.destination as? RoomSelectorViewController{
+        else if let viewController = segue.destination as? RoomSelectorViewController{
+            
+            
+            
             estimateSession.resetExceptID()
             viewController.estimateSession = estimateSession
             
@@ -157,6 +224,15 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
             
             
         }
+        else if let viewController = segue.destination as? ImageConfirmationViewController{
+            
+            
+            viewController.estimateSession = estimateSession
+            viewController.delegate = self
+            let button = sender as! UIButton
+            viewController.currentPic = estimateSession.getPicure(count: button.tag)
+        }
+        
     }
     
 

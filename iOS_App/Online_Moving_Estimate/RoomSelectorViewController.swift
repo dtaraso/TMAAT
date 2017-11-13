@@ -30,6 +30,8 @@ class RoomSelectorViewController: UIViewController, UICollectionViewDelegate, UI
         var cell = roomCollectionView.dequeueReusableCell(withReuseIdentifier: "room", for: indexPath) as! roomCell
         
         cell.theImage.image = imageSet![indexPath.item]
+        cell.theImage.layer.cornerRadius = cell.theImage.frame.size.width / 2
+        cell.theImage.clipsToBounds = true
         cell.roomName.text = estimateSession.RoomNames[indexPath.item]
         
         
@@ -90,6 +92,7 @@ class RoomSelectorViewController: UIViewController, UICollectionViewDelegate, UI
             
             viewController.estimateSession = estimateSession
             viewController.roomName = roomSelection
+            
 
             
         }
