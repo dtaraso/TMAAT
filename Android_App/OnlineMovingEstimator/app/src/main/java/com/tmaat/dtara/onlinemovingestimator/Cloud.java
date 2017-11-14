@@ -125,15 +125,17 @@ public class Cloud {
         Log.e("476","in furniture upload function");
         MainActivity.est.updateRoomList();
         JSONObject finalJSON = createJSON();
+        Log.e("476",finalJSON.toString());
         ImageService service = tmaat_initialize();
         String basicAuth = "Basic " + Base64.encodeToString((username+":"+password).getBytes(), Base64.NO_WRAP);
 
+        Log.e("476","HERE");
         service.postJSON(basicAuth, finalJSON);
         Call<QuickEstimateResponse> call = service.postJSON(basicAuth, finalJSON);
         call.enqueue(new Callback<QuickEstimateResponse>() {
             @Override
             public void onResponse(Call<QuickEstimateResponse> call, Response<QuickEstimateResponse> response) {
-                Log.e("476","image upload Response");
+                Log.e("476","TMAAT upload Response");
                 EstimateResponse = response.body();
                 Intent intent = new Intent(context, QuickEstimate.class);
                 context.startActivity(intent);
@@ -141,7 +143,7 @@ public class Cloud {
 
             @Override
             public void onFailure(Call<QuickEstimateResponse> call, Throwable t) {
-                Log.e("476","image upload FAILURE");
+                Log.e("476","TMAAT upload FAILURE");
                 Log.e("476",t.getMessage());
             }
         });
@@ -172,7 +174,6 @@ public class Cloud {
                 roomArray.put(roomBody);
             }
             jsonBody.put("rooms",roomArray);
-            Log.e("476",jsonBody.toString());
             return jsonBody;
         } catch (JSONException e) {
             Log.e("476", e.getMessage());

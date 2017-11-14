@@ -6,7 +6,7 @@ package com.tmaat.dtara.onlinemovingestimator;
 
 public class QuickEstimateResponse {
 
-    public String totalCost;
-    public boolean success;
-    public String message;
+    public String totalCost = "";
+    public boolean success = false;
+    public String message = "";
 }

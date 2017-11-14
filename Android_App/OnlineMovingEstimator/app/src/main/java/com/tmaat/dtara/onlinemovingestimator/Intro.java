@@ -26,6 +26,7 @@ public class Intro extends AppCompatActivity {
                 final boolean ok = cloud.getItems();
             }
         }).start();
+
         Typeface face;
         face = Typeface.createFromAsset(getAssets(),"1.otf");
         TextView textView = (TextView)findViewById(R.id.aboutTitle);

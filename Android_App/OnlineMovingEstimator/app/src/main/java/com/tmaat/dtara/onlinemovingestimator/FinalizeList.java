@@ -148,7 +148,7 @@ public class FinalizeList extends AppCompatActivity {
             holder.name.setTag(furn);
             holder.classify.setTag(furn);
 
-            if (furn.quantity.size() == 0) {
+            if (furn.quantity.size() <= 1) {
                 holder.classify.setVisibility(View.GONE);
             }
 
