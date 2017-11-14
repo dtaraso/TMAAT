@@ -8,47 +8,47 @@
 
 import Foundation
 
-class Estimate{
+class Estimate: NSObject{
     
     //Member Variables
     var estimateID : String
     var rooms : [Room]
     var currentRoom: Int
     var tempList : [MovingItem]
+    var picCount : Int
+    var pictures : [Picture]
     var RoomNames = ["Living Room", "Bedroom", "Kitchen", "Dining Room", "Home Office", "Garage", "Patio", "Business Office", "Business File Room", "Business Reception"]
     var ActualRoomNames = ["LivingRoom", "Bedroom", "Kitchen" , "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
     var ImageNames = ["LivingRoom", "Bedroom", "Kitchen", "DiningRoom", "Office", "Garage", "Patio", "BusinessOffice", "BusinessFileRoom", "BusinessReception"]
     var RoomIDs = ["3", "1", "2", "8", "9", "4", "17", "12", "13", "22"]
     var fullList : [[String: Any]]?
-    var names = [(name: String, value: Int, movingItem: MovingItem, index: Int)]()
     var finalEstimate : String?
     
     init(ID: String){
+        
+        
         estimateID = ID
         rooms = [Room]()
+        pictures = [Picture]()
         tempList = [MovingItem]()
         currentRoom = -1
+        picCount = 0
         
         for name in ActualRoomNames{
             let newRoom = Room(name: name)
             rooms.append(newRoom)
         }
         
+        super.init()
+        
         self.getFullList()
         
     }
     
-    func confirmItems(){
-        
-        for item in tempList{
-            addItem(item: item)
-        }
-        tempList = []
-    }
     
     func postImage(image: Data) -> URLRequest{
         
-        let URI = "http://35.9.22.105:8555/api/uploadImage" + "?room=" + getRoomName()
+        let URI = "http://35.9.22.105:1234/api/uploadImage" + "?room=" + getRoomName()
         
         let serverURL = URL(string: URI)
         
@@ -69,7 +69,7 @@ class Estimate{
     }
     
     func getFullList(){
-        let URI = "http://35.9.22.105:8555/api/getItems"
+        let URI = "http://35.9.22.105:1234/api/getItems"
         let serverURL = URL(string: URI)
         var request = URLRequest(url:serverURL!)
         request.httpMethod = "GET"
@@ -93,13 +93,14 @@ class Estimate{
         
     }
     
-    func parseJson(json: [[String: Any]]){
+    func parseJson(json: [[String: Any]], pic: Picture){
         
         if (json.count == 0){
             return
         }
         else{
             print(json)
+            
             for item in json{
                 let newItem : MovingItem?
                 let category = item["category"] as! String
@@ -111,7 +112,7 @@ class Estimate{
                 let related = item["relatedInCategory"] as! [Int]
                 let generic = item["generic"] as! String?
                 newItem = MovingItem(category: category, name: name, ID: ID, relatedItems: related, generic: generic)
-                tempList.append(newItem!)
+                pic.addItem(item: newItem!)
                 
 
                 
@@ -135,16 +136,44 @@ class Estimate{
         
         body.appendString(string: "--\(boundary)--\r\n")
         
+        
         return body as Data
     }
     
-    func addItem(item : MovingItem){
-        rooms[currentRoom].addItem(item: item)
+
+    
+    func createPicture() -> Picture{
+        let room = getRoom()
+        let pic = room.addPicture(count: picCount)
+        pictures.append(pic)
+        picCount = picCount + 1
+        return pic
     }
     
-    func addRoom(room: Room){
-        rooms.append(room)
-        currentRoom = currentRoom + 1
+    func replacePic(pic: Picture) -> Picture{
+        let room = pic.room
+        let new_pic = Picture(number: pic.number!, room: room)
+        let pic_index_in_room = room.pictures.index(of: pic)
+        let pic_index_in_estimate = pictures.index(of: pic)
+        
+        pictures[pic_index_in_estimate!] = new_pic
+        room.pictures[pic_index_in_room!] = new_pic
+        
+        return new_pic
+    }
+    
+    func deletePic(pic: Picture){
+        let room = pic.room
+        let pic_index_in_room = room.pictures.index(of: pic)
+        let pic_index_in_estimate = pictures.index(of: pic)
+        
+        pictures.remove(at: pic_index_in_estimate!)
+        room.pictures.remove(at: pic_index_in_room!)
+    }
+    
+    
+    func getPicure(count: Int) -> Picture{
+        return pictures[count]
     }
     
     func getRoomName() -> String{
@@ -162,13 +191,18 @@ class Estimate{
     func resetExceptID(){
         rooms = [Room]()
         tempList = [MovingItem]()
+        picCount = 0
+        
         currentRoom = -1
+        
         
         for name in ActualRoomNames{
             let newRoom = Room(name: name)
             rooms.append(newRoom)
         }
     }
+    
+    
     
     func getFinalEstimateRequest() -> URLRequest{
         
@@ -192,6 +226,9 @@ class Estimate{
         
     }
     
+    
+    
+    
     func createEstimateBody() -> Data?{
         
         
@@ -199,26 +236,32 @@ class Estimate{
         
         for (idx, room) in rooms.enumerated(){
             
-            if room.itemsToMove.count < 1{
-                continue
-            }
-            var items_body = [[String: Int]]()
-            
-            for item in room.itemsToMove{
+            for pic in room.pictures{
                 
-                updateQuant(items: &items_body, itemID: item.itemID)
-                 
+                if pic.itemsToMove.count < 1{
+                    continue
+                }
+                var items_body = [[String: Int]]()
+                
+                for item in pic.itemsToMove{
+                    
+                    updateQuant(items: &items_body, itemID: item.itemID)
+                    
+                    
+                }
+                
+                let room_entry = ["id": RoomIDs[idx], "name": ActualRoomNames[idx], "items": items_body] as [String : Any]
+                rooms_body.append(room_entry)
+                
                 
             }
             
-            let room_entry = ["id": RoomIDs[idx], "name": ActualRoomNames[idx], "items": items_body] as [String : Any]
-            rooms_body.append(room_entry)
 
             
         }
         
         let body = ["estimateid": self.estimateID, "rooms":rooms_body] as [String : Any]
-        
+        print(body)
         do{
             let jsonData = try JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
             return jsonData
@@ -227,12 +270,7 @@ class Estimate{
             return nil
         }
         
-        
-        
-        
-        
-        
-        
+     
     }
     
     func updateQuant(items: inout [[String:Int]], itemID: Int){

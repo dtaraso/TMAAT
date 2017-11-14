@@ -36,7 +36,7 @@ class MovingItem: NSCopying{
         
     }
     
-    init(category: String, name: String, ID: Int, secondRelatedItems: [Int], generic : String? = nil ){
+    init(category: String, name: String, ID: Int, secondRelatedItems: [Int], generic : String? = nil, specification: Bool ){
         
         itemCategory = category
         itemName = name
@@ -44,16 +44,12 @@ class MovingItem: NSCopying{
         relatedItemsIDs = secondRelatedItems
         genericName = generic
         
-        if relatedItemsIDs.count > 1{
-            needSpecification = true
-        }else{
-            needSpecification = false
-        }
+        needSpecification = specification
         
     }
     
     func copy(with zone: NSZone? = nil) -> Any {
-        let item = MovingItem(category: itemCategory, name: itemName, ID: itemID, secondRelatedItems: relatedItemsIDs, generic: genericName)
+        let item = MovingItem(category: itemCategory, name: itemName, ID: itemID, secondRelatedItems: relatedItemsIDs, generic: genericName, specification: needSpecification)
         return item
     }
     
@@ -68,5 +64,14 @@ extension String {
     
     mutating func capitalizeFirstLetter() {
         self = self.capitalizingFirstLetter()
+    }
+}
+
+extension MovingItem: Equatable {
+    static func == (lhs: MovingItem, rhs: MovingItem) -> Bool {
+        return
+            lhs.itemID == rhs.itemID &&
+                lhs.needSpecification == rhs.needSpecification &&
+                lhs.genericName == rhs.genericName
     }
 }

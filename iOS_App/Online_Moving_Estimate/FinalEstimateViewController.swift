@@ -23,6 +23,7 @@ class FinalEstimateViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    
     func performFinalEstimate(){
         let request = estimateSession.getFinalEstimateRequest()
         
@@ -31,6 +32,7 @@ class FinalEstimateViewController: UIViewController {
             
             do{
                 let json = try JSONSerialization.jsonObject(with: data!) as? [String: Any]
+                
                 let finalEsimateCost = json!["totalCost"] as! Float
                 self.estimateCost = finalEsimateCost
                 
@@ -48,6 +50,7 @@ class FinalEstimateViewController: UIViewController {
         task.resume()
         
     }
+ 
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -74,6 +77,8 @@ class FinalEstimateViewController: UIViewController {
             
             
         }
+        
+       
        
     }
     

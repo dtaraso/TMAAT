@@ -15,9 +15,10 @@ class ViewController: UIViewController{
     
     // Outlets
     @IBOutlet weak var cameraView: UIView!
-    @IBOutlet weak var tapTakePhoto: UIBarButtonItem!
-    @IBOutlet weak var RoomLabel: UILabel!
-    @IBOutlet weak var spinner: UIActivityIndicatorView!
+    
+    @IBOutlet weak var takePhoto: UIButton!
+    @IBOutlet weak var checkResults: UIButton!
+    
     
     
     
@@ -32,15 +33,13 @@ class ViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         
         
-
+        print(UIDevice.current.orientation.isPortrait)
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         
         
-        //Set room Label
-        RoomLabel.text = estimateSession.getRoomName()
         
-        //Hide spinner
-        spinner.isHidden = true
+        
+        
         
         // Use default camera (back camera)
         let captureDevice = AVCaptureDevice.defaultDevice(withMediaType: AVMediaTypeVideo)
@@ -57,8 +56,8 @@ class ViewController: UIViewController{
             videoPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
             
-            let orientation = UIDevice.current.orientation
-            videoPreviewLayer?.connection.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue)!
+            //let orientation = UIDevice.current.orientation
+            //videoPreviewLayer?.connection.videoOrientation = AVCaptureVideoOrientation(rawValue: orientation.rawValue)!
             
             cameraView.layer.addSublayer(videoPreviewLayer!)
             
@@ -83,13 +82,53 @@ class ViewController: UIViewController{
         
         title = roomName
         
-        
-        let value = UIInterfaceOrientation.landscapeRight.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+
+        deviceRotated()
         
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.back(sender:)))
         self.navigationItem.leftBarButtonItem = newBackButton
+        
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
+    }
+    
+    
+    
+    func deviceRotated(){
+        
+        switch UIDevice.current.orientation {
+        case .landscapeLeft:
+            let image = UIImage(named: "camera-r")
+            let checkImage = UIImage(named: "checkResults-r")
+            checkResults.setImage(checkImage, for: .normal)
+            takePhoto.setImage(image, for: .normal)
+            print("landscape")
+        case.landscapeRight:
+            let image = UIImage(named: "camera-l")
+            let checkImage = UIImage(named: "checkResults-l")
+            checkResults.setImage(checkImage, for: .normal)
+            takePhoto.setImage(image, for: .normal)
+        case .portrait:
+            let image = UIImage(named: "camera")
+            let checkImage = UIImage(named: "checkResults")
+            checkResults.setImage(checkImage, for: .normal)
+            takePhoto.setImage(image, for: .normal)
+            print("Portrait")
+        case .portraitUpsideDown:
+            let image = UIImage(named: "camera-u")
+            let checkImage = UIImage(named: "checkResults-u")
+            checkResults.setImage(checkImage, for: .normal)
+            takePhoto.setImage(image, for: .normal)
+        default:
+            print("other")
+        }
+        
+        
         
         
     }
@@ -105,7 +144,8 @@ class ViewController: UIViewController{
     private func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.landscapeRight
     }
-    private func shouldAutorotate() -> Bool {
+    
+    override var shouldAutorotate: Bool {
         return false
     }
     
@@ -113,8 +153,8 @@ class ViewController: UIViewController{
    
     @IBAction func tapTakePhoto(_ sender: Any) {
         
-        spinner.isHidden = false
-        spinner.startAnimating()
+        
+        
         
         // Make sure capturePhotoOutput is valid
         guard let capturePhotoOutput = self.capturePhotoOutput else { return }
@@ -139,22 +179,27 @@ class ViewController: UIViewController{
     func classifyImage(image: Data){
         
         let request = estimateSession.postImage(image: image)
+        
+        let pic = estimateSession.createPicture()
+        
         let task =  URLSession.shared.dataTask(with: request,completionHandler: {
             (data, response, error) -> Void in
-            
+            pic.doneLoading = true
             do{
                
                 let json = try JSONSerialization.jsonObject(with: data!) as! [[String: Any]]
                 
                 
-                self.estimateSession.parseJson(json: json)
+                self.estimateSession.parseJson(json: json, pic: pic)
+                
                 
                 DispatchQueue.main.async {
                     
-                    
-                    self.spinner.stopAnimating()
-                    self.performSegue(withIdentifier: "ConfirmResults", sender: nil)
+                    print("done")
+                    let name = Notification.Name("ImageRequestComplete")
+                    NotificationCenter.default.post(name: name, object: nil)
                 }
+                
                 
             }catch{
                 print("Whoops with the JSON")
@@ -187,9 +232,12 @@ class ViewController: UIViewController{
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let viewController = segue.destination as? ImageConfirmationViewController{
-            spinner.isHidden = true
+        if let viewController = segue.destination as? FinalScreenViewController{
+            print("Called!")
             viewController.estimateSession = estimateSession
+            
+            
+            
         }
         
     }
@@ -215,16 +263,60 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
         }
         
         // Convert photo same buffer to a jpeg image data by using // AVCapturePhotoOutput
-        guard let imageData =
+        guard var imageData =
             AVCapturePhotoOutput.jpegPhotoDataRepresentation(forJPEGSampleBuffer: photoSampleBuffer, previewPhotoSampleBuffer: previewPhotoSampleBuffer) else {
                 return
         }
+        
+        if UIDevice.current.orientation.isPortrait{
+            print("portrait photo!!")
+            
+            let image_before_rotate = UIImage(data: imageData)
+            let rotatedImage = image_before_rotate?.rotated(by: Measurement(value: 90.0, unit: .degrees))
+            imageData = UIImageJPEGRepresentation(rotatedImage!, 0.9)!
+            
+        }
+        
+        
+        
+        
         
         // Send Image to server for classifcation
         classifyImage(image: imageData)
         
     }
     
+}
+
+extension UIImage {
+    struct RotationOptions: OptionSet {
+        let rawValue: Int
+        
+        static let flipOnVerticalAxis = RotationOptions(rawValue: 1)
+        static let flipOnHorizontalAxis = RotationOptions(rawValue: 2)
+    }
+    
+    func rotated(by rotationAngle: Measurement<UnitAngle>, options: RotationOptions = []) -> UIImage? {
+        guard let cgImage = self.cgImage else { return nil }
+        
+        let rotationInRadians = CGFloat(rotationAngle.converted(to: .radians).value)
+        let transform = CGAffineTransform(rotationAngle: rotationInRadians)
+        var rect = CGRect(origin: .zero, size: self.size).applying(transform)
+        rect.origin = .zero
+        
+        let renderer = UIGraphicsImageRenderer(size: rect.size)
+        return renderer.image { renderContext in
+            renderContext.cgContext.translateBy(x: rect.midX, y: rect.midY)
+            renderContext.cgContext.rotate(by: rotationInRadians)
+            
+            let x = options.contains(.flipOnVerticalAxis) ? -1.0 : 1.0
+            let y = options.contains(.flipOnHorizontalAxis) ? 1.0 : -1.0
+            renderContext.cgContext.scaleBy(x: CGFloat(x), y: CGFloat(y))
+            
+            let drawRect = CGRect(origin: CGPoint(x: -self.size.width/2, y: -self.size.height/2), size: self.size)
+            renderContext.cgContext.draw(cgImage, in: drawRect)
+        }
+    }
 }
 
 

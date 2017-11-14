@@ -17,13 +17,21 @@ class FurnitureCell: UITableViewCell{
     
 }
 
-class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol EditDelegate {
+    func refresh()
+}
+
+class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RetakeDelegate {
     
     
     
     //Member Variables
     var estimateSession : Estimate!
-    var names = [(name: String, value: Int, movingItem: MovingItem, index: Int)]()
+    var currentPic : Picture!
+    var names = [(name: String, value: Int, movingItem: MovingItem?, index: Int)]()
+    var delegate: EditDelegate?
+    var observerRegistered : Bool?
+    let name = Notification.Name("ImageRequestComplete")
     
     //Outlets
     @IBOutlet weak var furnTableView: UITableView!
@@ -42,43 +50,77 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let value = UIInterfaceOrientation.portrait.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
+        createObserver()
+        
+        
+        
+        
     
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         
         title = "items"
         self.navigationItem.setHidesBackButton(true, animated: false)
         
-        
-        var nameToAdd: String
-        for (i,item) in estimateSession.tempList.enumerated(){
-            if (item.genericName != nil){
-                nameToAdd = item.genericName!
-            }
-            else{
-                nameToAdd = item.itemName
-            }
-            let index = checkIfInNames(name: nameToAdd)
-            if index != -1{
-                names[index].value = names[index].value + 1
-            }
-            else{
-                names.append((name: nameToAdd, value: 1, movingItem: item, index: i))
-            }
-        }
+        setUp()
         
         
  
         
     }
     
-    private func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.portrait
+    func createObserver(){
+        NotificationCenter.default.addObserver(self, selector: #selector(ImageConfirmationViewController.refreshTable), name: name, object: nil)
     }
-    private func shouldAutorotate() -> Bool {
-        return false
+    
+    deinit{
+        NotificationCenter.default.removeObserver(self)
     }
+    
+    
+    
+    
+    
+    func setUp(){
+        names = [(name: String, value: Int, movingItem: MovingItem?, index: Int)]()
+        var nameToAdd: String
+        if !currentPic.doneLoading{
+            names.append((name: "Loading...", value: 0, movingItem: nil, index: 0))
+        }
+        else{
+            for (i,item) in currentPic.itemsToMove.enumerated(){
+                if (item.genericName != nil){
+                    nameToAdd = item.genericName!
+                }
+                else{
+                    nameToAdd = item.itemName
+                }
+                let index = checkIfInNames(name: nameToAdd)
+                if index != -1{
+                    names[index].value = names[index].value + 1
+                }
+                else{
+                    names.append((name: nameToAdd, value: 1, movingItem: item, index: i))
+                }
+            }
+        }
+    }
+    
+    func refresh(pic: Picture) {
+        print("test")
+        self.currentPic = pic
+        
+        setUp()
+        
+        self.furnTableView.reloadData()
+    }
+    
+    func refreshTable(){
+        
+        setUp()
+        self.furnTableView.reloadData()
+    }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return names.count
@@ -105,12 +147,19 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     
     
+    @IBAction func ConfirmChanges(_ sender: Any) {
+        
+        _ = navigationController?.popViewController(animated: true)
+        delegate?.refresh()
+    }
+    
+    
     
     @IBAction func incrementCount(_ sender: UIButton) {
  
         let old = names[sender.tag].movingItem
-        let new = old.copy() as! MovingItem
-        estimateSession.tempList.append(new)
+        let new = old?.copy() as! MovingItem
+        currentPic.itemsToMove.append(new)
         names[sender.tag].value = names[sender.tag].value + 1
         self.furnTableView.reloadData()
         
@@ -119,13 +168,21 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     }
     
     @IBAction func decrementCount(_ sender: UIButton) {
-        let toDelete = names[sender.tag].index
-        estimateSession.tempList.remove(at: toDelete)
+        let toDelete = names[sender.tag].movingItem
+        let index = currentPic.itemsToMove.index(of:toDelete!)
+        currentPic.itemsToMove.remove(at: index!)
         names[sender.tag].value = names[sender.tag].value - 1
         self.furnTableView.reloadData()
     }
     
     
+    @IBAction func deleteImage(_ sender: Any) {
+        
+        estimateSession.deletePic(pic: currentPic)
+        _ = navigationController?.popViewController(animated: true)
+        delegate?.refresh()
+        
+    }
     
     
     
@@ -137,30 +194,32 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func Retake(_ sender: Any) {
-        
-        
-        self.navigationController?.popViewController(animated: true)
-        let value = UIInterfaceOrientation.landscapeRight.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-        
-    }
     
     
-    @IBAction func Confirm(_ sender: Any) {
-        
-        estimateSession.confirmItems()
-        
-        self.navigationController?.popViewController(animated: true)
-        let value = UIInterfaceOrientation.landscapeRight.rawValue
-        UIDevice.current.setValue(value, forKey: "orientation")
-        
-    }
+    
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        
+        
         if let viewController = segue.destination as? FinalScreenViewController{
-            estimateSession.confirmItems()
+            
+            
+            
             viewController.estimateSession = estimateSession
+            
+        }
+        
+        if let viewController = segue.destination as? RetakeViewController{
+            
+            viewController.estimateSession = estimateSession
+            viewController.currentPic = currentPic
+            viewController.delegate = self
+            
+            
+            
             
         }
         
