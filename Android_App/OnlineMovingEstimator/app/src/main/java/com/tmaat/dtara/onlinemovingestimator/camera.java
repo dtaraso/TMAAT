@@ -1,277 +1,292 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.hardware.Camera;
-import android.media.MediaRecorder;
-import android.net.Uri;
-import android.os.AsyncTask;
+import android.graphics.ImageFormat;
+import android.graphics.SurfaceTexture;
+import android.hardware.camera2.CameraCaptureSession;
+import android.hardware.camera2.CameraCharacteristics;
+import android.hardware.camera2.CameraDevice;
+import android.hardware.camera2.CameraManager;
+import android.hardware.camera2.CameraMetadata;
+import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
+import android.media.ImageReader;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.SystemClock;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.util.Size;
+import android.util.SparseIntArray;
 import android.view.Surface;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import java.io.IOException;
-
+// Camera2 API Code: http://coderzpassion.com/android-working-camera2-api/
 
 public class camera extends AppCompatActivity {
-    private static final String APP_CLASS = "app";
-    private android.hardware.Camera mCamera;
-    private CameraPreview mPreview;
-    private MediaRecorder mMediaRecorder;
-    public static final int MEDIA_TYPE_IMAGE = 1;
-    public static final int MEDIA_TYPE_VIDEO = 2;
-    boolean isPreviewRunning = false;
-    SurfaceHolder mSurfaceHolder;
-
-    ProgressDialog progressDialog ;
-    public  static final int RequestPermissionCode  = 1 ;
-
-    private android.hardware.Camera.PictureCallback mPicture = new android.hardware.Camera.PictureCallback() {
-
-        @Override
-        public void onPictureTaken(byte[] data, android.hardware.Camera camera) {
-            View view = findViewById(android.R.id.content);
-            imageUpload(data, view);
-        }
-    };
-    public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
-        android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
-        android.hardware.Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
-        int degrees = 0;
-        switch (rotation) {
-            case Surface.ROTATION_0:
-                degrees = 0;
-                break;
-            case Surface.ROTATION_90:
-                degrees = 90;
-                break;
-            case Surface.ROTATION_180:
-                degrees = 180;
-                break;
-            case Surface.ROTATION_270:
-                degrees = 270;
-                break;
-        }
-
-        int result;
-        if (info.facing == android.hardware.Camera.CameraInfo.CAMERA_FACING_FRONT) {
-            result = (info.orientation + degrees) % 360;
-            result = (360 - result) % 360; // compensate the mirror
-        } else { // back-facing
-            result = (info.orientation - degrees + 360) % 360;
-        }
-        camera.setDisplayOrientation(result);
+    private Size previewsize;
+    private Size jpegSizes[]=null;
+    private TextureView textureView;
+    private CameraDevice cameraDevice;
+    private CaptureRequest.Builder previewBuilder;
+    private CameraCaptureSession previewSession;
+    private static final int MY_CAMERA_REQUEST_CODE = 100;
+    private static final SparseIntArray ORIENTATIONS=new SparseIntArray();
+    static
+    {
+        ORIENTATIONS.append(Surface.ROTATION_0,90);
+        ORIENTATIONS.append(Surface.ROTATION_90,0);
+        ORIENTATIONS.append(Surface.ROTATION_180,270);
+        ORIENTATIONS.append(Surface.ROTATION_270,180);
     }
-
     @Override
-    protected void onResume() {
-        super.onResume();
-        setContentView(R.layout.activity_camera);
-        if (this.mCamera == null) {
-            this.mCamera = getCameraInstance();
+    protected void onCreate(Bundle savedInstanceState) {
+        if (MainActivity.est.room == null) {
+            Intent intent = new Intent(this, Pop.class);
+            startActivity(intent);
         }
 
-        // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
-        Button captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setOnTouchListener(
-                new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            switch (event.getAction()) {
-                                case MotionEvent.ACTION_DOWN:
-                                    // PRESSED
-                                    mCamera.startPreview();
-                                    mCamera.takePicture(null, null, mPicture);
-                                    return true; // if you want to handle the touch event
-                                case MotionEvent.ACTION_UP:
-                                    //RELEASED
-                                    //mCamera.stopPreview();
-                                    SystemClock.sleep(1000);
-                                    mCamera.startPreview();
-                                    return true; // if you want to handle the touch event
-                            }
-                            return false;
-                        }
-                    }
-        );
-        Button PopButton = (Button) findViewById(R.id.Popup);
-        PopButton.setOnClickListener(new View.OnClickListener() {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_camera);
+        TextView est = (TextView) findViewById(R.id.roomText);
+        est.setText("Current Room: "+MainActivity.est.room);
+        textureView = (TextureView) findViewById(R.id.textureview);
+        textureView.setSurfaceTextureListener(surfaceTextureListener);
+        Button pictureButton = (Button) findViewById(R.id.take_picture);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(camera.this, Pop.class));
+                getPicture();
             }
         });
     }
 
-    protected void onPause() {
-        super.onPause();
-        releaseMediaRecorder();       // if you are using MediaRecorder, release it first
-        releaseCamera();              // release the camera immediately on pause event
+    @Override
+    protected void onResume() {
+        if (cameraDevice!=null)
+            cameraDevice.close();
+        super.onResume();
+        setContentView(R.layout.activity_camera);
+        TextView est = (TextView) findViewById(R.id.roomText);
+        est.setText("Current Room: "+MainActivity.est.room);
+        textureView = (TextureView) findViewById(R.id.textureview);
+        textureView.setSurfaceTextureListener(surfaceTextureListener);
+        Button pictureButton = (Button) findViewById(R.id.take_picture);
+        pictureButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPicture();
+            }
+        });
     }
 
-    private void releaseMediaRecorder(){
-        if (mMediaRecorder != null) {
-            mMediaRecorder.reset();   // clear recorder configuration
-            mMediaRecorder.release(); // release the recorder object
-            mMediaRecorder = null;
-            mCamera.lock();           // lock camera for later use
+    void getPicture()
+    {
+        if(cameraDevice==null)
+        {
+            return;
         }
-    }
-
-    private void releaseCamera(){
-        if (mCamera != null){
-            mCamera.release();        // release the camera for other applications
-            mCamera = null;
-        }
-    }
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (MainActivity.est.room != null) {
-            setContentView(R.layout.activity_camera);
-            // Add a listener to the Capture button
-            // Create an instance of Camera
-            mCamera = getCameraInstance();
-
-            // Create our Preview view and set it as the content of our activity.
-            mPreview = new CameraPreview(this, mCamera);
-            FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
-            preview.addView(mPreview);
-            Button captureButton = (Button) findViewById(R.id.button_capture);
-            captureButton.setOnTouchListener(
-                    new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            switch (event.getAction()) {
-                                case MotionEvent.ACTION_DOWN:
-                                    // PRESSED
-                                    mCamera.startPreview();
-                                    mCamera.takePicture(null, null, mPicture);
-                                    return true; // if you want to handle the touch event
-                                case MotionEvent.ACTION_UP:
-                                    // RELEASED
-                                    //mCamera.stopPreview();
-                                    SystemClock.sleep(1000);
-                                    mCamera.startPreview();
-                                    return true; // if you want to handle the touch event
-                            }
-                            return false;
-                        }
-                    }
-            );
-            Button PopButton = (Button) findViewById(R.id.Popup);
-            PopButton.setOnClickListener(new View.OnClickListener() {
+        CameraManager manager=(CameraManager)getSystemService(Context.CAMERA_SERVICE);
+        try
+        {
+            CameraCharacteristics characteristics=manager.getCameraCharacteristics(cameraDevice.getId());
+            if(characteristics!=null)
+            {
+                jpegSizes=characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
+            }
+            int width=640,height=480;
+            if(jpegSizes!=null && jpegSizes.length>0)
+            {
+                width=jpegSizes[0].getWidth();
+                height=jpegSizes[0].getHeight();
+            }
+            ImageReader reader=ImageReader.newInstance(width,height,ImageFormat.JPEG,1);
+            List<Surface> outputSurfaces=new ArrayList<Surface>(2);
+            outputSurfaces.add(reader.getSurface());
+            outputSurfaces.add(new Surface(textureView.getSurfaceTexture()));
+            final CaptureRequest.Builder capturebuilder=cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            capturebuilder.addTarget(reader.getSurface());
+            capturebuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+            int rotation=getWindowManager().getDefaultDisplay().getRotation();
+            capturebuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
+            ImageReader.OnImageAvailableListener imageAvailableListener=new ImageReader.OnImageAvailableListener() {
                 @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(camera.this, Pop.class));
+                public void onImageAvailable(ImageReader reader) {
+                    Image image = null;
+                    try {
+                        image = reader.acquireLatestImage();
+                        ByteBuffer buffer = image.getPlanes()[0].getBuffer();
+                        byte[] bytes = new byte[buffer.capacity()];
+                        buffer.get(bytes);
+                        save(bytes);
+                    } catch (Exception ee) {
+                    }
+                    finally {
+                        if(image!=null)
+                            image.close();
+                    }
                 }
-            });
-        } else {
-            Intent intent = new Intent(this, Pop.class);
-            startActivity(intent);
+                void save(byte[] bytes)
+                {
+                    View view = findViewById(android.R.id.content);
+                    imageUpload(bytes, view);
+                }
+            };
+            HandlerThread handlerThread=new HandlerThread("takepicture");
+            handlerThread.start();
+            final Handler handler=new Handler(handlerThread.getLooper());
+            reader.setOnImageAvailableListener(imageAvailableListener,handler);
+            final CameraCaptureSession.CaptureCallback  previewSSession=new CameraCaptureSession.CaptureCallback() {
+                @Override
+                public void onCaptureStarted(CameraCaptureSession session, CaptureRequest request, long timestamp, long frameNumber) {
+                    super.onCaptureStarted(session, request, timestamp, frameNumber);
+                }
+                @Override
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                    super.onCaptureCompleted(session, request, result);
+                    startCamera();
+                }
+            };
+            cameraDevice.createCaptureSession(outputSurfaces, new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession session) {
+                    try
+                    {
+                        session.capture(capturebuilder.build(),previewSSession,handler);
+                    }catch (Exception e)
+                    {
+                    }
+                }
+                @Override
+                public void onConfigureFailed(CameraCaptureSession session) {
+                }
+            },handler);
+        }
+        catch (Exception e)
+        {
         }
     }
-    /** Check if this device has a camera */
-    private boolean checkCameraHardware(Context context) {
-        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
+    public void openCamera()
+    {
+        CameraManager manager=(CameraManager)getSystemService(Context.CAMERA_SERVICE);
+        try
+        {
+            String camerId=manager.getCameraIdList()[0];
+            CameraCharacteristics characteristics=manager.getCameraCharacteristics(camerId);
+            StreamConfigurationMap map=characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
+            previewsize=map.getOutputSizes(SurfaceTexture.class)[0];
+            if (ContextCompat.checkSelfPermission(getApplicationContext(),Manifest.permission.CAMERA)
+                    != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.CAMERA},
+                        MY_CAMERA_REQUEST_CODE);
+
+            }
+            manager.openCamera(camerId, stateCallback, null);
+        }catch (Exception e)
+        {
+        }
+    }
+    private TextureView.SurfaceTextureListener surfaceTextureListener=new TextureView.SurfaceTextureListener() {
+        @Override
+        public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+            openCamera();
+        }
+        @Override
+        public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+        }
+        @Override
+        public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
             return false;
         }
+        @Override
+        public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+        }
+    };
+    private CameraDevice.StateCallback stateCallback=new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(CameraDevice camera) {
+            cameraDevice=camera;
+            startCamera();
+        }
+        @Override
+        public void onDisconnected(CameraDevice camera) {
+        }
+        @Override
+        public void onError(CameraDevice camera, int error) {
+        }
+    };
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(cameraDevice!=null)
+        {
+            cameraDevice.close();
+        }
     }
-    /** A safe way to get an instance of the Camera object. */
-    public static android.hardware.Camera getCameraInstance(){
-        android.hardware.Camera c = null;
-        try {
-            c = android.hardware.Camera.open(); // attempt to get a Camera instance
+    void  startCamera()
+    {
+        if(cameraDevice==null||!textureView.isAvailable()|| previewsize==null)
+        {
+            return;
         }
-        catch (Exception e){
-            // Camera is not available (in use or does not exist)
+        SurfaceTexture texture=textureView.getSurfaceTexture();
+        if(texture==null)
+        {
+            return;
         }
-        return c; // returns null if camera is unavailable
+        texture.setDefaultBufferSize(previewsize.getWidth(),previewsize.getHeight());
+        Surface surface=new Surface(texture);
+        try
+        {
+            previewBuilder=cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+        }catch (Exception e)
+        {
+        }
+        previewBuilder.addTarget(surface);
+        try
+        {
+            cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(CameraCaptureSession session) {
+                    previewSession=session;
+                    getChangedPreview();
+                }
+                @Override
+                public void onConfigureFailed(CameraCaptureSession session) {
+                }
+            },null);
+        }catch (Exception e)
+        {
+        }
     }
-
-    /** A basic Camera preview class */
-    public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
-        private static final String TAG ="TAG" ;
-        private SurfaceHolder mHolder;
-        private android.hardware.Camera mCamera;
-
-        public CameraPreview(Context context, android.hardware.Camera camera) {
-            super(context);
-            mCamera = camera;
-
-            // Install a SurfaceHolder.Callback so we get notified when the
-            // underlying surface is created and destroyed.
-            mHolder = getHolder();
-            mHolder.addCallback(this);
-            // deprecated setting, but required on Android versions prior to 3.0
-            mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    void getChangedPreview()
+    {
+        if(cameraDevice==null)
+        {
+            return;
         }
-
-        public void surfaceCreated(SurfaceHolder holder) {
-            // The Surface has been created, now tell the camera where to draw the preview.
-            try {
-                mCamera.setPreviewDisplay(holder);
-                mCamera.startPreview();
-                mCamera.setDisplayOrientation(90);
-            } catch (IOException e) {
-                Log.d(TAG, "Error setting camera preview: " + e.getMessage());
-            }
-        }
-
-        public void surfaceDestroyed(SurfaceHolder holder) {
-            // empty. Take care of releasing the Camera preview in your activity.
-        }
-
-        public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-            // If your preview can change or rotate, take care of those events here.
-            // Make sure to stop the preview before resizing or reformatting it.
-
-            if (mHolder.getSurface() == null){
-                // preview surface does not exist
-                return;
-            }
-
-            // stop preview before making changes
-            try {
-                mCamera.stopPreview();
-            } catch (Exception e){
-                // ignore: tried to stop a non-existent preview
-            }
-
-            // set preview size and make any resize, rotate or
-            // reformatting changes here
-
-            // start preview with new settings
-            try {
-                mCamera.setPreviewDisplay(mHolder);
-                mCamera.startPreview();
-
-            } catch (Exception e){
-                Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-            }
-        }
+        previewBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+        HandlerThread thread=new HandlerThread("changed Preview");
+        thread.start();
+        Handler handler=new Handler(thread.getLooper());
+        try
+        {
+            previewSession.setRepeatingRequest(previewBuilder.build(), null, handler);
+        }catch (Exception e){}
     }
 
     public void imageUpload(byte[] data, View view) {
@@ -286,10 +301,6 @@ public class camera extends AppCompatActivity {
                 Cloud cloud = new Cloud();
                 final boolean ok = cloud.ImageUpload(data_final, view_final, view_final.getContext());
                 if (!ok) {
-                    /*
-                     * If we fail to save, display a toast
-                     */
-                    // Please fill this in...
                     view_final.post(new Runnable() {
 
                         @Override
@@ -297,19 +308,17 @@ public class camera extends AppCompatActivity {
                             Toast.makeText(view_final.getContext(), "Unable to process picture. Try again later.", Toast.LENGTH_LONG).show();
                         }
                     });
-                } else {
-                    view_final.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            ProgressDialog progress = new ProgressDialog(view_final.getContext());
-                            progress.setMessage("Processing Image");
-                            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                            progress.show();
-                        }
-                    });
                 }
             }
         }).start();
+    }
+
+    public void onReviewImages(View view) {
+        Intent intent = new Intent(this, ImageConfirm.class);
+        startActivity(intent);
+    }
+
+    public void onRoomSelect(View view) {
+        startActivity(new Intent(camera.this, Pop.class));
     }
 }

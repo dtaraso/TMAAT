@@ -115,7 +115,7 @@ public class Choose extends Activity {
 
     private void checkButtonClick() {
 
-        Button myButton = (Button) findViewById(R.id.finish);
+        Button myButton = (Button) findViewById(R.id.save);
         myButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

@@ -5,10 +5,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <uses-feature android:name="android.hardware.camera" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera2" />
 
     <application
         android:allowBackup="true"
@@ -24,14 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".camera" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".camera"
+            android:screenOrientation="portrait" />
         <activity android:name=".Choose" />
         <activity android:name=".Intro" />
         <activity android:name=".furn_catalog" />
-        <activity android:name=".ImageConfirm" />
+        <activity android:name=".FurnConfirm" />
         <activity android:name=".Pop" />
-        <activity android:name=".FinalizeList" />
-        <activity android:name=".QuickEstimate"></activity>
+        <activity android:name=".QuickEstimate" />
+        <activity android:name=".img_catalog" />
+        <activity android:name=".ImageConfirm"></activity>
     </application>
 
 </manifest>

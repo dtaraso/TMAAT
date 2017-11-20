@@ -10,6 +10,13 @@ public class Furniture {
     boolean selected = true;
     int numOfFurn = 0;
 
+    public Furniture(String name, String id) {
+        super();
+        this.name = name;
+        this.ID = id;
+        this.room = MainActivity.est.room;
+    }
+
     public Furniture(String name, String id, boolean selected, String room, ArrayList<String> quantity) {
         super();
         this.name = name;

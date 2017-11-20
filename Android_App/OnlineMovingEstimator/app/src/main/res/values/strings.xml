@@ -28,4 +28,10 @@
     <string name="businessreceptionarea">Business Reception Area</string>
     <string name="classify">Classify</string>
     <string name="estimateTitle">Your Quick Estimate:</string>
+    <string name="select_room">select room type</string>
+    <string name="review_img">Review Images</string>
+    <string name="deleteImg">Delete Image</string>
+    <string name="save">Save</string>
+    <string name="changeRoom">Change Room</string>
+    <string name="addItem">Add Item</string>
 </resources>

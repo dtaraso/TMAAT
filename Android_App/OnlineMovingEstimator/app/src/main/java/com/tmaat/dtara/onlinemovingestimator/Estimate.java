@@ -8,13 +8,15 @@ import java.util.Map;
 
 public class Estimate {
     String id = null;
+    String room = null;
+    ArrayList<Image> imageList = new ArrayList<Image>();
+    int imageNumber = 0;
     ArrayList<Furniture> furnitureList = new ArrayList<Furniture>();
     ArrayList<Furniture> tempFurnList = new ArrayList<Furniture>();
     String[] RoomList = {"Bedroom","Garage","Living Room","Dining Room","Kitchen","Office","Patio",
             "Business Office","Business File Room","Business Copy Room","Business Reception Area"};
     public static Map<String, Integer> roomID = new HashMap<String, Integer>();
     Map<String,ArrayList<Furniture>> roomFurnList= new HashMap<String,ArrayList<Furniture>>();
-    String room = null;
 
     public Estimate(String id) {
         super();
@@ -47,7 +49,7 @@ public class Estimate {
         return furnitureList;
     }
     public void addToTotalList() {
-        updateTempList(); /*updateRoomList();*/ furnitureList.addAll(tempFurnList); tempFurnList.clear();
+        updateTempList(); furnitureList.addAll(tempFurnList); tempFurnList.clear();
     }
 
     public void updateTempList() {
@@ -60,34 +62,28 @@ public class Estimate {
         tempFurnList.removeAll(loopList);
     }
 
-    public ArrayList<Furniture> getTempList() { return tempFurnList; }
-    public void addToTempList(Furniture furn) {tempFurnList.add(furn); }
-    public void resetTempList() {tempFurnList.clear();}
-
     public void addCurrentRoom(String r) {room = r;}
 
     public void updateRoomList() {
         ArrayList<Furniture> newList;
-        for (String r: RoomList) {
-            if (roomFurnList.containsKey(r)) {
-                newList = roomFurnList.get(r);
-                roomFurnList.remove(room);
+        for (Image i: imageList) {
+            if (roomFurnList.containsKey(i.getRoom())) {
+                newList = roomFurnList.get(i.getRoom());
+                roomFurnList.remove(i.getRoom());
             } else {
                 newList = new ArrayList<Furniture>();
             }
-            for (Furniture f : furnitureList) {
-                if (f.getRoom().equals(r)) {
-                    if (!withinArray(newList, f)) {
-                        f.incrementNumOfFurn();
-                        newList.add(f);
-                    } else {
-                        Furniture ff = newList.get(indexArray(newList, f));
-                        ff.incrementNumOfFurn();
-                    }
+            for (Furniture f: i.getFurnList()) {
+                if (!withinArray(newList, f)) {
+                    f.incrementNumOfFurn();
+                    newList.add(f);
+                } else {
+                    Furniture ff = newList.get(indexArray(newList, f));
+                    ff.incrementNumOfFurn();
                 }
             }
             if (newList.size() > 0) {
-                roomFurnList.put(r, newList);
+                roomFurnList.put(i.getRoom(),newList);
             }
         }
     }
@@ -110,5 +106,32 @@ public class Estimate {
             index++;
         }
         return -1;
+    }
+
+    public int nextAvailableImageNumber() {
+        imageNumber = imageNumber + 1;
+        return imageNumber;
+    }
+
+    public void removeImage(int imgNum) {
+        ArrayList<Image> tempImageList = new ArrayList<Image>(imageList);
+        for (Image i: tempImageList) {
+            if (i.getNumber() == imgNum) {
+                imageList.remove(i);
+                break;
+            }
+        }
+    }
+
+    public ArrayList<Image> getImageList() { return imageList; }
+    public void addToImageList(Image img) {imageList.add(img);}
+
+    public Image getImage(int imageNumber) {
+        for (Image i: imageList) {
+            if (imageNumber == i.getNumber()) {
+                return i;
+            }
+        }
+        return imageList.get(0);
     }
 }

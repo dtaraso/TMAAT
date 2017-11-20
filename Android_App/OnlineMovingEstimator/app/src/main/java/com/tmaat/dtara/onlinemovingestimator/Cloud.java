@@ -92,8 +92,11 @@ public class Cloud {
     }
 
     public boolean ImageUpload(byte[] data, View view, final Context context) {
-        Log.e("476","in image upload function");
         String room = MainActivity.est.room;
+        int imgNum = MainActivity.est.nextAvailableImageNumber();
+        final Image img = new Image(imgNum, MainActivity.est.room);
+        MainActivity.est.addToImageList(img);
+
         ImageService service = initialize();
 
         RequestBody requestFile =
@@ -107,9 +110,13 @@ public class Cloud {
             @Override
             public void onResponse(Call<ArrayList<ImageResponse>> call, Response<ArrayList<ImageResponse>> response) {
                 Log.e("476","image upload Response");
-                imgResponse = response.body();
-                Intent intent = new Intent(context, ImageConfirm.class);
-                context.startActivity(intent);
+                if (response.isSuccessful()) {
+                    imgResponse = response.body();
+                    img.setLoading(false);
+                    img.setImageArray(imgResponse);
+                } else {
+                    Log.e("476", "Got response but not a good one");
+                }
             }
 
             @Override
@@ -122,20 +129,17 @@ public class Cloud {
     }
 
     public boolean FurnitureUpload(final Context context) {
-        Log.e("476","in furniture upload function");
         MainActivity.est.updateRoomList();
         JSONObject finalJSON = createJSON();
         Log.e("476",finalJSON.toString());
         ImageService service = tmaat_initialize();
         String basicAuth = "Basic " + Base64.encodeToString((username+":"+password).getBytes(), Base64.NO_WRAP);
 
-        Log.e("476","HERE");
         service.postJSON(basicAuth, finalJSON);
         Call<QuickEstimateResponse> call = service.postJSON(basicAuth, finalJSON);
         call.enqueue(new Callback<QuickEstimateResponse>() {
             @Override
             public void onResponse(Call<QuickEstimateResponse> call, Response<QuickEstimateResponse> response) {
-                Log.e("476","TMAAT upload Response");
                 EstimateResponse = response.body();
                 Intent intent = new Intent(context, QuickEstimate.class);
                 context.startActivity(intent);
