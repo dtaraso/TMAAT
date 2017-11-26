@@ -43,7 +43,7 @@ function updateChatQueue(){
             console.log(customerName + " : " + customerID);
             //console.log(chatURLstub);
 
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '&id=' + chatID + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a>';
         }
 
         document.getElementById('chatqueue').innerHTML = htmlString;
@@ -64,11 +64,11 @@ function updateAppointmentQueue(){
         htmlString = "<h2>My Appointments</h2>";
 
         for (i=0 ; i<appointmentQueue.length ; i++){
-            time = new Date(appointmentQueue[i].time);
+            time = appointmentQueue[i].time;
             customerName = appointmentQueue[i].customerName;
             customerID = appointmentQueue[i].id;
             chatID = customerID;
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' on ' + time.toLocaleString() + '</a>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' ' + time + '</a>';
         }
 
         document.getElementById('appts').innerHTML = htmlString;
