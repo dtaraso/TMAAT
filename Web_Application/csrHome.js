@@ -64,7 +64,7 @@ function updateAppointmentQueue(){
         htmlString = "<h2>My Appointments</h2>";
 
         for (i=0 ; i<appointmentQueue.length ; i++){
-            time = appointmentQueue[i].time;
+            time = new Date(appointmentQueue[i].time);
             customerName = appointmentQueue[i].customerName;
             customerID = appointmentQueue[i].id;
             chatID = customerID;
