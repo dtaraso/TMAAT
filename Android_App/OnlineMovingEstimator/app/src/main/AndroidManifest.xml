@@ -24,14 +24,13 @@
         <activity
             android:name=".camera"
             android:screenOrientation="portrait" />
-        <activity android:name=".Choose" />
         <activity android:name=".Intro" />
         <activity android:name=".furn_catalog" />
         <activity android:name=".FurnConfirm" />
         <activity android:name=".Pop" />
         <activity android:name=".QuickEstimate" />
         <activity android:name=".img_catalog" />
-        <activity android:name=".ImageConfirm"></activity>
+        <activity android:name=".ImageConfirm" />
     </application>
 
 </manifest>

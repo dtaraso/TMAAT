@@ -5,6 +5,7 @@ package com.tmaat.dtara.onlinemovingestimator;
  */
 
 public class QuickEstimateResponse {
+// JSON Response from TMAAT Quick Estimate API
 
     public String totalCost = "";
     public boolean success = false;

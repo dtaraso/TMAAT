@@ -23,15 +23,19 @@ import retrofit2.http.Query;
  */
 
 public interface ImageService {
+// Interface to use get/post requests with Retrofit
 
+    // Post request for image upload
     @Multipart
     @POST("api/uploadImage")
     Call<ArrayList<ImageResponse>> postImage(@Query("room") String room, @Part MultipartBody.Part data);
 
 
+    // Get request to receive list of items
     @GET("api/getItems")
     Call<ArrayList<ImageResponse>> getItems();
 
+    // Post request for TMAAT Quick Estimate API
     @Headers({"Content-Type: application/json"})
     @POST("mwcwebapi/estimate/addInventoryToEstimate")
     Call<QuickEstimateResponse> postJSON(@Header("Authorization") String basicAuth, @Body JSONObject jsonBody);

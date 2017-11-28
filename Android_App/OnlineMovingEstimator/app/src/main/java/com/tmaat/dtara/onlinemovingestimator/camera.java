@@ -55,6 +55,7 @@ public class camera extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // If a room has not been selected yet, send to the room selection page (Pop)
         if (MainActivity.est.room == null) {
             Intent intent = new Intent(this, Pop.class);
             startActivity(intent);
@@ -62,8 +63,10 @@ public class camera extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        // Display the current room we're in
         TextView est = (TextView) findViewById(R.id.roomText);
         est.setText("Current Room: "+MainActivity.est.room);
+        // Declare the camera object
         textureView = (TextureView) findViewById(R.id.textureview);
         textureView.setSurfaceTextureListener(surfaceTextureListener);
         Button pictureButton = (Button) findViewById(R.id.take_picture);
@@ -77,6 +80,7 @@ public class camera extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        // Function once camera is resumed
         if (cameraDevice!=null)
             cameraDevice.close();
         super.onResume();
@@ -290,17 +294,20 @@ public class camera extends AppCompatActivity {
     }
 
     public void imageUpload(byte[] data, View view) {
+        // Turn function parameters into final
         final byte[] data_final = data;
         final View view_final = view;
 
+        // Create a new thread to upload the image to API
         new Thread(new Runnable() {
 
             @Override
             public void run() {
 
                 Cloud cloud = new Cloud();
-                final boolean ok = cloud.ImageUpload(data_final, view_final, view_final.getContext());
+                final boolean ok = cloud.ImageUpload(data_final);
                 if (!ok) {
+                    // If the image upload failed, warn user with a toast
                     view_final.post(new Runnable() {
 
                         @Override
@@ -314,10 +321,12 @@ public class camera extends AppCompatActivity {
     }
 
     public void onReviewImages(View view) {
+        // Start intent to go to image confirm page
         Intent intent = new Intent(this, ImageConfirm.class);
         startActivity(intent);
     }
 
+    // Function starts intent to go back to room selection page (Pop)
     public void onRoomSelect(View view) {
         startActivity(new Intent(camera.this, Pop.class));
     }

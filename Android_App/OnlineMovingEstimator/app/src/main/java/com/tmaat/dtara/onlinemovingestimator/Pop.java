@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -82,23 +81,27 @@ public class Pop extends AppCompatActivity {
 
     public void addListenerOnButton() {
 
+        // Creates variables for the radio group and done button
         roomGroup = (RadioGroup) findViewById(R.id.roomRadioGroup);
         btnDisplay = (Button) findViewById(R.id.DoneButton);
 
+        // Create a listener for the done button
         btnDisplay.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                // get selected radio button from radioGroup
+                // Get selected radio button from radioGroup
                 int selectedId = roomGroup.getCheckedRadioButtonId();
 
+                // If a radio button was not selected, display a warning toast
                 if (selectedId == -1) {
                     View view = findViewById(android.R.id.content);
                     Toast.makeText(view.getContext(),"Select a room before continuing",Toast.LENGTH_LONG).show();
                 } else {
-                    // find the radiobutton by returned id
+                    // Find the radiobutton by returned id
                     radioButton = (RadioButton) findViewById(selectedId);
+                    // Set the current room in the predefined estimate object
                     MainActivity.est.addCurrentRoom((String) radioButton.getText());
                     finish();
                 }

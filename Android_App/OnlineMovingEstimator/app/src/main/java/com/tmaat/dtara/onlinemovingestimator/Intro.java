@@ -5,20 +5,18 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class Intro extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        final View view = findViewById(android.R.id.content);
+        // Start new thread in order to get all furniture items from API
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -27,6 +25,7 @@ public class Intro extends AppCompatActivity {
             }
         }).start();
 
+        // Design Portion
         Typeface face;
         face = Typeface.createFromAsset(getAssets(),"1.otf");
         TextView textView = (TextView)findViewById(R.id.aboutTitle);
@@ -42,6 +41,8 @@ public class Intro extends AppCompatActivity {
     }
 
     public void onContinue(View view) {
+
+        // Start new intent to go to camera portion
         Intent intent = new Intent(this, camera.class);
         startActivity(intent);
     }

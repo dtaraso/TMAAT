@@ -26,7 +26,9 @@ import static com.tmaat.dtara.onlinemovingestimator.Cloud.furnResponse;
 import static com.tmaat.dtara.onlinemovingestimator.Cloud.imgResponse;
 
 public class FurnConfirm extends AppCompatActivity {
+    // Save the image number
     private int imageNum;
+    // Save the image object
     private Image img;
 
     @Override
@@ -36,6 +38,7 @@ public class FurnConfirm extends AppCompatActivity {
         if(extras == null) {
             imageNum= -1;
         } else {
+            // Get the image number passed over
             imageNum= extras.getInt("ImageNum");
         }
         super.onCreate(savedInstanceState);
@@ -52,6 +55,7 @@ public class FurnConfirm extends AppCompatActivity {
         ArrayList<Furniture> furnList = img.getFurnList();
         ListView listView = (ListView) findViewById(R.id.listFurn);
 
+        // If furniture was detected within the image
         if (furnList.size() != 0) {
             //create an ArrayAdaptar from the String Array
             dataAdapter = new FurnConfirm.MyCustomAdapter(this,
@@ -59,9 +63,11 @@ public class FurnConfirm extends AppCompatActivity {
             // Assign adapter to ListView
             listView.setAdapter(dataAdapter);
         } else {
+            // Hide the list view
             listView.setVisibility(View.GONE);
             RelativeLayout rl = (RelativeLayout) findViewById(R.id.furnConfirm);
             TextView txt = new TextView(this);
+            // Set text to display that the image found no furniture
             txt.setText("No Furniture Found");
             rl.addView(txt);
         }
@@ -69,6 +75,7 @@ public class FurnConfirm extends AppCompatActivity {
     }
 
     private class MyCustomAdapter extends ArrayAdapter<Furniture> {
+    // Define the adapter
 
         private ArrayList<Furniture> furnList;
 
@@ -79,6 +86,7 @@ public class FurnConfirm extends AppCompatActivity {
             this.furnList.addAll(furnList);
         }
 
+        // Define the components of the furniture row
         private class ViewHolder {
             CheckBox name;
             Button classify;
@@ -88,7 +96,6 @@ public class FurnConfirm extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             FurnConfirm.MyCustomAdapter.ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(
@@ -100,6 +107,7 @@ public class FurnConfirm extends AppCompatActivity {
                 holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
                 convertView.setTag(holder);
 
+                // If the checkbox was clicked
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
@@ -109,10 +117,11 @@ public class FurnConfirm extends AppCompatActivity {
                 });
 
                 final FurnConfirm.MyCustomAdapter.ViewHolder holder1 = holder;
+                // If the user clicked on the classify button
                 holder.classify.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         Button cb = (Button) v ;
-
+                        
                         final Furniture furn = (Furniture) cb.getTag();
                         List<String> furnItems = getItems(furn);
                         List<String> furnIDs = getIDs(furn);

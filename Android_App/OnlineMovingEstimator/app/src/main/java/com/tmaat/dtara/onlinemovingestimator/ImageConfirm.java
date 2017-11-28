@@ -37,10 +37,11 @@ public class ImageConfirm extends AppCompatActivity {
 
     private void displayListView() {
 
-        //Array list of furniture
+        //Array list of images
         ArrayList<Image> imgList = MainActivity.est.getImageList();
         ListView listView = (ListView) findViewById(R.id.imgList);
 
+        // If the array list of images is not empty
         if (imgList.size() != 0) {
             //create an ArrayAdaptar from the String Array
             dataAdapter = new ImageConfirm.MyCustomAdapter(this,
@@ -48,10 +49,11 @@ public class ImageConfirm extends AppCompatActivity {
             // Assign adapter to ListView
             listView.setAdapter(dataAdapter);
 
+            // Set a listener on the list view
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
-                    // When clicked, show a toast with the TextView text
+                    // When clicked, start an intent with the image information passed
                     Image img = (Image) parent.getItemAtPosition(position);
                     Intent intent = new Intent(ImageConfirm.this, FurnConfirm.class);
                     intent.putExtra("ImageNum",img.getNumber());
@@ -59,9 +61,11 @@ public class ImageConfirm extends AppCompatActivity {
                 }
             });
         } else {
+            // Hide the list view if no images available
             listView.setVisibility(View.GONE);
             RelativeLayout rl = (RelativeLayout) findViewById(R.id.imgConfirm);
             TextView txt = new TextView(this);
+            // Display "no images found" text
             txt.setText("No Images Found");
             rl.addView(txt);
         }
@@ -69,6 +73,7 @@ public class ImageConfirm extends AppCompatActivity {
     }
 
     private class MyCustomAdapter extends ArrayAdapter<Image> {
+    // Define Adapter class
 
         private ArrayList<Image> imgList;
 
@@ -79,6 +84,7 @@ public class ImageConfirm extends AppCompatActivity {
             this.imgList.addAll(imgList);
         }
 
+        // Components for image row
         private class ViewHolder {
             TextView name;
             TextView room_status;
@@ -89,7 +95,6 @@ public class ImageConfirm extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             ImageConfirm.MyCustomAdapter.ViewHolder holder = null;
-            Log.v("ConvertView", String.valueOf(position));
 
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(
@@ -102,10 +107,12 @@ public class ImageConfirm extends AppCompatActivity {
                 holder.button = (Button) convertView.findViewById(R.id.proceed);
                 convertView.setTag(holder);
 
+                // If user clicks on button
                 holder.button.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         Button cb = (Button) v ;
                         Image im = (Image) cb.getTag();
+                        // Go to furniture confirm page with image information
                         Intent intent = new Intent(ImageConfirm.this, FurnConfirm.class);
                         intent.putExtra("ImageNum",im.getNumber());
                         startActivity(intent);
@@ -116,11 +123,13 @@ public class ImageConfirm extends AppCompatActivity {
                 holder = (ImageConfirm.MyCustomAdapter.ViewHolder) convertView.getTag();
             }
 
+            // Initialize the rows with information
             Image img = imgList.get(position);
             holder.name.setText("Image No."+img.getNumber());
             holder.name.setTag(img);
             holder.button.setTag(img);
             if (img.loading) {
+                // If the image is loading, don't display button or room
                 holder.room_status.setText("Loading");
                 holder.button.setVisibility(View.GONE);
             } else {
