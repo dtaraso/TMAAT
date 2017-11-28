@@ -100,12 +100,7 @@ class RetakeViewController: UIViewController {
         
         NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
         
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            print("Landscape")
-            takePhoto.transform = self.takePhoto.transform.rotated(by: CGFloat(Double.pi/2))
-            
-            
-        }
+        deviceRotated()
 
         self.navigationItem.hidesBackButton = true
         
@@ -116,18 +111,31 @@ class RetakeViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIDeviceOrientationDidChange, object: nil)
     }
     
+    
+    
     func deviceRotated(){
         
-        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
-            print("Landscape")
-            takePhoto.transform = self.takePhoto.transform.rotated(by: CGFloat(Double.pi/2))
+        switch UIDevice.current.orientation {
+        case .landscapeLeft:
+            let image = UIImage(named: "camera-r")
             
+            takePhoto.setImage(image, for: .normal)
+            print("landscape")
+        case.landscapeRight:
+            let image = UIImage(named: "camera-l")
             
-        }
-        else if UIDeviceOrientationIsPortrait(UIDevice.current.orientation) {
+            takePhoto.setImage(image, for: .normal)
+        case .portrait:
+            let image = UIImage(named: "camera")
+            
+            takePhoto.setImage(image, for: .normal)
             print("Portrait")
-            takePhoto.transform = self.takePhoto.transform.rotated(by: CGFloat(-Double.pi/2))
+        case .portraitUpsideDown:
+            let image = UIImage(named: "camera-u")
             
+            takePhoto.setImage(image, for: .normal)
+        default:
+            print("other")
         }
         
     }
@@ -144,6 +152,7 @@ class RetakeViewController: UIViewController {
         self.currentPic = pic
         print("heyaljdfhasljkfha")
         delegate?.refresh(pic: currentPic)
+        self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         _ = navigationController?.popViewController(animated: true)
         
         

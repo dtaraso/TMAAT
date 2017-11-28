@@ -57,7 +57,7 @@ class SubCategoryViewController: UIViewController, UITableViewDataSource, UITabl
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Sub", for: indexPath ) as! SubCategoryCell
-        
+
         let fullList = estimateSession.fullList
         let related = selected?.relatedItemsIDs[indexPath.row]
         for item in fullList!{

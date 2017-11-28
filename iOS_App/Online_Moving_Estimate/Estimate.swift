@@ -192,6 +192,7 @@ class Estimate: NSObject{
         rooms = [Room]()
         tempList = [MovingItem]()
         picCount = 0
+        pictures = [Picture]()
         
         currentRoom = -1
         

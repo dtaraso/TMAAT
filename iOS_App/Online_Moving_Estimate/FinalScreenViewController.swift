@@ -33,6 +33,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     @IBOutlet weak var getEstimateButton: UIButton!
     let name = Notification.Name("ImageRequestComplete")
     
+    @IBOutlet weak var startOver: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         createObserver()
         
         getEstimateButton.layer.cornerRadius = 5
+        startOver.layer.cornerRadius = 5
         
         self.navigationItem.hidesBackButton = true
         let newBackButton = UIBarButtonItem(title: "Camera", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FinalScreenViewController.back(sender:)))

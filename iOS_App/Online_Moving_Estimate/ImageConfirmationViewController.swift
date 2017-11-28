@@ -21,7 +21,7 @@ protocol EditDelegate {
     func refresh()
 }
 
-class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RetakeDelegate {
+class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RetakeDelegate, NewItemDelegate{
     
     
     
@@ -86,9 +86,12 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         if !currentPic.doneLoading{
             names.append((name: "Loading...", value: 0, movingItem: nil, index: 0))
         }
+        else if currentPic.itemsToMove.count == 0{
+            names.append((name: "No Items Detected", value: 0, movingItem: nil, index: 0))
+        }
         else{
             for (i,item) in currentPic.itemsToMove.enumerated(){
-                if (item.genericName != nil){
+                if (item.needSpecification){
                     nameToAdd = item.genericName!
                 }
                 else{
@@ -113,6 +116,8 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         
         self.furnTableView.reloadData()
     }
+    
+    
     
     func refreshTable(){
         
@@ -156,23 +161,28 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     
     @IBAction func incrementCount(_ sender: UIButton) {
- 
-        let old = names[sender.tag].movingItem
-        let new = old?.copy() as! MovingItem
-        currentPic.itemsToMove.append(new)
-        names[sender.tag].value = names[sender.tag].value + 1
-        self.furnTableView.reloadData()
+        if checkIfInNames(name: "No Items Detected") == -1{
+            let old = names[sender.tag].movingItem
+            let new = old?.copy() as! MovingItem
+            currentPic.itemsToMove.append(new)
+            names[sender.tag].value = names[sender.tag].value + 1
+            self.furnTableView.reloadData()
+        }
+        
         
         
         
     }
     
     @IBAction func decrementCount(_ sender: UIButton) {
-        let toDelete = names[sender.tag].movingItem
-        let index = currentPic.itemsToMove.index(of:toDelete!)
-        currentPic.itemsToMove.remove(at: index!)
-        names[sender.tag].value = names[sender.tag].value - 1
-        self.furnTableView.reloadData()
+        if names[sender.tag].value > 0 && checkIfInNames(name: "No Items Detected") == -1{
+            let toDelete = names[sender.tag].movingItem
+            let index = currentPic.itemsToMove.index(of:toDelete!)
+            currentPic.itemsToMove.remove(at: index!)
+            names[sender.tag].value = names[sender.tag].value - 1
+            self.furnTableView.reloadData()
+        }
+        
     }
     
     
@@ -221,6 +231,12 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
             
             
             
+        }
+        
+        if let viewController = segue.destination as? NewItemTableViewController{
+            viewController.estimateSession = estimateSession
+            viewController.currentPic = currentPic
+            viewController.delegate = self
         }
         
             
