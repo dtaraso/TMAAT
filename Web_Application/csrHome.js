@@ -43,7 +43,7 @@ function updateChatQueue(){
             console.log(customerName + " : " + customerID);
             //console.log(chatURLstub);
 
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '&id=' + chatID + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName +'</a>';
         }
 
         document.getElementById('chatqueue').innerHTML = htmlString;
@@ -68,7 +68,7 @@ function updateAppointmentQueue(){
             customerName = appointmentQueue[i].customerName;
             customerID = appointmentQueue[i].id;
             chatID = customerID;
-            htmlString += '<br><a href=' + chatURL + '?n=' + username + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' on ' + time.toLocaleString() + '</a>';
+            htmlString += '<br><a href=' + chatURL + '?n=' + username + '&id=' + chatID + '#' + customerID + ' target="_blank" onclick="joinChat('+chatID+');">'+ customerName + ' on ' + time.toLocaleString() + '</a>';
         }
 
         document.getElementById('appts').innerHTML = htmlString;
@@ -112,6 +112,8 @@ function joinChat(chatID){
     joinRequest.setRequestHeader("Auth-Token", token);
     joinRequest.onload = function(){
         //console.log("Chat joined.");
+
+        // remove chat from chat schedule queue
     };
     joinRequest.send();
 }

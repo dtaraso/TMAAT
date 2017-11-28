@@ -3,12 +3,11 @@ package com.tmaat.dtara.onlinemovingestimator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class furn_catalog extends AppCompatActivity {
-    // Creates the catalog row for adapter in imageConfirm activity
+public class img_catalog extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_furn_catalog);
+        setContentView(R.layout.activity_img_catalog);
     }
 }

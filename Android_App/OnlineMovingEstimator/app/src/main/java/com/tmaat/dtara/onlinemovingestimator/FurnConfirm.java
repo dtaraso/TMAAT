@@ -1,8 +1,8 @@
 package com.tmaat.dtara.onlinemovingestimator;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,53 +23,59 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.tmaat.dtara.onlinemovingestimator.Cloud.furnResponse;
+import static com.tmaat.dtara.onlinemovingestimator.Cloud.imgResponse;
 
-public class FinalizeList extends AppCompatActivity {
+public class FurnConfirm extends AppCompatActivity {
+    // Save the image number
+    private int imageNum;
+    // Save the image object
+    private Image img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finalize_list);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras == null) {
+            imageNum= -1;
+        } else {
+            // Get the image number passed over
+            imageNum= extras.getInt("ImageNum");
+        }
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_furn_confirm);
         displayListView();
-        checkButtonClick();
     }
 
-    FinalizeList.MyCustomAdapter dataAdapter = null;
+    FurnConfirm.MyCustomAdapter dataAdapter = null;
 
     private void displayListView() {
 
-        ArrayList<Furniture> furnList = MainActivity.est.getTotalList();
+        //Array list of furniture
+        img = MainActivity.est.getImage(imageNum);
+        ArrayList<Furniture> furnList = img.getFurnList();
         ListView listView = (ListView) findViewById(R.id.listFurn);
 
+        // If furniture was detected within the image
         if (furnList.size() != 0) {
             //create an ArrayAdaptar from the String Array
-            dataAdapter = new FinalizeList.MyCustomAdapter(this,
+            dataAdapter = new FurnConfirm.MyCustomAdapter(this,
                     R.layout.activity_furn_catalog, furnList);
             // Assign adapter to ListView
             listView.setAdapter(dataAdapter);
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view,
-                                        int position, long id) {
-                    // When clicked, show a toast with the TextView text
-                    Furniture furn = (Furniture) parent.getItemAtPosition(position);
-                    Toast.makeText(getApplicationContext(),
-                            "Clicked on Row: " + furn.getName(),
-                            Toast.LENGTH_LONG).show();
-                }
-            });
         } else {
+            // Hide the list view
             listView.setVisibility(View.GONE);
-            RelativeLayout rl = (RelativeLayout) findViewById(R.id.imgConfirm);
+            RelativeLayout rl = (RelativeLayout) findViewById(R.id.furnConfirm);
             TextView txt = new TextView(this);
-            txt.setText("No Furniture Was Detected");
+            // Set text to display that the image found no furniture
+            txt.setText("No Furniture Found");
             rl.addView(txt);
         }
 
     }
 
     private class MyCustomAdapter extends ArrayAdapter<Furniture> {
+    // Define the adapter
 
         private ArrayList<Furniture> furnList;
 
@@ -80,6 +86,7 @@ public class FinalizeList extends AppCompatActivity {
             this.furnList.addAll(furnList);
         }
 
+        // Define the components of the furniture row
         private class ViewHolder {
             CheckBox name;
             Button classify;
@@ -88,18 +95,19 @@ public class FinalizeList extends AppCompatActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            FinalizeList.MyCustomAdapter.ViewHolder holder = null;
+            FurnConfirm.MyCustomAdapter.ViewHolder holder = null;
 
             if (convertView == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(
                         Context.LAYOUT_INFLATER_SERVICE);
                 convertView = vi.inflate(R.layout.activity_furn_catalog, null);
 
-                holder = new FinalizeList.MyCustomAdapter.ViewHolder();
+                holder = new FurnConfirm.MyCustomAdapter.ViewHolder();
                 holder.name = (CheckBox) convertView.findViewById(R.id.checkBox1);
                 holder.classify = (Button) convertView.findViewById(R.id.classify_furn);
                 convertView.setTag(holder);
 
+                // If the checkbox was clicked
                 holder.name.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
@@ -108,12 +116,13 @@ public class FinalizeList extends AppCompatActivity {
                     }
                 });
 
-                final ViewHolder holder1 = holder;
+                final FurnConfirm.MyCustomAdapter.ViewHolder holder1 = holder;
+                // If the user clicked on the classify button
                 holder.classify.setOnClickListener( new View.OnClickListener() {
-                        public void onClick(View v) {
-                            Button cb = (Button) v ;
-
-                            final Furniture furn = (Furniture) cb.getTag();
+                    public void onClick(View v) {
+                        Button cb = (Button) v ;
+                        
+                        final Furniture furn = (Furniture) cb.getTag();
                         List<String> furnItems = getItems(furn);
                         List<String> furnIDs = getIDs(furn);
                         final CharSequence[] items_final = furnItems.toArray(new CharSequence[furnItems.size()]);
@@ -139,9 +148,11 @@ public class FinalizeList extends AppCompatActivity {
                 });
             }
             else {
-                holder = (FinalizeList.MyCustomAdapter.ViewHolder) convertView.getTag();
+                holder = (FurnConfirm.MyCustomAdapter.ViewHolder) convertView.getTag();
             }
 
+            //Log.e("POS",String.valueOf(position));
+            //Log.e("SIZE",String.valueOf(furnList.size()));
             Furniture furn = furnList.get(position);
             holder.name.setText(furn.getName());
             holder.name.setChecked(furn.isSelected());
@@ -151,69 +162,62 @@ public class FinalizeList extends AppCompatActivity {
             if (furn.quantity.size() <= 1) {
                 holder.classify.setVisibility(View.GONE);
             }
-
             return convertView;
-
         }
     }
 
-    private void checkButtonClick() {
-        Button myButton = (Button) findViewById(R.id.done);
-        myButton.setOnClickListener(new View.OnClickListener() {
+    public void onSave(View view) {
+        Intent intent = new Intent(this, ImageConfirm.class);
+        startActivity(intent);
+    }
+
+    public void onDeleteImg(View view){
+        img = null;
+        MainActivity.est.removeImage(imageNum);
+        Intent intent = new Intent(this, ImageConfirm.class);
+        startActivity(intent);
+    }
+
+    public void onAddItem(View view) {
+        List<String> furnItems = getAllItems();
+        List<String> furnIDs = getAllIds();
+        final CharSequence[] items_final = furnItems.toArray(new CharSequence[furnItems.size()]);
+        final CharSequence[] IDs_final = furnIDs.toArray(new CharSequence[furnIDs.size()]);
+        Context context = view.getContext();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Select Furniture Type");
+        builder.setItems(items_final, new DialogInterface.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
-
-                final StringBuffer responseText = new StringBuffer();
-                responseText.append("The following were selected...\n");
-
-                ArrayList<Furniture> furnList = dataAdapter.furnList;
-                for(int i=0;i<furnList.size();i++){
-                    Furniture furn = furnList.get(i);
-                    if(furn.isSelected()){
-                        responseText.append("\n" + furn.getName());
-                    }
-                }
-                final View view_final = v;
-
-                new Thread(new Runnable() {
-
-                    @Override
-                    public void run() {
-
-                        Cloud cloud = new Cloud();
-                        final boolean ok = cloud.FurnitureUpload(view_final.getContext());
-                        if (!ok) {
-                    /*
-                     * If we fail to save, display a toast
-                     */
-                            // Please fill this in...
-                            view_final.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    //Toast.makeText(getApplicationContext(),
-                                    //        responseText, Toast.LENGTH_LONG).show();
-                                    Toast.makeText(getApplicationContext(),
-                                            "Failed to upload furniture.", Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        } else {
-                            view_final.post(new Runnable() {
-
-                                @Override
-                                public void run() {
-                                    ProgressDialog progress = new ProgressDialog(view_final.getContext());
-                                    progress.setMessage("Processing Estimate Information");
-                                    progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-                                    progress.show();
-                                }
-                            });
-                        }
-                    }
-                }).start();
+            public void onClick(DialogInterface dialog, int which) {
+                String furn_name = (String) items_final[which];
+                String furn_id = (String) IDs_final[which];
+                Furniture newFurn = new Furniture(furn_name, furn_id);
+                dataAdapter.furnList.add(newFurn);
+                img.AddToFurnList(newFurn);
+                dialog.cancel();
+                dataAdapter.notifyDataSetChanged();
             }
         });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+
+    private List<String> getAllItems() {
+        List<String> items = new ArrayList<String>();
+        for (ImageResponse i: furnResponse) {
+            items.add(i.name);
+        }
+        return items;
+    }
+
+    private List<String> getAllIds() {
+        List<String> items = new ArrayList<String>();
+        for (ImageResponse i: furnResponse) {
+            items.add(i.id);
+        }
+        return items;
     }
 
     private List<String> getItems(Furniture furn) {

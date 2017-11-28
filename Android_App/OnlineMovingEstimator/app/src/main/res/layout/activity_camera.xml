@@ -1,45 +1,59 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1">
 
-    <FrameLayout
-        android:id="@+id/camera_preview"
+    <TextureView
+        android:id="@+id/textureview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="Suspicious0dp,UselessParent" >
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
-        <Button
-            android:id="@+id/Popup"
-            android:layout_width="64dp"
-            android:layout_height="60dp"
-            android:layout_gravity="right|center_horizontal"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="20dp"
-            android:background="@android:drawable/ic_menu_search"
-            android:gravity="bottom|center_horizontal"
-            android:rotation="90"
-            android:text="@string/roomchoice"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textSize="10sp"
-            android:textStyle="bold|italic"
-            tools:ignore="RtlHardcoded,SmallSp" />
+    <Button
+        android:id="@+id/take_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:rotation="90"
+        android:text="@string/takeImage" />
 
-        <Button
-            android:id="@+id/button_capture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="10dp"
-            android:background="@android:drawable/ic_menu_camera"
-            android:rotation="90"
-            android:text="@string/capture"
-            android:textColor="@android:color/holo_orange_dark"
-            android:textColorHighlight="@android:color/holo_orange_dark"
-            android:textSize="18sp" />
+    <Button
+        android:id="@+id/room_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="55dp"
+        android:onClick="onRoomSelect"
+        android:rotation="90"
+        android:text="@string/select_room" />
 
-    </FrameLayout>
+    <Button
+        android:id="@+id/review_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textureview"
+        android:layout_alignEnd="@+id/take_picture"
+        android:layout_marginBottom="26dp"
+        android:onClick="onReviewImages"
+        android:rotation="90"
+        android:text="@string/review_img" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/roomText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="24dp"
+        android:rotation="90"
+        android:textColor="#FFFFFF"
+        android:shadowColor="#000000"
+        android:shadowRadius="10.0" />
+
+
+</RelativeLayout>

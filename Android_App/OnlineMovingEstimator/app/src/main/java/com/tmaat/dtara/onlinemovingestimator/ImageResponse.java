@@ -7,15 +7,20 @@ import java.util.ArrayList;
  */
 
 public class ImageResponse {
+    // JSON Response from Image Upload/ Get Items requests
 
-    ///Names must match the name of the main json dictionary returned
+    /*
+    Commented attributes are included in json response but not being currently used
+     */
 
-    public String id;
+    /*
     public String item;
-    public String name;
     public String category;
-    public String generic;
     public ArrayList<String> related;
+    */
+    public String id;
+    public String name;
+    public String generic;
     public ArrayList<String> relatedInCategory;
 
 }

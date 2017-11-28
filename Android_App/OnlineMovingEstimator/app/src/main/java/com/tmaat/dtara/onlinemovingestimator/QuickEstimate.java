@@ -12,9 +12,12 @@ public class QuickEstimate extends AppCompatActivity {
         setContentView(R.layout.activity_quick_estimate);
         TextView est = (TextView) findViewById(R.id.estimate);
 
+        // If there was a response from the TMAAT Quick Estimate API
         if (Cloud.EstimateResponse.success) {
+            // Display the estimated cost returned
             est.setText("$ "+Cloud.EstimateResponse.totalCost);
         } else {
+            // Display a warning message
             est.setText("There was an error on our part.");
         }
     }
