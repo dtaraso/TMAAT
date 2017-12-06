@@ -18,3 +18,124 @@ Proper discovery between peers requires both a STUN and a TURN server. These are
 
 Any unique identifier can be used to define the room name. We use the chat id from our backend implementation, but as long as both peers have a way to agree on the room name (we simply stash it in the URL), any string can be used to define the room.
 
+# Backend
+
+TWO MEN AND A TRUCK
+Online Estimator Web API - Built with ASP.NET and C#, using a mySQL database
+Documentation
+
+For TMAAT: depending on how you host the site and the api, you will most likely want to remove the CORS support we added during development.
+In the web.config file:
+<customHeaders>
+        <add name="Access-Control-Allow-Origin" value="*" />
+        <add name="Access-Control-Allow-Methods" value="GET, PUT, POST, DELETE, HEAD" />
+        <add name="Access-Control-Allow-Headers" value="Origin, X-Requested-With, Content-Type, Accept, Authorization, Auth-Token" />
+</customHeaders>
+
+Any request requiring Auth-Token will return 401 unauthorized on invalid credentials.
+
+POST
+/api/uploadImage?room=ROOMNAME
+Content-type: multipart/form-data
+Parameters: *.jpg image file
+Returns: 200 OK + JSON list of recognized moving items following this model:
+
+public class MovingItemEnum
+    {
+        public int id { get; set; }
+        public string item { get; set; }
+        public string name { get; set; }
+        public string category { get; set; }
+        public string generic { get; set; }
+        public List<int> related { get; set; }
+        public List<int> relatedInCategory { get; set; }
+    }
+
+
+GET
+/api/getItems
+Returns: 200 OK + JSON list of all moving items
+
+GET
+/api/getQueue
+Returns: 200 OK + JSON list of customers waiting for chat
+Requires Auth-Token header, https
+
+
+
+
+POST
+/api/customerJoinQueue?customerId=ID
+Effects: Adds customer to waiting chat queue
+Returns: 200 OK + chat ID, 304 Not Modified on failure
+
+POST
+/api/customerRegister?name=NAME&email=EMAIL
+Effects: Adds customer to customer database
+Returns: 200 OK + customer ID, 304 Not Modified on failure
+
+POST
+/api/csrRegister
+Content-Type: application/json
+With body structure:
+{
+	"username": "USERNAME",
+	"password": "PASSWORD"
+}
+Effects: Adds CSR to database and allows them to login
+Returns: 200 OK + chat ID, 304 Not Modified on failure
+Requires: https
+
+POST
+/api/csrLogin
+Content-Type: application/json
+With body structure:
+{
+	"username": "USERNAME",
+	"password": "PASSWORD"
+}
+Effects: Adds CSR auth token to database and gives the token authorization to protected API methods for 24 hours.
+Returns: 200 OK + Auth token in response body
+Requires: https
+
+
+POST
+/api/csrJoinQueue?username=USERNAME&chatId=ID
+Effects: Adds CSR to the specified chat instance so it will no longer show up in getQueue call.
+Returns: 200 OK + chat ID, 304 Not Modified on failure
+Requires: Auth-Token header, https
+
+POST
+/api/customerJoinScheduleQueue?cid=ID&ctime=TIME
+TIME = One of [morning, afternoon, evening]
+Effects: Adds customer to waiting scheduled chat queue
+Returns: 200 OK + chat ID, 304 Not Modified on failure
+
+POST
+/api/csrJoinScheduleQueue?username=USERNAME&chatid=ID&date=DATE
+DATE = datetime in ISO string format
+Effects: Adds CSR to the specified chat schedule instance so it will no longer show up in getScheduleQueue call, sends customer confirmation email with link to chat.
+Returns: 200 OK, 304 Not Modified on failure
+Requires: Auth-Token header, https
+
+GET
+/api/getScheduleQueue
+Returns: 200 OK, JSON list of customers waiting for a scheduled chat
+Requires Auth-Token header, https
+
+POST
+/api/removeScheduleChat?chatid=ID
+Effects: Removes the specified scheduled chat from the queue
+Returns: 200 OK, 304 Not Modified on failure
+Requires: Auth-Token header, https
+
+POST
+/api/removeChat?chatid=ID
+Effects: Removes the specified chat from the queue
+Returns: 200 OK, 304 Not Modified on failure
+Requires: Auth-Token header, https
+
+GET
+/api/getCsrScheduleQueue?username=USERNAME
+Returns: 200 OK JSON list of customers waiting for a scheduled chat that have a specific CSR assigned to them
+Requires Auth-Token header, https
