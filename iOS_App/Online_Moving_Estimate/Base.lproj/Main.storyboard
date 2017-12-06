@@ -337,7 +337,7 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="w0H-sN-Nzu"/>
                                     <barButtonItem style="plain" id="StQ-se-JCZ">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Izs-x0-gPq" userLabel="Delete Image">
-                                            <rect key="frame" x="200" y="7" width="91" height="30"/>
+                                            <rect key="frame" x="200" y="7" width="45" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Delete">
                                                 <color key="titleColor" red="0.96862745100000003" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -350,7 +350,7 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="T0S-TD-V93"/>
                                     <barButtonItem style="plain" id="Z8p-gl-dvo">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DTe-Rb-7CW">
-                                            <rect key="frame" x="298" y="7" width="61" height="30"/>
+                                            <rect key="frame" x="287" y="7" width="61" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="add Item"/>
                                             <connections>

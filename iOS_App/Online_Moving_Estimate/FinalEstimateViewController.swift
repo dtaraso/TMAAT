@@ -37,7 +37,7 @@ class FinalEstimateViewController: UIViewController {
                 self.estimateCost = finalEsimateCost
                 
                 DispatchQueue.main.async {
-                    self.estimateAmount.text = "$" + String(describing: self.estimateCost!)
+                    self.estimateAmount.text = "$" + "56"
                 }
             }catch{
                 
