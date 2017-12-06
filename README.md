@@ -7,6 +7,8 @@ To run (macOS only)
 2) Select the project file, and under "General" sign with an Apple developer account
 3) If you attempt to run on an iOS device and run into issues, you may need to accept the certificate in settings->general->device management
 4) You can also run using xCode's built in emulators, but will not be able to test camera features
+5) Ensure that auto-rotation is ENABLED on your device
+6) Backend must be up and running, and device must be conneceted to internet
 
 # Android Application
 
@@ -15,7 +17,7 @@ To run
 2) Build/run project with an Android mobile device with API 21 or higher
 3) You may need to change permissions on mobile device to allow access to camera
 4) Internet connection is needed in order to connect to back-end
-5) Ensure that auto-rotation is ENABLED on your device
+
 
 # WebRTC 
 
