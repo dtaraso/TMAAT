@@ -23,6 +23,7 @@ class Room{
         
     }
     
+    // Associate a new picture with a room
     func addPicture(count: Int) -> Picture{
         let pic = Picture(number: count, room: self)
         pictures.append(pic)

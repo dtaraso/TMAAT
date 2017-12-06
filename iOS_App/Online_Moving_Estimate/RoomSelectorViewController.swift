@@ -81,7 +81,7 @@ class RoomSelectorViewController: UIViewController, UICollectionViewDelegate, UI
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
-        if let viewController = segue.destination as? ViewController{
+        if let viewController = segue.destination as? CameraViewController{
             
             
             

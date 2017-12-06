@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="gLV-cv-CAi">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -48,7 +44,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Tpf-pd-u05"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MZf-Or-jBt">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Enter your Estimate ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vkE-Rg-WIg">
@@ -104,7 +100,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ffm-My-lvm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MTZ-vM-9Lu">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="cEa-u2-EAJ">
@@ -178,7 +174,7 @@
                         <viewControllerLayoutGuide type="bottom" id="KQh-KB-yf2"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="FsN-sN-6z1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="You can use your phone's camera to take images of the items you'd like moved! " textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="1US-ia-G7V">
@@ -242,16 +238,16 @@
             </objects>
             <point key="canvasLocation" x="-618.39999999999998" y="1161.7691154422789"/>
         </scene>
-        <!--View Controller-->
+        <!--Camera View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="CameraViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yGF-Y8-sQ4">
@@ -290,26 +286,26 @@
             </objects>
             <point key="canvasLocation" x="957.60000000000002" y="154.27286356821591"/>
         </scene>
-        <!--Image Confirmation View Controller-->
+        <!--Edit View Controller-->
         <scene sceneID="0th-ew-gao">
             <objects>
-                <viewController id="AYq-I9-LuH" customClass="ImageConfirmationViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="AYq-I9-LuH" customClass="EditViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="0Uv-ZZ-uXC"/>
                         <viewControllerLayoutGuide type="bottom" id="PhD-zN-NJ1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="bsL-tK-qTL">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z2q-Ea-tUf">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="556" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem style="plain" id="q3B-rZ-d9e">
                                         <inset key="imageInsets" minX="0.0" minY="-3" maxX="-2" maxY="0.0"/>
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="gCv-u4-KUR" userLabel="Confirm Changes">
-                                            <rect key="frame" x="16" y="7" width="55" height="30"/>
+                                            <rect key="frame" x="20" y="7" width="55" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Confirm">
                                                 <color key="titleColor" red="1" green="0.62473286650000004" blue="0.13840040049999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -323,7 +319,7 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="mlR-b0-r9g"/>
                                     <barButtonItem style="plain" id="WNy-g9-teK">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="xjt-tD-Cgg">
-                                            <rect key="frame" x="113" y="13" width="45" height="18"/>
+                                            <rect key="frame" x="117" y="13" width="45" height="18"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <inset key="contentEdgeInsets" minX="-2" minY="0.0" maxX="0.0" maxY="0.0"/>
                                             <state key="normal" title="Retake">
@@ -337,7 +333,7 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="w0H-sN-Nzu"/>
                                     <barButtonItem style="plain" id="StQ-se-JCZ">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Izs-x0-gPq" userLabel="Delete Image">
-                                            <rect key="frame" x="200" y="7" width="45" height="30"/>
+                                            <rect key="frame" x="204" y="7" width="45" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="Delete">
                                                 <color key="titleColor" red="0.96862745100000003" green="0.6588235294" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -350,7 +346,7 @@
                                     <barButtonItem width="42" style="plain" systemItem="fixedSpace" id="T0S-TD-V93"/>
                                     <barButtonItem style="plain" id="Z8p-gl-dvo">
                                         <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="DTe-Rb-7CW">
-                                            <rect key="frame" x="287" y="7" width="61" height="30"/>
+                                            <rect key="frame" x="291" y="7" width="61" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <state key="normal" title="add Item"/>
                                             <connections>
@@ -452,7 +448,7 @@
                         <viewControllerLayoutGuide type="bottom" id="0PD-p6-mgC"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0f0-g6-uZE">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9VE-Bn-EBb" userLabel="RetakeCameraView">
@@ -480,16 +476,16 @@
             </objects>
             <point key="canvasLocation" x="3967" y="144"/>
         </scene>
-        <!--Final Screen View Controller-->
+        <!--Item Collection View Controller-->
         <scene sceneID="vUK-P0-MUJ">
             <objects>
-                <viewController id="GGv-eH-Yse" customClass="FinalScreenViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="GGv-eH-Yse" customClass="ItemCollectionViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="OSs-fd-bsB"/>
                         <viewControllerLayoutGuide type="bottom" id="cEi-Y2-Yja"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="KAC-pv-omh">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="yTS-Dv-ZbY">
@@ -592,7 +588,7 @@
                         <viewControllerLayoutGuide type="bottom" id="jNR-HP-dBl"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9iY-Jn-gtA">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mMD-7S-a6Z">
@@ -669,7 +665,7 @@
                         <viewControllerLayoutGuide type="bottom" id="qfz-on-c0r"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="uNa-B7-2W9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="upa-Fb-ue0">
@@ -714,15 +710,15 @@
             <objects>
                 <tableViewController id="q9F-eG-thE" customClass="NewItemTableViewController" customModule="Online_Moving_Estimate" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="zkk-3h-u47" customClass="NewItemTableController">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="new" id="Fbd-1k-cOZ" customClass="newItemCell" customModule="Online_Moving_Estimate" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Fbd-1k-cOZ" id="4vK-yN-XaB">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7h-ms-hhX">

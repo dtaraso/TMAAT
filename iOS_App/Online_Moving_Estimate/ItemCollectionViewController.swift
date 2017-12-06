@@ -19,7 +19,7 @@ class FinalFurnitureCell: UITableViewCell{
 
 
 
-class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SubCategoryDelegate, EditDelegate {
+class ItemCollectionViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, SubCategoryDelegate, EditDelegate {
     
     //Member Variables
     var estimateSession : Estimate!
@@ -38,19 +38,19 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        //Need to observer for updates to image recognition calls
         createObserver()
         
         getEstimateButton.layer.cornerRadius = 5
         startOver.layer.cornerRadius = 5
         
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "Camera", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FinalScreenViewController.back(sender:)))
+        let newBackButton = UIBarButtonItem(title: "Camera", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ItemCollectionViewController.back(sender:)))
         self.navigationItem.leftBarButtonItem = newBackButton
         
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         
-        
+        //Set up the tableview data structure
         title = "All Items Captured"
         tableController = FurnitureOverviewTableController(pics: estimateSession.pictures)
         tableController?.drawList()
@@ -65,7 +65,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         }
     
     
-    
+    // Go back to the previous view
     func back(sender: UIBarButtonItem) {
         
         
@@ -73,28 +73,33 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
     
+    //Set up observer in order to update screen when image recogition request completes
     func createObserver(){
-        NotificationCenter.default.addObserver(self, selector: #selector(FinalScreenViewController.refresh), name: name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ItemCollectionViewController.refresh), name: name, object: nil)
     }
     
     
     
-    
+    // Define the number of rows in the table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return (tableController?.getNumberOfRows(section: section))!
     }
     
-    
+    //Define the data for each row in the table
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "FinalItemCall", for: indexPath ) as! FinalFurnitureCell
+        
+        //Do some math to store the location of an item when there are boths sections and rows within sections
         let location = (indexPath.section * 1000) + indexPath.row
+        
         let furniture = (tableController?.getFurniture(location: location) )!
         
         
         cell.subcategoryButton.isHidden = false
         cell.subCategorytest.isHidden = false
         
+        // Only display the subcategory selection buttons when it needs it
         if !(furniture.movingItem.needSpecification) {
           
             cell.subcategoryButton.isHidden = true
@@ -110,17 +115,20 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         return cell
     }
     
+    //Determine number of sections in the table view
     func numberOfSections(in tableView: UITableView) -> Int {
         
         
         return (tableController?.getNumberOfSections())!
     }
     
+    //Set the hieght of each row in the table view
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
         return 60.0;//Choose your custom row height
     }
     
+    //Define the data for each section header in the table
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = UIColor.lightGray
@@ -129,7 +137,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         button.tag = section
         button.setTitle("Edit", for: [])
         
-        button.addTarget(self, action: #selector(FinalScreenViewController.editPic(button:)), for: .touchDown)
+        button.addTarget(self, action: #selector(ItemCollectionViewController.editPic(button:)), for: .touchDown)
         
         
         let label = UILabel()
@@ -142,11 +150,13 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         return view
     }
     
+    //When a user selects the edit button on a section header...
     func editPic(button: UIButton) {
         performSegue(withIdentifier: "edit", sender: button)
         
     }
     
+    //Set the hieght of section headers
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 45
     }
@@ -158,6 +168,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         // Dispose of any resources that can be recreated.
     }
     
+    // Set the selected item for subcategory selection
     @IBAction func ShowSubCategory(_ sender: UIButton) {
         
         let furniture = tableController?.getFurniture(location: sender.tag)
@@ -166,6 +177,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
         
     }
     
+    //Redraw table when image recognition results return
     func refresh() {
         
         print("ayyyy")
@@ -188,7 +200,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
     
     
     
-    
+    //Transfer data forward whenever segue to another screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
@@ -226,7 +238,7 @@ class FinalScreenViewController: UIViewController, UITableViewDelegate, UITableV
             
             
         }
-        else if let viewController = segue.destination as? ImageConfirmationViewController{
+        else if let viewController = segue.destination as? EditViewController{
             
             
             viewController.estimateSession = estimateSession

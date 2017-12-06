@@ -26,8 +26,10 @@ class MovingItem: NSCopying{
         relatedItemsIDs = relatedItems
         genericName = generic?.capitalizingFirstLetter()
         
+        // Append self to the list of related items
         relatedItemsIDs.append(itemID)
         
+        // If there are not related items, we say this object does not need sub category specfication.
         if relatedItemsIDs.count > 1{
             needSpecification = true
         }else{

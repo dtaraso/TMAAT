@@ -19,50 +19,25 @@ class WelcomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // Grab list of all items from our server
         estimateSession.getFullList()
+        
         gotIT.layer.cornerRadius = 5
         title = "Weclome!"
         self.navigationController?.navigationBar.tintColor = UIColor(red: 0/255.0, green: 0/255.0, blue: 0/255.0, alpha: 1)
         
         
-        let URI = "https://mwc.test.twomen.com/mwcwebapi/estimate/addInventoryToEstimate"
-        let serverURL = URL(string: URI)
-        var request = URLRequest(url:serverURL!)
-        request.httpMethod = "POST"
-        
-        let username = "Msucapstone"
-        let password = "Vf@tN7Ck"
-        let loginString = "\(username):\(password)"
-        let loginData = loginString.data(using: String.Encoding.utf8)!
-        let base64LoginString = loginData.base64EncodedString()
-        request.setValue("Basic \(base64LoginString)", forHTTPHeaderField: "Authorization")
-        print(request.value(forHTTPHeaderField: "Authorization"))
-        
-        
-        let task =  URLSession.shared.dataTask(with: request,completionHandler: {
-            (data, response, error) -> Void in
-            
-            do{
-                
-                print(response)
-                
-            }catch{
-                
-                print("Whoops with the JSON")
-                
-            }
-            
-        })
-        task.resume()
-        
         
     }
     
+    //Send data forward when we move to next screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let viewController = segue.destination as? RoomSelectorViewController{
             viewController.estimateSession = estimateSession
             
             var imageSet = [UIImage]()
+            //Set up images for list of rooms
             for room in estimateSession.ImageNames{
                 print(room)
                 let image = UIImage(named: room)

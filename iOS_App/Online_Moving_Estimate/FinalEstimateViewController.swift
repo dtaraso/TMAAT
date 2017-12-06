@@ -23,7 +23,7 @@ class FinalEstimateViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    
+    // Perform request to get dollar estimate from TWO MEN AND A TRUCK
     func performFinalEstimate(){
         let request = estimateSession.getFinalEstimateRequest()
         
@@ -36,8 +36,9 @@ class FinalEstimateViewController: UIViewController {
                 let finalEsimateCost = json!["totalCost"] as! Float
                 self.estimateCost = finalEsimateCost
                 
+                //When the requset loads in, updade the dollar amount on screen
                 DispatchQueue.main.async {
-                    self.estimateAmount.text = "$" + "56"
+                    self.estimateAmount.text = "$" + String(describing: finalEsimateCost)
                 }
             }catch{
                 
@@ -57,6 +58,7 @@ class FinalEstimateViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    //Send data forward if we move to another screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if let viewController = segue.destination as? RoomSelectorViewController{

@@ -50,7 +50,7 @@ class NewItemTableViewController: UITableViewController {
         return estimateSession.fullList!.count
     }
 
-    
+    //Define data for each row in table view
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "new", for: indexPath ) as! newItemCell
         let item = estimateSession.fullList![indexPath.row]
@@ -62,6 +62,7 @@ class NewItemTableViewController: UITableViewController {
         return cell
     }
     
+    // Create new movingItem based on user selection
     @IBAction func addItemToList(_ sender: UIButton) {
         
         let itemElements = estimateSession.fullList![sender.tag] 

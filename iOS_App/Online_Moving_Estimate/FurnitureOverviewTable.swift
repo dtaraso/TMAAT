@@ -26,43 +26,8 @@ class FurnitureOverviewTableController{
         self.table = [(pic :String, Furniture : [ FurnitureStruct ])]()
     }
     
-    /*
-    func drawList(){
-        needsSelection = false
-        table = [(room :String, Furniture : [ FurnitureStruct ])]()
-        var room_count = -1
-        
-        
-        for room in rooms{
-            
-            
-            
-            if room.itemsToMove.count > 0{
-                room_count = room_count + 1
-                table.append((room: room.Name, Furniture: []))
-                var nameToAdd: String
-                for (item) in room.itemsToMove{
-                    if (item.needSpecification){
-                        nameToAdd = item.genericName!
-                        self.needsSelection = true
-                    }
-                    else{
-                        nameToAdd = item.itemName
-                    }
-                    
-                    
-                    table[room_count].Furniture.append(FurnitureStruct(name: nameToAdd, movingItem: item))
-                    
-                }
-            }
-            
-            
-        }
-        
-        
-    }
-    */
     
+    // Generate data strcuture we use to display table of all images and moving items
     func drawList(){
         needsSelection = false
         table = [(pic :String, Furniture : [ FurnitureStruct ])]()
@@ -78,13 +43,15 @@ class FurnitureOverviewTableController{
                 table.append((pic: "Image " + String(pic.number! + 1) + " - " + pic.room.Name, Furniture: []))
                 var nameToAdd: String
                 
+                // If the picture has not loaded in the item results yet, display as loading
                 if !pic.doneLoading{
                     table[pic_count].Furniture.append(FurnitureStruct(name: "Loading...", movingItem: MovingItem(category: "none", name: "loading...", ID: -1, relatedItems: [Int]())))
                 }
+                // If results have been returned, but there are not items, say no items detecetd
                 else if pic.itemsToMove.count == 0{
                     table[pic_count].Furniture.append(FurnitureStruct(name: "No Items Detected", movingItem: MovingItem(category: "none", name: "no items detected", ID: -1, relatedItems: [Int]())))
                 }
-                
+                    //move through any detected moving items and formate data for table
                     for item in pic.itemsToMove{
                         if (item.needSpecification){
                             nameToAdd = item.genericName!

@@ -11,7 +11,7 @@ import AVFoundation
 
 
 
-class ViewController: UIViewController{
+class CameraViewController: UIViewController{
     
     // Outlets
     @IBOutlet weak var cameraView: UIView!
@@ -87,7 +87,7 @@ class ViewController: UIViewController{
         deviceRotated()
         
         self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ViewController.back(sender:)))
+        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(CameraViewController.back(sender:)))
         self.navigationItem.leftBarButtonItem = newBackButton
         
         
@@ -98,7 +98,7 @@ class ViewController: UIViewController{
     }
     
     
-    
+    // Function rotates buttons when device is rotated
     func deviceRotated(){
         
         switch UIDevice.current.orientation {
@@ -134,7 +134,7 @@ class ViewController: UIViewController{
     }
     
     
-    
+    //Overrides back button behavior for camera screen
     func back(sender: UIBarButtonItem) {
         let value = UIInterfaceOrientation.portrait.rawValue
         UIDevice.current.setValue(value, forKey: "orientation")
@@ -150,7 +150,7 @@ class ViewController: UIViewController{
     }
     
 
-   
+   // When a user takes a photo...
     @IBAction func tapTakePhoto(_ sender: Any) {
         
         
@@ -175,7 +175,7 @@ class ViewController: UIViewController{
         
     }
     
-
+    //Takes image data, sends to server, and creates movingItems based on results
     func classifyImage(image: Data){
         
         let request = estimateSession.postImage(image: image)
@@ -192,7 +192,7 @@ class ViewController: UIViewController{
                 
                 self.estimateSession.parseJson(json: json, pic: pic)
                 
-                
+                //Perform image request asyncrounsly.
                 DispatchQueue.main.async {
                     
                     print("done")
@@ -225,6 +225,7 @@ class ViewController: UIViewController{
     }
     
     
+    //Sends user back to previous screen
     @IBAction func ChangeRoom(_ sender: Any) {
         dismiss(animated: true, completion:nil)
     }
@@ -232,7 +233,7 @@ class ViewController: UIViewController{
     
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let viewController = segue.destination as? FinalScreenViewController{
+        if let viewController = segue.destination as? ItemCollectionViewController{
             print("Called!")
             viewController.estimateSession = estimateSession
             
@@ -246,7 +247,7 @@ class ViewController: UIViewController{
 }
 
 
-extension ViewController : AVCapturePhotoCaptureDelegate {
+extension CameraViewController : AVCapturePhotoCaptureDelegate {
     func capture(_ captureOutput: AVCapturePhotoOutput,
                  didFinishProcessingPhotoSampleBuffer photoSampleBuffer: CMSampleBuffer?,
                  previewPhotoSampleBuffer: CMSampleBuffer?,
@@ -288,6 +289,7 @@ extension ViewController : AVCapturePhotoCaptureDelegate {
     
 }
 
+//Extend image to allow for easy rotations
 extension UIImage {
     struct RotationOptions: OptionSet {
         let rawValue: Int

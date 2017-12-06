@@ -21,7 +21,7 @@ protocol EditDelegate {
     func refresh()
 }
 
-class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RetakeDelegate, NewItemDelegate{
+class EditViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, RetakeDelegate, NewItemDelegate{
     
     
     
@@ -36,7 +36,7 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     //Outlets
     @IBOutlet weak var furnTableView: UITableView!
     
-    
+    //Check if item is already in dict of item names
     func checkIfInNames(name: String) -> Int{
         for (i,n) in names.enumerated(){
             if (n.name == name){
@@ -50,12 +50,9 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //Need to set up an observer in case an image recongtion request completes when are on this screen
         createObserver()
         
-        
-        
-        
-    
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(named: "nav"), for: .default)
         
         title = "items"
@@ -68,8 +65,9 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         
     }
     
+    //Need to update screen when image recognition reuqests come in
     func createObserver(){
-        NotificationCenter.default.addObserver(self, selector: #selector(ImageConfirmationViewController.refreshTable), name: name, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(EditViewController.refreshTable), name: name, object: nil)
     }
     
     deinit{
@@ -79,16 +77,21 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     
     
-    
+    //Generate data stcuture we use to fill the table view with moving items
     func setUp(){
+        // Names represents the name and associated data of moving items for the table
         names = [(name: String, value: Int, movingItem: MovingItem?, index: Int)]()
         var nameToAdd: String
+        
+        // Display loading if the items for the picture have not been reteurned yet
         if !currentPic.doneLoading{
             names.append((name: "Loading...", value: 0, movingItem: nil, index: 0))
         }
+        // If there are no items associated with the picture, say no items detected
         else if currentPic.itemsToMove.count == 0{
             names.append((name: "No Items Detected", value: 0, movingItem: nil, index: 0))
         }
+        // If there are items, move through items to format data for table
         else{
             for (i,item) in currentPic.itemsToMove.enumerated(){
                 if (item.needSpecification){
@@ -108,6 +111,7 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         }
     }
     
+    //Re-draw the screen
     func refresh(pic: Picture) {
         print("test")
         self.currentPic = pic
@@ -118,7 +122,7 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     }
     
     
-    
+    //re-draw but don't change the current picture
     func refreshTable(){
         
         setUp()
@@ -126,11 +130,12 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     }
     
     
-    
+    // Determine number of rows in a section for table view
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return names.count
     }
 
+    // Determine data for each row in table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ItemCell", for: indexPath ) as! FurnitureCell
         let item = names[indexPath.row]
@@ -141,17 +146,19 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         return cell
     }
     
+    //Determine number of sections in table view
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
+    //Determine title of sections in table view
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Detected Items"
     }
     
     
     
-    
+    //Confirm user changes to editing the image (ie just move to previous screen)
     @IBAction func ConfirmChanges(_ sender: Any) {
         
         _ = navigationController?.popViewController(animated: true)
@@ -159,7 +166,7 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     }
     
     
-    
+    //increase the count of the selected item in estimate
     @IBAction func incrementCount(_ sender: UIButton) {
         if checkIfInNames(name: "No Items Detected") == -1{
             let old = names[sender.tag].movingItem
@@ -173,7 +180,7 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         
         
     }
-    
+    //decrease the count of the selected item in estimate
     @IBAction func decrementCount(_ sender: UIButton) {
         if names[sender.tag].value > 0 && checkIfInNames(name: "No Items Detected") == -1{
             let toDelete = names[sender.tag].movingItem
@@ -185,7 +192,7 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
         
     }
     
-    
+    //Delete the image and all its items. 
     @IBAction func deleteImage(_ sender: Any) {
         
         estimateSession.deletePic(pic: currentPic)
@@ -209,12 +216,12 @@ class ImageConfirmationViewController: UIViewController, UITableViewDelegate, UI
     
     
     
-    
+    // Send data forward when moving to another screen
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         
         
-        if let viewController = segue.destination as? FinalScreenViewController{
+        if let viewController = segue.destination as? ItemCollectionViewController{
             
             
             

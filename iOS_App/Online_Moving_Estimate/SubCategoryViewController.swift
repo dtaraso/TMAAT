@@ -33,12 +33,16 @@ class SubCategoryViewController: UIViewController, UITableViewDataSource, UITabl
 
         // Do any additional setup after loading the view.
     }
+    
+    // Select a subcategory and update the movingItem data memebers
     @IBAction func chooseCategory(_ sender: UIButton) {
         
         selected.genericName = names[sender.tag]
         selected.itemName = names[sender.tag]!
         selected.itemID = sender.tag
         selected.needSpecification = false
+        
+        //Refresh the view we are moving to
         delegate?.refresh()
         dismiss(animated: true, completion:nil)
     }
@@ -49,12 +53,13 @@ class SubCategoryViewController: UIViewController, UITableViewDataSource, UITabl
         // Dispose of any resources that can be recreated.
     }
     
+    //Determine number of rows in table
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
        
         return (selected?.relatedItemsIDs.count)!
     }
     
-    
+    //Define data for rows in table
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Sub", for: indexPath ) as! SubCategoryCell
 
@@ -62,6 +67,7 @@ class SubCategoryViewController: UIViewController, UITableViewDataSource, UITabl
         let related = selected?.relatedItemsIDs[indexPath.row]
         for item in fullList!{
             
+            // Only display items that are part of the set of related items associated with the item
             let ID = item["id"] as! Int
             if ID == related{
                 cell.Name.text = item["name"] as! String
@@ -79,12 +85,14 @@ class SubCategoryViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
+    //Define number of sections in table
     func numberOfSections(in tableView: UITableView) -> Int {
         
         
         return 1
     }
     
+    //Define title header for the one section
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "Please Select an Item"
     }

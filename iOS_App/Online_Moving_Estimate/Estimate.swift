@@ -24,6 +24,7 @@ class Estimate: NSObject{
     var fullList : [[String: Any]]?
     var finalEstimate : String?
     
+    //Initilize estimate class
     init(ID: String){
         
         
@@ -34,18 +35,19 @@ class Estimate: NSObject{
         currentRoom = -1
         picCount = 0
         
+        //generate all rooms
         for name in ActualRoomNames{
             let newRoom = Room(name: name)
             rooms.append(newRoom)
         }
         
         super.init()
-        
+    
         self.getFullList()
         
     }
     
-    
+    // Send image to image recognition service to get item contents
     func postImage(image: Data) -> URLRequest{
         
         let URI = "http://35.9.22.105:1234/api/uploadImage" + "?room=" + getRoomName()
@@ -68,6 +70,7 @@ class Estimate: NSObject{
         
     }
     
+    // Get list of all items from API (for later use)
     func getFullList(){
         let URI = "http://35.9.22.105:1234/api/getItems"
         let serverURL = URL(string: URI)
@@ -93,6 +96,7 @@ class Estimate: NSObject{
         
     }
     
+    // Parse the JSON recieved from image recogntion service
     func parseJson(json: [[String: Any]], pic: Picture){
         
         if (json.count == 0){
@@ -111,6 +115,8 @@ class Estimate: NSObject{
                 
                 let related = item["relatedInCategory"] as! [Int]
                 let generic = item["generic"] as! String?
+                
+                //Create moving items based on JSON results
                 newItem = MovingItem(category: category, name: name, ID: ID, relatedItems: related, generic: generic)
                 pic.addItem(item: newItem!)
                 
@@ -121,6 +127,7 @@ class Estimate: NSObject{
         
     }
     
+    //Create the body of image data for image recogntion request
     func createBodyWithParameters(filePathKey: String?, imageDataKey: Data, boundary: String) -> Data {
         let body = NSMutableData();
         
@@ -141,7 +148,7 @@ class Estimate: NSObject{
     }
     
 
-    
+    //When an image is captured, create a picture object to hold data
     func createPicture() -> Picture{
         let room = getRoom()
         let pic = room.addPicture(count: picCount)
@@ -150,6 +157,7 @@ class Estimate: NSObject{
         return pic
     }
     
+    // For retaking a picture, replace a picture the contents of a new picture
     func replacePic(pic: Picture) -> Picture{
         let room = pic.room
         let new_pic = Picture(number: pic.number!, room: room)
@@ -162,6 +170,7 @@ class Estimate: NSObject{
         return new_pic
     }
     
+    // Delete a picture from the estimate picture list
     func deletePic(pic: Picture){
         let room = pic.room
         let pic_index_in_room = room.pictures.index(of: pic)
@@ -188,6 +197,7 @@ class Estimate: NSObject{
         return RoomNames
     }
     
+    //Reset the estimateSession, but leave the estimate ID in tact
     func resetExceptID(){
         rooms = [Room]()
         tempList = [MovingItem]()
@@ -204,7 +214,7 @@ class Estimate: NSObject{
     }
     
     
-    
+    // Get a final estimate from TWO MEN AND A TRUCK'S API
     func getFinalEstimateRequest() -> URLRequest{
         
         let URI = "https://mwc.test.twomen.com/mwcwebapi/estimate/addInventoryToEstimate"
@@ -229,7 +239,7 @@ class Estimate: NSObject{
     
     
     
-    
+    // Create the body that lists rooms and moving items for the final estimate API request
     func createEstimateBody() -> Data?{
         
         
@@ -274,6 +284,7 @@ class Estimate: NSObject{
      
     }
     
+    //Helper function to createEstimateBody() that handles updating the counts if items in the JSON
     func updateQuant(items: inout [[String:Int]], itemID: Int){
         var found = false
         
