@@ -15,6 +15,7 @@ To run
 2) Build/run project with an Android mobile device with API 21 or higher
 3) You may need to change permissions on mobile device to allow access to camera
 4) Internet connection is needed in order to connect to back-end
+5) Ensure that auto-rotation is ENABLED on your device
 
 # WebRTC 
 
