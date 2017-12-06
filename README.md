@@ -8,6 +8,14 @@ To run (macOS only)
 3) If you attempt to run on an iOS device and run into issues, you may need to accept the certificate in settings->general->device management
 4) You can also run using xCode's built in emulators, but will not be able to test camera features
 
+# Android Application
+
+To run
+1) Open Android_App/OnlineMovingEstimator folder with Android Studio
+2) Build/run project with an Android mobile device with API 21 or higher
+3) You may need to change permissions on mobile device to allow access to camera
+4) Internet connection is needed in order to connect to back-end
+
 # WebRTC 
 
 The video & text chat is currently stable on Chrome, Firefox and Safari. As WebRTC is implemented per-browser, some maintenance is required to keep up with browser updates.
